@@ -78,7 +78,7 @@ sub add_list($$$)
     {
         #debug("$regexp\n");
         my $group=($regexp =~ s/\s+->\s+(.*)$// ? $1 : $regexp);
-        $regexp =~ s!\(!(?:!g; # FIXME: Use a negative lookahead for (?:
+        $regexp =~ s/\((?!\?)/(?:/g;
         if (exists $options->{$category}->{$regexp})
         {
             warning("duplicate regular expression '$regexp': '$options->{$category}->{$regexp}' and '$group'\n");
