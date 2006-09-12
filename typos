@@ -473,7 +473,6 @@ allways -> always
 alot -> a lot
 anali[sz]e[sd]? -> analyzed
 appartments? -> apartment
-arent -> aren't
 arithmatic -> arithmetic
 att?achements? -> attachment
 atleast -> at least
@@ -483,7 +482,6 @@ begining -> beginning
 beeing -> being
 belive -> believe
 boundr(y|ies) -> boundary
-cant -> can't
 capatibl(e|ities|ity) -> capable
 careful[ly] -> carefully
 cateogor(y|ies) -> categories
@@ -496,17 +494,14 @@ concensus -> consensus
 ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
 (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
 convertions? -> conversions
-couldnt -> couldn't
 crete -> create
 debug(ing|ed|er) -> debugging
 (de|in)cres(ed?|es?|ing(ly)?) -> decrease
 definate?ly|definitly -> definitely
 dependan(cy|cies|t)|depand[ae]n(cy|cies|t) -> dependency
 developements? -> devlopment
-didnt -> didn't
 dissabl(e[ds]?|ing) -> disable
 dissapp?ear(ances?|ed|ing|s)?|disapear(ances?|ed|ing|s)? -> disappear
-do(es)?nt -> doesn't
 dynamicly -> dynamically
 easly -> easily
 editt(ed|ing|or) -> editing
@@ -524,8 +519,6 @@ feild?(ed|s|ing)? -> failed
 funtion(ality|ally|ed|ing|s)? -> functionning
 grammer -> grammar
 happends? -> happens
-hasnt -> hasn't
-havent -> haven't
 (un)?helpfull -> helpful
 hexidecimal -> hexadecimal
 higly -> highly
@@ -539,7 +532,6 @@ incomming -> incoming
 (un?)interprett(ed|ing) -> interpreted
 (un)?intrest(ed|ing|s)? -> interesting
 invokat(e|ion) -> invocation
-isnt -> isn't
 (i?un)?kown -> known
 lenght(en|s)? ->length
 mesages? -> message
@@ -571,7 +563,6 @@ secound(ly)? -> second
 sences? -> sense
 seperat(e[ds]?|ing|ions?|ors?) -> separate
 shedul(ers?|ing) -> scheduler
-shouldnt -> shouldn't
 simmilar(ity|ly)? -> similar
 (infra)?sturct(ure[ds]?)? -> structure
 subscribtions? -> subscription
@@ -594,13 +585,10 @@ upto -> up to
 usefull -> useful
 varios -> various
 ([iu]n)?visab(le|ility) -> visibility
-wasnt -> wasn't
 wether -> whether
 whereever -> wherever
 wieght(ed|ing|s)? -> weight
 wierd(er|ly)? -> weird
-wont -> won't
-wouldnt -> wouldn't
 (over|re)?writen -> written
 writting -> writing
 --- bad_expressions ---
@@ -610,19 +598,27 @@ writting -> writing
 \\bapplicai -> application
 \\b(are|is|was|were)\\s+(are|is|was|were)\\b -> duplicate
 \\b(are|is|was|were)\\s+to\s+(big|large|little|small)\\b -> too
+\\barent\\b -> aren't
 \\bebe\\s+be\\b -> duplicate
 (better|less|more|rather|worse)\\s+then -> than
 \\by\\s+by\\b -> duplicate
+\\bcant\\b -> can't
 \\bcan\\s+not\\b -> cannot
+\\bcouldnt\\b -> couldn't
+\\bdidnt\\b -> didn't
 \\bdifferent\s*to\\b -> different from
+\\bdo(es)?nt\\b -> doesn't
 \\bdosen.t\\b -> doesn't
 \\bfor\\s+for\\b -> duplicate
+\\bhasnt\\b -> hasn't
+\\bhavent\\b -> haven't
 \\b(s?he|it)\\s+(s?he|it)\\b -> duplicate
 \\bheirar?ch|\\bhierach -> hierarchy
 [^l]icly\\b|icaly\\b -> '...ically' ending
 \\bif\\s+if\\b -> duplicate
 ifing\\b -> duplicate
 \\bin\\s+in\\b -> duplicate
+\\bisnt\\b -> isn't
 \\bmean\s+time\\b -> meantime
 necces|necesar|\\b(un)?nesses|nessary\\b -> necessary
 naly\\b -> '...nally' ending
@@ -632,6 +628,7 @@ onnally\\w -> '...onaly' ending
 \\bprivl -> privilege
 procces -> process
 reciev -> receive
+\\bshouldnt\\b -> shouldn't
 \\bsome\\s+how\\b -> somehow
 \\bsome\\s+what\\b -> somewhat
 \\bsome\\s+where\\b -> somewhere
@@ -639,7 +636,10 @@ then\\s+expected -> than
 \\btheir\s+(are|is|was|were)\\b -> there is
 trys\\b -> tries
 \\bunece -> unnecessary
+\\bwasnt\\b -> wasn't
 \\bwith\\s+with\\b -> duplicate
+\\bwont\\b -> won't
+\\bwouldnt\\b -> wouldn't
 --- bad_cases ---
 AuthorWare -> Authorware
 Auto(cad|Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
@@ -671,11 +671,6 @@ Turbotax -> TurboTax
 Wine(hq|Hq|hQ) -> WineHQ
 Winetools|wineTools -> WineTools
 Wordperfect -> WordPerfect
---- ignores ---
-_DONT_
-_CANT_
-Dont[A-Z]
-Cant[A-Z]
 --- include ---
 \.(?i:c|cpp|cxx|h|idl)$
 \.(l|y)$
