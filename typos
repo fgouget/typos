@@ -674,6 +674,8 @@ Wordperfect -> WordPerfect
 --- ignores ---
 _DONT_
 _CANT_
+Dont[A-Z]
+Cant[A-Z]
 --- include ---
 \.(c|cpp|h|idl)$
 \.(l|y)$
@@ -688,7 +690,7 @@ _CANT_
 --- exclude ---
 \.(a|o|so)$
 \.(dll|exe|obj)$
-\.(gif|jpe?g|png|xpm)$
+\.(bmp|gif|jpe?g|png|xpm)$
 \.a$
 /CVS/
 /.cvsignore$
@@ -696,4 +698,3 @@ _CANT_
 /.gitignore$
 ~$
 /.#
-(Bg|Cn|Cs|Da|De|Ep|Es|Fi|Fr|Hu|It|Ja|Ko|Nl|No|Pl|Pt|Ru|Si|Sk|Sv|Th|Tr|Wa|Zh)\.rc$
