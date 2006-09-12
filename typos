@@ -471,6 +471,7 @@ allowes -> allows
 allready -> already
 allways -> always
 alot -> a lot
+altrought? -> although
 anali[sz]e[sd]? -> analyzed
 appartments? -> apartment
 arithmatic -> arithmetic
@@ -578,7 +579,6 @@ threshholds? -> threshold
 trafics? -> traffic
 transfer(ed|ing) -> transferred
 transferes -> transfers
-(al)?trough(ly|t)? -> through
 truely -> truly
 uneeded -> unneeded
 upto -> up to
@@ -599,7 +599,7 @@ writting -> writing
 \\b(are|is|was|were)\\s+(are|is|was|were)\\b -> duplicate
 \\b(are|is|was|were)\\s+to\s+(big|large|little|small)\\b -> too
 \\barent\\b -> aren't
-\\bebe\\s+be\\b -> duplicate
+\\bbe\\s+be\\b -> duplicate
 (better|less|more|rather|worse)\\s+then -> than
 \\by\\s+by\\b -> duplicate
 \\bcant\\b -> can't
