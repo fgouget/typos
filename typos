@@ -686,6 +686,7 @@ Wordperfect -> WordPerfect
 --- exclude ---
 \.(a|o|la|ko|so)$
 \.(?i:dll|exe|obj|res|tlb)$
+\.(?i:ncb|opt)$
 \.mo$
 \.(?i:avi|mpeg|mpg)$
 \.(?i:bmp|eps|gif|icns|ico|jpe?g|pdf|png|tiff|xpm)$
