@@ -531,7 +531,7 @@ incomming -> incoming
 (un)?instal(able|ation|e[dr]|ing) -> installable
 (un)?intergrat(e[ds]?|ing|ion) -> integrated
 (un?)interprett(ed|ing) -> interpreted
-(un)?intrest(ed|ing|s)? -> interesting
+(un)?int(er|re)st(ed|ing|s)? -> interest
 invokat(e|ion) -> invocation
 (i?un)?kown -> known
 lenght(en|s)? ->length
@@ -543,6 +543,7 @@ ommit(ed|ing|ted|s)? -> omit
 oportunit(y|ies) -> opportunity
 opperation(al|s)? -> operation
 optionnal(ly)?|overid(e|en|es|ing) -> optional
+orgin(al|at(e[ds]?|ing)|s)? -> origin
 overid(e[ns]?|ing) -> override
 paintshop -> Paint Shop FIXME
 paramaters? -> parameter
@@ -581,7 +582,6 @@ transfer(ed|ing) -> transferred
 transferes -> transfers
 truely -> truly
 uneeded -> unneeded
-upto -> up to
 usefull -> useful
 varios -> various
 ([iu]n)?visab(le|ility) -> visibility
@@ -636,6 +636,7 @@ then\\s+expected -> than
 \\btheir\s+(are|is|was|were)\\b -> there is
 trys\\b -> tries
 \\bunece -> unnecessary
+\\bupto\\b -> up to
 \\bwasnt\\b -> wasn't
 \\bwith\\s+with\\b -> duplicate
 \\bwont\\b -> won't
