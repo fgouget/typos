@@ -689,8 +689,8 @@ Wordperfect -> WordPerfect
 \.(?i:ncb|opt)$
 \.mo$
 \.(?i:avi|mpeg|mpg)$
-\.(?i:bmp|eps|gif|icns|ico|jpe?g|pdf|png|tiff|xpm)$
-\.(?i:fon|ttf)$
+\.(?i:cur|bmp|eps|gif|icns|ico|jpe?g|pdf|png|tiff|xpm)$
+\.(?i:fon|fnt|ttf)$
 \.(?i:ppt|xls)$
 \.(bz2|deb|gz|rpm|tar|tgz)$
 \.(?i:zip)$
