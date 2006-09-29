@@ -690,7 +690,7 @@ Wordperfect -> WordPerfect
 \.(?i:ncb|opt)$
 \.mo$
 \.(?i:avi|mpeg|mpg)$
-\.(?i:cur|bmp|eps|gif|icns|ico|jpe?g|pdf|png|tiff|xpm)$
+\.(?i:cur|bmp|eps|gif|icns|ico|jpe?g|pdf|png|ps|tiff|xcf|xpm)$
 \.(?i:fon|fnt|ttf)$
 \.(?i:ppt|xls)$
 \.(bz2|deb|gz|rpm|tar|tgz)$
