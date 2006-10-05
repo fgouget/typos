@@ -527,6 +527,7 @@ higly -> highly
 (un)?impl(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implementation
 incase -> in case
 incomming -> incoming
+indicies -> indices
 (un)?initili[sz](es?|ing) -> initialize
 (un)?instal(able|ation|e[dr]|ing) -> installable
 (un)?intergrat(e[ds]?|ing|ion) -> integrated
@@ -560,6 +561,7 @@ registr(ed?|ing) -> registering
 responces? -> responce
 responsab(ilit(y|ies)|l[ey]) -> responsibility
 retre?iv(als?|ed?|es|ing) -> retrieve
+returing -> returning
 returnes -> returns
 secound(ly)? -> second
 sences? -> sense
