@@ -324,6 +324,17 @@ sub get_options_set($$$;$)
     $opt_set->{rc}=1 if (!defined $opt_set->{rc});
     $opt_set->{_filename}=$filename;
 
+    # Convert the paths relative to this directory
+    my $cur_dir=($filename =~ m!/! ? dirname($filename) : cwd());
+    $cur_dir =~ s![][}{)(?.*+\\]!\\$1!g;
+    foreach my $key ("include", "exclude")
+    {
+        if (defined $opt_set->{$key})
+        {
+            map { s!^\^\./!^$cur_dir/! } @{$opt_set->{$key}};
+        }
+    }
+
     return $opt_set;
 }
 
@@ -619,12 +630,9 @@ if ($opt_help)
 
     print "\n";
     print "File patterns:\n";
-    # FIXME: Not implemented
-    print "  If an include or exclude file pattern contains no '/', then it will be\n";
-    print "  matched against the file's basename. If it contains a '/', then it will be\n";
-    print "  matched against the file's absolute path. If it starts with '^/', then the\n";
-    print "  pattern will be modified to start with the full pathname of the current\n";
-    print "  working directory\n";
+    print "  Patterns starting with '^./' identify files relative to the corresponding\n";
+    print "  .typosrc directory, or to the current directory for command line options.\n";
+    print "   All other file patterns are matched against the file's full path name.\n";
     exit 0;
 }
 
