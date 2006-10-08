@@ -432,7 +432,7 @@ sub get_current_options($$)
             {
                 $i--;
                 merge_option_set($allsets, $new, $allsets->{rcstack}->[$i]);
-                print "new_exclude=[",join(" | ",keys %{$new->{_exclude}}), "]\n";
+                debug("new_exclude=[",join(" | ",keys %{$new->{_exclude}}), "]\n");
                 last if (!$new->{rc});
             }
         }
