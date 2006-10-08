@@ -797,55 +797,55 @@ bad-word=
     (over|re)?writen -> written
     writting -> writing
 bad-expression=
-    \\ban?\\s+an?\\b -> duplicate
-    \\babout\\s+about\\b -> duplicate
-    \\band\\s+and\\b -> duplicate
-    \\bapplicai -> application
-    \\b(are|is|was|were)\\s+(are|is|was|were)\\b -> duplicate
-    \\b(are|is|was|were)\\s+to\s+(big|large|little|small)\\b -> too
-    \\barent\\b -> aren't
-    \\bbe\\s+be\\b -> duplicate
-    (better|less|more|rather|worse)\\s+then -> than
-    \\by\\s+by\\b -> duplicate
-    \\bcant\\b -> can't
-    \\bcan\\s+not\\b -> cannot
-    \\bcouldnt\\b -> couldn't
-    \\bdidnt\\b -> didn't
-    \\bdifferent\s*to\\b -> different from
-    \\bdo(es)?nt\\b -> doesn't
-    \\bdosen.t\\b -> doesn't
-    \\bfor\\s+for\\b -> duplicate
-    \\bhasnt\\b -> hasn't
-    \\bhavent\\b -> haven't
-    \\b(s?he|it)\\s+(s?he|it)\\b -> duplicate
-    \\bheirar?ch|\\bhierach -> hierarchy
-    [^l]icly\\b|icaly\\b -> '...ically' ending
-    \\bif\\s+if\\b -> duplicate
-    ifing\\b -> duplicate
-    \\bin\\s+in\\b -> duplicate
-    \\bisnt\\b -> isn't
-    \\bmean\s+time\\b -> meantime
-    necces|necesar|\\b(un)?nesses|nessary\\b -> necessary
-    naly\\b -> '...nally' ending
-    non(\\s+|-)exist(ent|ing) -> nonexistent
-    \\bof\\s+of\\b -> duplicate
-    onnally\\w -> '...onaly' ending
-    \\bprivl -> privilege
+    \ban?\s+an?\b -> duplicate
+    \babout\s+about\b -> duplicate
+    \band\s+and\b -> duplicate
+    \bapplicai -> application
+    \b(are|is|was|were)\s+(are|is|was|were)\b -> duplicate
+    \b(are|is|was|were)\s+to\s+(big|large|little|small)\b -> too
+    \barent\b -> aren't
+    \bbe\s+be\b -> duplicate
+    (better|less|more|rather|worse)\s+then -> than
+    \by\s+by\b -> duplicate
+    \bcant\b -> can't
+    \bcan\s+not\b -> cannot
+    \bcouldnt\b -> couldn't
+    \bdidnt\b -> didn't
+    \bdifferent\s*to\b -> different from
+    \bdo(es)?nt\b -> doesn't
+    \bdosen.t\b -> doesn't
+    \bfor\s+for\b -> duplicate
+    \bhasnt\b -> hasn't
+    \bhavent\b -> haven't
+    \b(s?he|it)\s+(s?he|it)\b -> duplicate
+    \bheirar?ch|\bhierach -> hierarchy
+    [^l]icly\b|icaly\b -> '...ically' ending
+    \bif\s+if\b -> duplicate
+    ifing\b -> duplicate
+    \bin\s+in\b -> duplicate
+    \bisnt\b -> isn't
+    \bmean\s+time\b -> meantime
+    necces|necesar|\b(un)?nesses|nessary\b -> necessary
+    naly\b -> '...nally' ending
+    non(\s+|-)exist(ent|ing) -> nonexistent
+    \bof\s+of\b -> duplicate
+    onnally\b -> '...onaly' ending
+    \bprivl -> privilege
     procces -> process
     reciev -> receive
-    \\bshouldnt\\b -> shouldn't
-    \\bsome\\s+how\\b -> somehow
-    \\bsome\\s+what\\b -> somewhat
-    \\bsome\\s+where\\b -> somewhere
-    then\\s+expected -> than
-    \\btheir\s+(are|is|was|were)\\b -> there is
-    trys\\b -> tries
-    \\bunece -> unnecessary
-    \\bupto\\b -> up to
-    \\bwasnt\\b -> wasn't
-    \\bwith\\s+with\\b -> duplicate
-    \\bwont\\b -> won't
-    \\bwouldnt\\b -> wouldn't
+    \bshouldnt\b -> shouldn't
+    \bsome\s+how\b -> somehow
+    \bsome\s+what\b -> somewhat
+    \bsome\s+where\b -> somewhere
+    then\s+expected -> than
+    \btheir\s+(are|is|was|were)\b -> there is
+    trys\b -> tries
+    \bunece -> unnecessary
+    \bupto\b -> up to
+    \bwasnt\b -> wasn't
+    \bwith\s+with\b -> duplicate
+    \bwont\b -> won't
+    \bwouldnt\b -> wouldn't
 bad-case=
     AuthorWare -> Authorware
     Auto(cad|Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
@@ -902,9 +902,9 @@ exclude=
     \.(bz2|deb|gz|rpm|tar|tgz)$
     \.(?i:zip)$
     /CVS/
-    /.cvsignore$
-    /.git/
-    /.gitignore$
+    /\.cvsignore$
+    /\.git/
+    /\.gitignore$
     ~$
-    /.#[^/]*$
+    /\.#[^/]*$
     /#[^/]*#$
