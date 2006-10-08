@@ -703,4 +703,5 @@ Wordperfect -> WordPerfect
 /.gitignore$
 \.(old|orig|rej)$
 ~$
-/.#
+/.#[^/]*$
+/#[^/]*#$
