@@ -899,7 +899,7 @@ include=
     \.(?i:rc)$
     \.spec$
 exclude=
-    \.(a|o|la|ko|so)$
+    \.(a|o|la|ko|so(\.[0-9]+)*)$
     \.(?i:dll|exe|obj|res|tlb)$
     \.(?i:ncb|opt)$
     \.mo$
