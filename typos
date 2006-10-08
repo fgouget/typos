@@ -174,7 +174,7 @@ sub build_scanner($$)
               "");
     if ($debug)
     {
-        my $fh=FileHandle->new(">code.txt");
+        my $fh=FileHandle->new(">#code.txt#");
         if ($fh)
         {
             print $fh join("\n", @code);
