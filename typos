@@ -484,11 +484,11 @@ sub quote_string($)
     return "\"$str\"";
 }
 
-sub scan_file($$)
+sub scan_file($$$)
 {
-    my ($filename, $current)=@_;
+    my ($allsets, $current, $filename)=@_;
 
-    my $fh=FileHandle->new($filename);
+    my $fh=FileHandle->new("$allsets->{rootdir}/$filename");
     if (!$fh)
     {
         err("unable to open '$filename' for reading: $!\n");
@@ -513,7 +513,6 @@ sub scan_directory($$)
 
     my @subdirs;
     local *DIR;
-    # FIXME: '/' doubling issue for top dir
     if (!opendir DIR, "$allsets->{rootdir}/$dir")
     {
         err("unable to open the '$allsets->{rootdir}/$dir' directory\n");
@@ -522,41 +521,41 @@ sub scan_directory($$)
     foreach my $dentry (readdir(DIR))
     {
         next if ($dentry eq "." or $dentry eq "..");
-        #print "rootdir=[$allsets->{rootdir}] dir=[$dir] dentry=[$dentry]\n";
-        my $path="$allsets->{rootdir}/$dir$dentry";
-        if (-d $path)
+        $dentry="$dir$dentry";
+        my $fullpath="$allsets->{rootdir}/$dentry";
+        if (-d $fullpath)
         {
-            if (-l $path)
+            if (-l $fullpath)
             {
-                debug("skipping '$path' directory symbolic link\n");
+                debug("$dentry/: skipping directory symbolic link\n");
                 next;
             }
-            $path.="/";
-            if ($exclude_re and $path =~ /$exclude_re/)
+            $fullpath.="/";
+            if ($exclude_re and $fullpath =~ /$exclude_re/)
             {
-                verbose("skipping blacklisted '$path' directory\n");
+                verbose("$dentry/: skipping blacklisted directory\n");
                 next;
             }
-            push @subdirs, "$dentry/";
+            push @subdirs, $dentry;
             next;
         }
-        if (defined $include_re and $path !~ /$include_re/)
+        if (defined $include_re and $fullpath !~ /$include_re/)
         {
-            verbose("'$path' file not in scanning whitelist\n");
+            verbose("$dentry: not in scanning whitelist\n");
             next;
         }
-        if ($exclude_re and $path =~ /$exclude_re/)
+        if ($exclude_re and $fullpath =~ /$exclude_re/)
         {
-            verbose("skipping blacklisted '$path' file\n");
+            verbose("$dentry: skipping blacklisted file\n");
             next;
         }
-        scan_file($path, $current);
+        scan_file($allsets, $current, $dentry);
     }
     closedir(DIR);
 
     foreach my $subdir (@subdirs)
     {
-        scan_directory($allsets, "$dir/$subdir");
+        scan_directory($allsets, "$subdir/");
     }
     pop_current_options($allsets);
 }
