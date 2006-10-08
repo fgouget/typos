@@ -905,6 +905,7 @@ exclude=
     /\.cvsignore$
     /\.git/
     /\.gitignore$
+    /\.typosrc$
     ~$
     /\.#[^/]*$
     /#[^/]*#$
