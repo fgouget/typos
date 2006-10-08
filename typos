@@ -632,10 +632,11 @@ if ($allsets->{cmdline}->{rc})
 {
     my $path=cwd();
     my @stack;
-    while (-o $path)
+    while (1)
     {
-        unshift @stack, basename($path);
         $path=dirname($path);
+        last if (!-o $path);
+        unshift @stack, basename($path);
     }
     foreach my $dir (@stack)
     {
