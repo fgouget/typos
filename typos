@@ -52,7 +52,7 @@ sub scan_check($$$$$$)
         my $regexp=sprintf($current->{"${category}_format"}, $item);
         next if ($line !~ /$regexp/);
         next if (defined $ignore_re and $line =~ /$ignore_re/);
-        if ($current->{by_error})
+        if ($current->{"by-error"})
         {
             my $group=$current->{$category}->{$item};
             push @{$allsets->{errors}->{$group}}, "$filename:$lineno: $line";
@@ -97,7 +97,7 @@ sub scan_check_extra($$$$$$)
         }
         next if (!$match);
         next if (defined $ignore_re and $line =~ /$ignore_re/);
-        if ($current->{by_error})
+        if ($current->{"by-error"})
         {
             my $group=$current->{$category}->{$item};
             push @{$allsets->{errors}->{$group}}, "$filename:$lineno: $line";
