@@ -805,16 +805,16 @@ bad-word=
     (over|re)?writen -> written
     writting -> writing
 bad-expression=
-    \ban?\s+an?\b -> duplicate
-    \babout\s+about\b -> duplicate
-    \band\s+and\b -> duplicate
+    \ba\s+a\b -> 'a' duplicate
+    \ban\s+an\b -> 'an' duplicate
+    \babout\s+about\b -> 'about' duplicate
     \bapplicai -> application
-    \b(are|is|was|were)\s+(are|is|was|were)\b -> duplicate
+    \b(are|is|was|were)\s+(are|is|was|were)\b -> 'is' duplicate
     \b(are|is|was|were)\s+to\s+(big|large|little|small)\b -> too
     \barent\b -> aren't
-    \bbe\s+be\b -> duplicate
+    \bbe\s+be\b -> 'be' duplicate
     (better|less|more|rather|worse)\s+then -> than
-    \by\s+by\b -> duplicate
+    \bby\s+by\b -> 'by' duplicate
     \bcant\b -> can't
     \bcan\s+not\b -> cannot
     \bcouldnt\b -> couldn't
@@ -822,21 +822,22 @@ bad-expression=
     \bdifferent\s*to\b -> different from
     \bdo(es)?nt\b -> doesn't
     \bdosen.t\b -> doesn't
-    \bfor\s+for\b -> duplicate
+    \bfor\s+for\b -> 'for' duplicate
     \bhasnt\b -> hasn't
     \bhavent\b -> haven't
-    \b(s?he|it)\s+(s?he|it)\b -> duplicate
+    \b(s?he)\s+(s?he|it)\b -> 'he' duplicate
     \bheirar?ch|\bhierach -> hierarchy
     [^l]icly\b|icaly\b -> '...ically' ending
-    \bif\s+if\b -> duplicate
-    ifing\b -> duplicate
-    \bin\s+in\b -> duplicate
+    \bif\s+if\b -> 'if' duplicate
+    ifing\b -> '...ifing' ending
+    \bin\s+in\b -> 'in' duplicate
     \bisnt\b -> isn't
+    \bit\s+it\b -> 'it' duplicate
     \bmean\s+time\b -> meantime
     necces|necesar|\b(un)?nesses|nessary\b -> necessary
     naly\b -> '...nally' ending
     non(\s+|-)exist(ent|ing) -> nonexistent
-    \bof\s+of\b -> duplicate
+    \bof\s+of\b -> 'of' duplicate
     onnally\b -> '...onaly' ending
     \bprivl -> privilege
     procces -> process
@@ -851,10 +852,11 @@ bad-expression=
     \bunece -> unnecessary
     \bupto\b -> up to
     \bwasnt\b -> wasn't
-    \bwith\s+with\b -> duplicate
+    \bwith\s+with\b -> 'with' duplicate
     \bwont\b -> won't
     \bwouldnt\b -> wouldn't
 bad-case=
+    \b[aA]nd\s+and\b -> 'and' duplicate
     AuthorWare -> Authorware
     Auto(cad|Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
     Codeweavers -> CodeWeavers
@@ -885,6 +887,8 @@ bad-case=
     Wine(hq|Hq|hQ) -> WineHQ
     Winetools|wineTools -> WineTools
     Wordperfect -> WordPerfect
+ignore=
+    BE\s+BE
 include=
     \.(?i:c|cpp|cxx|h|idl|m)$
     \.(l|y)$
