@@ -248,18 +248,36 @@ sub rchandle2argv($$)
     return ($argv, $lines);
 }
 
-sub rcfile2argv($)
+sub cvsignore2argv($$)
 {
-    my ($filename)=@_;
+    my ($allsets, $filename)=@_;
 
     my $fh=FileHandle->new($filename);
     if (!$fh)
     {
         err("unable to open '$filename' for reading: $!\n");
-        return undef;
+        exit 1;
     }
-    my ($argv, $lines)=rchandle2argv($fh, $filename);
+    verbose("reading '$filename'\n");
+
+    my $argv=[];
+    my $lines=[];
+    my $lineno=0;
+    while (my $line=<$fh>)
+    {
+        $lineno++;
+        chomp $line;
+        foreach my $item (split / +/, $line)
+        {
+            $item =~ s!([][}{)(.+^|$])!\\$1!g;
+            $item =~ s!\?!.!g;
+            $item =~ s!\*!.*!g;
+            push @$argv, ($item =~ s/^!// ? "--include" : "--exclude"), $item;
+            push @$lines, $lineno;
+        }
+    }
     close($fh);
+    debug("  -> @$argv\n");
     return ($argv, $lines);
 }
 
@@ -281,6 +299,8 @@ sub get_options_set($$$;$)
         $opt_set={};
         @extra=();
     }
+    $opt_set->{cvsignore}=1 if (!exists $opt_set->{cvsignore});
+    $opt_set->{gitignore}=1 if (!exists $opt_set->{gitignore});
     GetOptions($opt_set, @extra,
                "builtin!",
                "rc!",
@@ -338,21 +358,45 @@ sub get_options_set($$$;$)
     return $opt_set;
 }
 
-sub read_rc_file($$)
+sub read_rc_files($$)
 {
-    my ($allsets, $filename)=@_;
+    my ($allsets, $dir)=@_;
+    my $opt_set;
 
-    my $fh=FileHandle->new($filename);
-    if (!$fh)
+    my $filename="$dir/.typosrc";
+    if (-f $filename)
     {
-        err("unable to open '$filename' for reading: $!\n");
-        exit 1;
+        my $fh=FileHandle->new($filename);
+        if (!$fh)
+        {
+            err("unable to open '$filename' for reading: $!\n");
+            exit 1;
+        }
+        my ($argv, $lines)=rchandle2argv($fh, $filename);
+        close($fh);
+        $opt_set=get_options_set($argv, $lines, $filename);
+        push @{$allsets->{rcstack}}, $opt_set;
     }
-    my ($argv, $lines)=rchandle2argv($fh, $filename);
-    close($fh);
 
-    my $opt_set=get_options_set($argv, $lines, $filename);
-    push @{$allsets->{rcstack}}, $opt_set;
+    # FIXME: Also take into account $CVSROOT/CVSROOT/cvsignore?
+    # FIXME: Also take into account $HOME/.cvsignore
+    # FIXME: Also take into account $CVSIGNORE
+    $filename="$dir/.cvsignore";
+    if ($allsets->{cmdline}->{cvsignore} and $opt_set->{cvsignore} and
+        -f $filename)
+    {
+        my ($argv, $lines)=cvsignore2argv($opt_set, $filename);
+        push @{$allsets->{rcstack}}, get_options_set($argv, $lines, $filename);
+    }
+
+    $filename="$dir/.gitignore";
+    if ($allsets->{cmdline}->{gitignore} and $opt_set->{gitignore} and
+        -f $filename)
+    {
+        # FIXME: Not cvsignore: gitignore
+        my ($argv, $lines)=cvsignore2argv($opt_set, $filename);
+        push @{$allsets->{rcstack}}, get_options_set($argv, $lines, $filename);
+    }
 }
 
 sub merge_regexp_list($$$)
@@ -411,10 +455,9 @@ sub get_current_options($$)
     my ($allsets, $dir)=@_;
     my $new;
 
-    my $filename="$dir/.typosrc";
-    if ($allsets->{cmdline}->{rc} and -f $filename)
+    if ($allsets->{cmdline}->{rc})
     {
-        read_rc_file($allsets, $filename);
+        read_rc_files($allsets, $dir);
     }
     else
     {
@@ -649,7 +692,7 @@ if ($allsets->{cmdline}->{rc})
     foreach my $dir (@stack)
     {
         $path="$path/$dir";
-        read_rc_file($allsets, "$path/.typosrc") if (-f "$path/.typosrc");
+        read_rc_files($allsets, $path);
     }
 }
 
