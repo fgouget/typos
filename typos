@@ -196,6 +196,12 @@ sub build_scanner($$)
 #
 #####
 
+sub get_true_by_default($)
+{
+    my ($value)=@_;
+    return (defined $value ? $value : 1);
+}
+
 sub rchandle2argv($$)
 {
     my ($fh, $filename)=@_;
@@ -299,11 +305,11 @@ sub get_options_set($$$;$)
         $opt_set={};
         @extra=();
     }
-    $opt_set->{cvsignore}=1 if (!exists $opt_set->{cvsignore});
-    $opt_set->{gitignore}=1 if (!exists $opt_set->{gitignore});
     GetOptions($opt_set, @extra,
                "builtin!",
                "rc!",
+               "cvsignore!",
+               "gitignore!",
 
                "extra!",
                "bad-word=s@",
@@ -382,7 +388,8 @@ sub read_rc_files($$)
     # FIXME: Also take into account $HOME/.cvsignore
     # FIXME: Also take into account $CVSIGNORE
     $filename="$dir/.cvsignore";
-    if ($allsets->{cmdline}->{cvsignore} and $opt_set->{cvsignore} and
+    if (get_true_by_default($allsets->{cmdline}->{cvsignore}) and
+        get_true_by_default($opt_set->{cvsignore}) and
         -f $filename)
     {
         my ($argv, $lines)=cvsignore2argv($opt_set, $filename);
@@ -390,7 +397,8 @@ sub read_rc_files($$)
     }
 
     $filename="$dir/.gitignore";
-    if ($allsets->{cmdline}->{gitignore} and $opt_set->{gitignore} and
+    if (get_true_by_default($allsets->{cmdline}->{gitignore}) and
+        get_true_by_default($opt_set->{gitignore}) and
         -f $filename)
     {
         # FIXME: Not cvsignore: gitignore
