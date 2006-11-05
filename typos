@@ -273,14 +273,76 @@ sub cvsignore2argv($$)
     {
         $lineno++;
         chomp $line;
-        foreach my $item (split / +/, $line)
+        foreach my $glob (split / +/, $line)
         {
-            $item =~ s!([][}{)(.+^|$])!\\$1!g;
-            $item =~ s!\?!.!g;
-            $item =~ s!\*!.*!g;
-            push @$argv, ($item =~ s/^!// ? "--include" : "--exclude"), $item;
-            push @$lines, $lineno;
+            $glob =~ s!([{}().+^|\$])!\\$1!g;
+            if ($glob !~ s!\*$!!)
+            {
+                # Globs must implicitly match up to the end of the string
+                $glob .= "\$";
+            }
+            # The CVS globs only match files in the current directory
+            push @$argv, "--exclude", "^./$glob";
+            push @$lines, $lineno, $lineno;
         }
+    }
+    close($fh);
+    debug("  -> @$argv\n");
+    return ($argv, $lines);
+}
+
+sub gitignore2argv($$)
+{
+    my ($allsets, $filename)=@_;
+
+    my $fh=FileHandle->new($filename);
+    if (!$fh)
+    {
+        err("unable to open '$filename' for reading: $!\n");
+        exit 1;
+    }
+    verbose("reading '$filename'\n");
+
+    my $argv=[];
+    my $lines=[];
+    my $lineno=0;
+    while (my $glob=<$fh>)
+    {
+        $lineno++;
+        chomp $glob;
+        $glob =~ s/^\s*//;
+        $glob =~ s/\s*$//;
+        next if ($glob eq "" or $glob =~ /^#/);
+
+        my $option=($glob =~ s/^!\s*// ? "--include" : "--exclude");
+        $glob =~ s!([{}().+^|\$])!\\$1!g;
+        if ($glob =~ s!^\*!!)
+        {
+            # No need for the '*' prefix with regular expressions
+            ;
+        }
+        elsif ($glob =~ s!^/!^./!)
+        {
+            # This only matches files in the current directory
+            # We will replace the '^./' prefix with the absolute path
+            # a bit later
+            ;
+        }
+        else
+        {
+            # Globs must implicitly match from the start of the string,
+            # in this case from the start of the basename
+            $glob = "/$glob";
+        }
+        if ($glob !~ s!\*$!!)
+        {
+            # Globs must implicitly match up to the end of the string
+            $glob .= "\$";
+        }
+        $glob =~ s!\?!.!g;
+        $glob =~ s!\*![^/]*!g;
+        push @$argv, $option, $glob;
+        push @$lines, $lineno, $lineno;
     }
     close($fh);
     debug("  -> @$argv\n");
@@ -401,8 +463,7 @@ sub read_rc_files($$)
         get_true_by_default($opt_set->{gitignore}) and
         -f $filename)
     {
-        # FIXME: Not cvsignore: gitignore
-        my ($argv, $lines)=cvsignore2argv($opt_set, $filename);
+        my ($argv, $lines)=gitignore2argv($opt_set, $filename);
         push @{$allsets->{rcstack}}, get_options_set($argv, $lines, $filename);
     }
 }
