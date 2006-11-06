@@ -784,32 +784,132 @@ print_errors($allsets);
 exit 0;
 
 __DATA__
+# From the Top-100 misspelled words in English
+# http://www.yourdictionary.com/library/misspelled.html
 bad-word=
-    abscen(ce|t)
-    accellerat(e[ds]?|in|or)
-    acc?eptible -> acceptable
+    abri(d?g|ge)ment -> abridgement
+    ac(c?epti|ept[ai])ble -> acceptable
+    ac(c?ident|idental?)ly -> accidentally
+    ([iu]n)?ac(c?omo|omm?o)dat(e[ds]?|ing) -> accommodate
+    acknowle(d?g|ge)ment -> acknowledgement
+    ([iu]n)?ad?quir(e[ds]?|ing) -> acquire
+    ad?quit(ed)? -> acquit
+    alot -> a lot
+    amat(er|re) -> amateur
+    arguement(e[ds]|ing|s)? -> argument
+    bele?ive -> believe
+    bellw(he|ea)ther -> bellwether
+    caland[ae]rs?|calenders? -> calendar
+    cateogor(y|ies)|catigory -> category
+    cemeta?ry|semet[ae]?ry -> cemetery
+    changable -> changeable
+    collectable -> collectible
+    col(lumn?|um) -> column
+    com(mit|itt?)(al|e[de]|ers?|ing) -> committed
+    con(ch?|s|t)ience -> conscience
+    con(ch?|s|t)ien(t|sc|ch?)ious(ly)? -> conscientious
+    con(sc?|ch?|t)ien(sc|ch?)ious(ly)? -> conscientious
+    con(ch?|s|t)ious -> conscious
+    concensus -> consensus
+    definit -> definite
+    definate?ly|definitly -> definitely
+    di[sc]ipline -> discipline
+    drunkeness -> drunkenness
+    dumb(be|el?)ls? -> dumbbell
+    embar(ra|as?)s(ed|ing(ly)?|ments?)? -> embarrass
+    equip[et]ments? -> equipment
+    exilarat(e[ds]?|ing(ly)?|ion) -> exhilarate
+    exced(e[ds]?|ing(ly)?) -> exceed
+    existan(ce|t(ial(ism|ists?)?)?) -> existence
+    experiance[ds]? -> experience
+    firy -> fiery
+    foriegn -> foreign
+    guage -> gauge
+    greatful -> grateful
+    g(a|uar)rant(ee?d?|ies|y)|guarr?anted? -> guarantee
+    harrass -> harass
+    heigh?ths? -> height
+    humorus -> humorous
+    ignoren(ce|t(ly)?) -> ignorance
+    imediate?(ly)? -> immediate
+    indep(enda|and[ea])n(ce|t(e?ly)?) -> independent
+    indispensible -> indispensable
+    innoculat(e[ds]?|ing) -> inoculate
+    intel(ig[ae]|lige?a)n(ce|t(e?ly|sia)?) -> intelligence
+    jewelery -> jewelry or jewellery
+    liesur(e|ly) -> leisure
+    lia(s|i?z)ons? -> liaison
+    libary -> library
+    lisen[cs](e[ds]?|ing) -> license
+    lightening(ly)? -> lightning
+    maintainance -> maintenance
+    midieval -> medieval
+    momento -> memento
+    mil(en?|le)ni(a|um) -> millennium
+    min[ai]tures? -> miniature
+    miniscule -> minuscule
+    mi(chi?evi?|schev|schi?evi)ous -> mischievous
+    mispell(e[ds]|ings?|s)? -> misspell
+    n(ei|ie(gh)?)bou?r(hood)?s? -> neighbor
+    noticabl[ey] -> noticeable
+    oc(cas|as?)sion(n?ally|s)? -> occasionally
+    oc(urr|cur)(e[ds]|ences?|ing) -> occurrence
+    pas[st]times? -> pastime
+    perseveren(ce|t) -> perseverance
+    personel -> personnel
+    playrights? -> playwright
+    pos(e|es|se)s(e[ds]|ing|ions?) -> possession
+    preceed(e[ds]?|ing(ly|s)?|s)? -> precede
+    privi?l(a|ed)ge[ds]? -> privilege
+    pronounciations? -> pronunciation
+    publicall?y -> publicly
+    question(aire?|nair)s? -> questionnaire
+    rebel(ed|ing) -> rebelled
+    reciepts? -> receipt
+    recom(e|m?a)nd(ab(ility|le)|ed|ing|s) -> recommend
+    refer(re|a)nc(e[ds]?|ing) -> reference
+    refer(ed|ing) -> referred
+    relevent|revel[ae]nt -> relevant
+    remit(ed|ing) -> remitted
+    rythms? -> rhythm
+    shedul(e[ds]?|ers?|ing) -> schedule
+    seperat(e[ds]|e?ly|ing|ions?|ors?) -> separate
+    s[ae]rgents?|sargea?nts? -> sergeant
+    supercee?d(e[ds]|ing|s)?|superseed(e[ds]|ing|s)?|superseds -> supersede
+    threshholds? -> threshold
+    twelth -> twelfth
+    tiran?n(ts?|y)|tyrany -> tyranny
+    untill -> until
+    vacc?u(me?|ume) -> vacuum
+    wether -> whether or weather
+    wierd(er|est|e?ly)? -> weird
+bad-expression=
+    \bheirar?ch|\bhierach -> hierarchy
+    reciev -> receive
+
+# Other common errors
+bad-word=
+    abscen(ces?|t(e?ly|ee(ism)?)?) -> absence
+    acc?ellerat(e[ds]?|ing|or) -> accelerate
     ([iu]n)?acc?ess?ab(le|ility) -> accessibility
-    acc?omodat(es?|ing) -> accommodate
     addres(ed|es|ing)?|adress?(ed|es|ing)? -> address
     allowes -> allows
     allready -> already
     allways -> always
-    alot -> a lot
     altrought? -> although
     anali[sz]e[sd]? -> analyzed
     appartments? -> apartment
     arithmatic -> arithmetic
+    aswell -> as well
     att?achements? -> attachment
     atleast -> at least
     automaticly -> automatically
     awhile -> a while
     begining -> beginning
     beeing -> being
-    belive -> believe
     boundr(y|ies) -> boundary
     capatibl(e|ities|ity) -> capable
     careful[ly] -> carefully
-    cateogor(y|ies) -> categories
     codeweaver -> CodeWeavers
     comands? -> command
     comparasons?
@@ -820,28 +920,26 @@ bad-word=
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     convertions? -> conversions
     crete -> create
-    debug(ing|ed|er) -> debugging
-    (de|in)cres(ed?|es?|ing(ly)?) -> decrease
-    definate?ly|definitly -> definitely
-    dependan(cy|cies|t)|depand[ae]n(cy|cies|t) -> dependency
-    developements? -> devlopment
+    debug(e[drs]|ing) -> debugging
+    (de|in)cres(e[ds]?|ing(ly)?) -> decrease
+    dep(enda|and[ea])n(cy|cies|t) -> dependency
+    developements? -> development
     dissabl(e[ds]?|ing) -> disable
-    dissapp?ear(ances?|ed|ing|s)?|disapear(ances?|ed|ing|s)? -> disappear
+    dissapp?ear(ances?|e[ds]|ing|s)?|disapear(ances?|e[ds]|ing|s)? -> disappear
     dynamicly -> dynamically
     easly -> easily
     editt(ed|ing|or) -> editing
-    effecien(ce|cy|t) -> efficiency
+    effecien(c[ey]|t(e?ly)?) -> efficience
     eigther -> either
     enought -> enough
     eventhought? -> eventhough
     enviro(ne)?ments? -> environment
     executeable -> executable
-    existan(t|ce) -> existent
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
-    feild?(ed|s|ing)? -> failed
+    feild?(ed|ing|s)? -> failed
     (un)?fortunatly -> fortunately
-    funtion(ality|ally|ed|ing|s)? -> functionning
+    funtion(ality|ally|e[ds]|ing|s)? -> functionning
     grammer -> grammar
     happends? -> happens
     (un)?helpfull -> helpful
@@ -851,57 +949,49 @@ bad-word=
     (un)?impl(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implementation
     incase -> in case
     incomming -> incoming
-    (un)?initili[sz](es?|ing) -> initialize
-    (un)?instal(able|ation|e[dr]|ing) -> installable
+    (un)?initili[sz](ation|e[ds]?|ers?|ing) -> initialize
+    (un)?instal(able|ation|ed|ers?|ing) -> installable
     (un)?intergrat(e[ds]?|ing|ion) -> integrated
-    (un?)interprett(ed|ing) -> interpreted
-    (un)?int(er|re)st(ed|ing|s)? -> interest
+    (un?)interprett(ed|ers?|ing|ions?) -> interpreted
+    (un)?int(er|re)st(e[ds]|ing|s)? -> interest
     invokat(e|ion) -> invocation
     (i?un)?kown -> known
     lenght(en|s)? ->length
     mesages? -> message
-    occassion(ally|s)? -> occasionally
-    occur(ed|ences?|es|ing) -> occurrence
     (un)?offical(ly|s)? -> official
-    ommit(ed|ing|ted|s)? -> omit
+    ommit(e[ds]|ing|ted|s)? -> omit
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
-    optionnal(ly)?|overid(e|en|es|ing) -> optional
+    optionnal(ly)? -> optional
     orgin(al|at(e[ds]?|ing)|s)? -> origin
     overid(e[ns]?|ing) -> override
     paintshop -> Paint Shop FIXME
     paramaters? -> parameter
     (file)?pathes -> paths
-    persistan(t|ce) -> persistence
-    preceed(ed|ing|s)? -> preceding
-    prefer(ed|ing) -> preferring
+    persistan(ce|t(e?ly)?) -> persistence
+    prefer(re|a)nces? -> preference
+    prefer(e[ds]|ing) -> preferring
     presense -> presence
-    privi?l(a|ed)ges? -> privilege
     probibl[ye] -> probable
     propogat(e[ds]?|ion) -> propagate
-    publicall?y -> publicly
     registr(ed?|ing) -> registering
     responces? -> responce
     responsab(ilit(y|ies)|l[ey]) -> responsibility
-    retre?iv(als?|ed?|es|ing) -> retrieve
+    retre?iv(als?|e[ds]?|ing) -> retrieve
     returing -> returning
     returnes -> returns
     secound(ly)? -> second
     sences? -> sense
-    seperat(e[ds]?|ing|ions?|ors?) -> separate
-    shedul(ers?|ing) -> scheduler
     simmilar(ity|ly)? -> similar
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
     (un)?successfull|(un)?succesful(ly)?|(un)?sucess?ful(ly?)? -> successful
-    supercee?d(ed|ing|s)?|superseed(eding|s)?|superseds -> supersedes
-    (un)?suport(able|ed|er|ing|ive|ively)? -> supported
+    (un)?suport(able|e[ds]|ers?|ing(ly)?|ive|ively)? -> support
     supress(e[ds]|ion)? -> suppress
     a?syncronous(ly)? -> synchronously
     tempor(il)?y -> temporarily
     thease -> these
     thier -> their
-    threshholds? -> threshold
     trafics? -> traffic
     transfer(ed|ing) -> transferred
     transferes -> transfers
@@ -910,10 +1000,8 @@ bad-word=
     usefull -> useful
     varios -> various
     ([iu]n)?visab(le|ility) -> visibility
-    wether -> whether
     whereever -> wherever
     wieght(ed|ing|s)? -> weight
-    wierd(er|ly)? -> weird
     (over|re)?writen -> written
     writting -> writing
 bad-expression=
@@ -938,7 +1026,6 @@ bad-expression=
     \bhasnt\b -> hasn't
     \bhavent\b -> haven't
     \b(s?he)\s+(s?he|it)\b -> 'he' duplicate
-    \bheirar?ch|\bhierach -> hierarchy
     [^l]icly\b|icaly\b -> '...ically' ending
     \bif\s+if\b -> 'if' duplicate
     ifing\b -> '...ifing' ending
@@ -953,7 +1040,7 @@ bad-expression=
     onnally\b -> '...onaly' ending
     \bprivl -> privilege
     procces -> process
-    reciev -> receive
+    arilly\b -> '...arily' ending
     \bshouldnt\b -> shouldn't
     \bsome\s+how\b -> somehow
     \bsome\s+what\b -> somewhat
@@ -1001,6 +1088,7 @@ bad-case=
     Wordperfect -> WordPerfect
 ignore=
     BE\s+BE
+
 include=
     \.(?i:c|cpp|cxx|h|idl|m)$
     \.(l|y)$
