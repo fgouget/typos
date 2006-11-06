@@ -784,7 +784,7 @@ print_errors($allsets);
 exit 0;
 
 __DATA__
-# From the Top-100 misspelled words in English
+# From the Top 100 misspelled English words.
 # http://www.yourdictionary.com/library/misspelled.html
 bad-word=
     abri(d?g|ge)ment -> abridgement
@@ -887,10 +887,141 @@ bad-expression=
     \bheirar?ch|\bhierach -> hierarchy
     reciev -> receive
 
-# Other common errors
+# From the Top 101-250 misspelled English words.
+# http://www.yourdictionary.com/library/150more.html
 bad-word=
     abscen(ces?|t(e?ly|ee(ism)?)?) -> absence
     acc?ellerat(e[ds]?|ing|or) -> accelerate
+    acomplish(ed|ing)? -> accomplish
+#accordion
+    acumulat(e[ds]?|ing|or) -> accumulate
+    aquaintance -> acquaintance
+    ac(cros?|c?ro)s -> across
+    afficionn?ados?|aficionnados? -> aficionado
+#anoint
+#apology
+    awhile -> a while
+#barbecue
+    begining -> beginning
+    broc(col|ol?)li -> broccoli
+    bu(is[iy]|sy)ness(es|like|(wo)?m[ae]n) -> business
+#camouflage
+#candidate
+#cantaloupe
+    carburatt?or -> carburetor or carburettor
+#Caribbean
+#cartilage
+#chauvinism
+#chocolaty
+#coliseum
+#colonel
+    comemorate -> commemorate
+#congratulations
+    cooly -> coolly
+    critisiz(e[ds]?|ing) -> criticize
+#Dalmatian
+    deciev(e[ds]?|ing) -> deceive
+    defendents? -> defendant
+#defiant
+    des(sic?|s?i)cate -> desiccate
+#desperate
+    deterrance -> deterrence
+    developements? -> development
+    differance -> difference
+#diorama
+    dis(sap?|s?a)pear(ances?|e[ds]|ing|s)? -> disappear
+    dis(sap?|s?a)point(e[ds]?|ing|ments?|s) -> disappoint
+    dis(ip?|s?ip)pat(e[ds]?|ion) -> dissipate
+    e(cs|x)tacy|exta[cs]y -> ecstasy
+    e?specialy -> especially
+    excel(e|l?a)n(ce|t(ly)?) -> excellent
+#exercise
+    explaination -> explanation
+#Fahrenheit
+#flabbergast
+    flottation -> flotation
+    ful(l?fi|lfil?)l(e[ds]|ing|s)? -> fulfill
+#genius
+    governement(al) -> government
+    grammer -> grammar
+#gross
+    gut(tur|ur?)ral -> guttural
+#handkerchief
+    horific -> horrific
+    hypocr(a[cs]|ic)y -> hypocrisy
+    immitat(e[ds]?|ing|ion) -> imitate
+    inadvertant -> inadvertent
+    incredabl[ey] -> incredible
+#ingenious
+#irascible
+    irresistable -> irresistible
+    knowlege|kowled?ge -> knowledge
+#lieutenant
+#liquefy
+#marshmallow
+#mischief
+#misogyny
+#missile
+#nauseous
+    necces|necesar|\b(un)?nesses|nessary\b -> necessary
+    noone -> no one
+#octopus
+    (un)?offical(ly|s)? -> official
+#onomatopoeia
+    par(r?a|ral?)lel(epiped|ism|orgam)? -> parallel
+#parliament
+#particular
+#peninsula
+#pharaoh
+#physical
+#pigeon
+#pistachio
+#pleasant
+#plenitude
+    preferible -> preferable
+    presomptuous -> presumptuous
+    proced(e?s|ing)? -> proceed
+    propogat(e[ds]?|ing|ion) -> propagate
+#puerile
+#pursue
+#putrefy
+#raspberry
+    reciepts? -> receipt
+#refrigerator
+#religious
+    remembrence -> remembrance
+#renowned
+#ridiculous
+#sacrilegious
+#salary
+#sandal
+    sandw(hit?|it)ch -> sandwich
+#savvy
+#scissors
+    siezed? -> seize
+    sensabl[ey] -> sensible
+#septuagenarian
+    sherifs? -> sheriff
+#shish kebab
+    seige -> siege
+    simmilar(ity|ly)? -> similar
+    simmile -> simile
+    subpoenna -> subpoena
+    suc(ce|es?)s(ful(l|ly)?|ion|ive(ly)?|ors?)? -> success
+#tableau
+    tar(r?i|rif?)fs? -> tariff
+    tom(mor?|m?o)row -> tomorrow
+#tongue
+    tradgedy -> tragedy
+    truely -> truly
+#ukulele
+    useage -> usage
+#vicious
+#village
+    with[eo]ld -> withhold
+
+# Other common errors
+bad-word=
     ([iu]n)?acc?ess?ab(le|ility) -> accessibility
     addres(ed|es|ing)?|adress?(ed|es|ing)? -> address
     allowes -> allows
@@ -904,8 +1035,6 @@ bad-word=
     att?achements? -> attachment
     atleast -> at least
     automaticly -> automatically
-    awhile -> a while
-    begining -> beginning
     beeing -> being
     boundr(y|ies) -> boundary
     capatibl(e|ities|ity) -> capable
@@ -923,9 +1052,7 @@ bad-word=
     debug(e[drs]|ing) -> debugging
     (de|in)cres(e[ds]?|ing(ly)?) -> decrease
     dep(enda|and[ea])n(cy|cies|t) -> dependency
-    developements? -> development
     dissabl(e[ds]?|ing) -> disable
-    dissapp?ear(ances?|e[ds]|ing|s)?|disapear(ances?|e[ds]|ing|s)? -> disappear
     dynamicly -> dynamically
     easly -> easily
     editt(ed|ing|or) -> editing
@@ -940,7 +1067,6 @@ bad-word=
     feild?(ed|ing|s)? -> failed
     (un)?fortunatly -> fortunately
     funtion(ality|ally|e[ds]|ing|s)? -> functionning
-    grammer -> grammar
     happends? -> happens
     (un)?helpfull -> helpful
     hexidecimal -> hexadecimal
@@ -952,13 +1078,12 @@ bad-word=
     (un)?initili[sz](ation|e[ds]?|ers?|ing) -> initialize
     (un)?instal(able|ation|ed|ers?|ing) -> installable
     (un)?intergrat(e[ds]?|ing|ion) -> integrated
-    (un?)interprett(ed|ers?|ing|ions?) -> interpreted
+    (un?)interprett(ed|ers?|ing|ations?) -> interpreted
     (un)?int(er|re)st(e[ds]|ing|s)? -> interest
-    invokat(e|ion) -> invocation
+    invokat(e[ds]?|ing|ion) -> invocation
     (i?un)?kown -> known
     lenght(en|s)? ->length
     mesages? -> message
-    (un)?offical(ly|s)? -> official
     ommit(e[ds]|ing|ted|s)? -> omit
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
@@ -973,7 +1098,6 @@ bad-word=
     prefer(e[ds]|ing) -> preferring
     presense -> presence
     probibl[ye] -> probable
-    propogat(e[ds]?|ion) -> propagate
     registr(ed?|ing) -> registering
     responces? -> responce
     responsab(ilit(y|ies)|l[ey]) -> responsibility
@@ -982,12 +1106,11 @@ bad-word=
     returnes -> returns
     secound(ly)? -> second
     sences? -> sense
-    simmilar(ity|ly)? -> similar
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
-    (un)?successfull|(un)?succesful(ly)?|(un)?sucess?ful(ly?)? -> successful
+    (un)?successfull -> successful
     (un)?suport(able|e[ds]|ers?|ing(ly)?|ive|ively)? -> support
-    supress(e[ds]|ion)? -> suppress
+    supress(e[ds]|ing|ion)? -> suppress
     a?syncronous(ly)? -> synchronously
     tempor(il)?y -> temporarily
     thease -> these
@@ -995,7 +1118,6 @@ bad-word=
     trafics? -> traffic
     transfer(ed|ing) -> transferred
     transferes -> transfers
-    truely -> truly
     uneeded -> unneeded
     usefull -> useful
     varios -> various
@@ -1033,7 +1155,6 @@ bad-expression=
     \bisnt\b -> isn't
     \bit\s+it\b -> 'it' duplicate
     \bmean\s+time\b -> meantime
-    necces|necesar|\b(un)?nesses|nessary\b -> necessary
     naly\b -> '...nally' ending
     non(\s+|-)exist(ent|ing) -> nonexistent
     \bof\s+of\b -> 'of' duplicate
