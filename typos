@@ -281,6 +281,8 @@ sub cvsignore2argv($$)
                 # Globs must implicitly match up to the end of the string
                 $glob .= "\$";
             }
+            $glob =~ s!\?!.!g;
+            $glob =~ s!\*![^/]*!g;
             # The CVS globs only match files in the current directory
             push @$argv, "--exclude", "^./$glob";
             push @$lines, $lineno, $lineno;
@@ -414,7 +416,7 @@ sub get_options_set($$$;$)
 
     # Convert the paths relative to this directory
     my $cur_dir=($filename =~ m!/! ? dirname($filename) : cwd());
-    $cur_dir =~ s![][}{)(?.*+\\]!\\$1!g;
+    $cur_dir =~ s!([{}()?.*+^|\$])!\\$1!g;
     foreach my $key ("include", "exclude")
     {
         if (defined $opt_set->{$key})
