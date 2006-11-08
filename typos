@@ -988,7 +988,6 @@ bad-word=
 #pursue
 #putrefy
 #raspberry
-    reciepts? -> receipt
 #refrigerator
 #religious
     remembrence -> remembrance
@@ -1046,7 +1045,6 @@ bad-word=
     comparasons?
     ([iu]n)?compatab(le|ility|ilities) -> compatibility
     completly -> completely
-    concensus -> consensus
     ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     convertions? -> conversions
