@@ -1119,6 +1119,7 @@ bad-word=
     transfer(ed|ing) -> transferred
     transferes -> transfers
     uneeded -> unneeded
+    unitiali[sz](ation|e[ds]?|ers?|ing) -> uninitialize
     usefull -> useful
     varios -> various
     ([iu]n)?visab(le|ility) -> visibility
