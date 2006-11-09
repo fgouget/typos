@@ -1042,6 +1042,7 @@ bad-word=
     careful[ly] -> carefully
     codeweaver -> CodeWeavers
     comands? -> command
+    (be|in|up)?comming -> coming
     comparasons?
     ([iu]n)?compatab(le|ility|ilities) -> compatibility
     completly -> completely
@@ -1074,7 +1075,6 @@ bad-word=
     (ex|im)plicite -> implicit
     (un)?impl(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implementation
     incase -> in case
-    incomming -> incoming
     (un)?initili[sz](ation|e[ds]?|ers?|ing) -> initialize
     (un)?instal(able|ation|ed|ers?|ing) -> installable
     (un)?intergrat(e[ds]?|ing|ion) -> integrated
