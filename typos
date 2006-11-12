@@ -797,7 +797,7 @@ bad-word=
     ([iu]n)?ad?quir(e[ds]?|ing) -> acquire
     ad?quit(ed)? -> acquit
     alot -> a lot
-    amat(er|re) -> amateur
+    amat(er|u?re)s? -> amateur
     arguement(e[ds]|ing|s)? -> argument
     bele?ive -> believe
     bellw(he|ea)ther -> bellwether
@@ -1167,6 +1167,7 @@ bad-expression=
     \bsome\s+how\b -> somehow
     \bsome\s+what\b -> somewhat
     \bsome\s+where\b -> somewhere
+    [^beu]eing\b -> '...ing' ending
     then\s+expected -> than
     \btheir\s+(are|is|was|were)\b -> there is
     trys\b -> tries
