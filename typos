@@ -1060,10 +1060,9 @@ bad-word=
     ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     convertions? -> conversions
-    crete -> create
     debug(e[drs]|ing) -> debugging
     (de|in)cres(e[ds]?|ing(ly)?) -> decrease
-    dep(enda|and[ea])n(cy|cies|t) -> dependency
+    dep(enda|and[ea])nc(e|y|ies) -> dependence
     dissabl(e[ds]?|ing) -> disable
     dynamicly -> dynamically
     easly -> easily
@@ -1149,7 +1148,6 @@ bad-expression=
     \bbe\s+be\b -> 'be' duplicate
     (better|less|more|rather|worse)\s+then -> than
     \bby\s+by\b -> 'by' duplicate
-    \bcant\b -> can't
     \bcan\s+not\b -> cannot
     \bcouldnt\b -> couldn't
     \bdidnt\b -> didn't
@@ -1186,7 +1184,6 @@ bad-expression=
     \bupto\b -> up to
     \bwasnt\b -> wasn't
     \bwith\s+with\b -> 'with' duplicate
-    \bwont\b -> won't
     \bwouldnt\b -> wouldn't
 bad-case=
     \b[aA]nd\s+and\b -> 'and' duplicate
