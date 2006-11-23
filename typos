@@ -789,23 +789,23 @@ __DATA__
 # From the Top 100 misspelled English words.
 # http://www.yourdictionary.com/library/misspelled.html
 bad-word=
-    abri(d?g|ge)ment -> abridgement
     ac(c?epti|ept[ai])ble -> acceptable
     ac(c?ident|idental?)ly -> accidentally
     ([iu]n)?ac(c?omo|omm?o)dat(e[ds]?|ing) -> accommodate
-    acknowle(d?g|ge)ment -> acknowledgement
     ([iu]n)?ad?quir(e[ds]?|ing) -> acquire
     ad?quit(ed)? -> acquit
     alot -> a lot
     amat(er|u?re)s? -> amateur
+#apparent
     arguement(e[ds]|ing|s)? -> argument
+    at(ei|hie)st -> atheist
     bele?ive -> believe
     bellw(he|ea)ther -> bellwether
     caland[ae]rs?|calenders? -> calendar
     cateogor(y|ies)|catigory -> category
     cemeta?ry|semet[ae]?ry -> cemetery
     changable -> changeable
-    collectable -> collectible
+#collectable and collectible are both valid
     col(lumn?|um) -> column
     com(mit|itt?)(al|e[de]|ers?|ing) -> committed
     con(ch?|s|t)ience -> conscience
@@ -813,6 +813,7 @@ bad-word=
     con(sc?|ch?|t)ien(sc|ch?)ious(ly)? -> conscientious
     con(ch?|s|t)ious -> conscious
     concensus -> consensus
+#daiquiri
     definit -> definite
     definate?ly|definitly -> definitely
     di[sc]ipline -> discipline
@@ -831,25 +832,30 @@ bad-word=
     g(a|uar)rant(ee?d?|ies|y)|guarr?anted? -> guarantee
     harrass -> harass
     heigh?ths? -> height
+#   hierarchy -> see bad-expression
     humorus -> humorous
     ignoren(ce|t(ly)?) -> ignorance
     imediate?(ly)? -> immediate
     indep(enda|and[ea])n(ce|t(e?ly)?) -> independent
     indispensible -> indispensable
-    innoculat(e[ds]?|ing) -> inoculate
+    innoculat(e[ds]?|ing|ion) -> inoculate
     intel(ig[ae]|lige?a)n(ce|t(e?ly|sia)?) -> intelligence
+#its and it's only differ in their meaning
     jewelery -> jewelry or jewellery
+#judgment and judgement are both valid
+#kernel
     liesur(e|ly) -> leisure
     lia(s|i?z)ons? -> liaison
     libary -> library
     lisen[cs](e[ds]?|ing) -> license
-    lightening(ly)? -> lightning
+#lightening and lightning only differ in their meaning
     maintainance -> maintenance
+#maneuver
     midieval -> medieval
     momento -> memento
     mil(en?|le)ni(a|um) -> millennium
     min[ai]tures? -> miniature
-    miniscule -> minuscule
+#minuscule and miniscule are both valid
     mi(chi?evi?|schev|schi?evi)ous -> mischievous
     mispell(e[ds]|ings?|s)? -> misspell
     n(ei|ie(gh)?)bou?r(hood)?s? -> neighbor
@@ -862,22 +868,26 @@ bad-word=
     playrights? -> playwright
     pos(e|es|se)s(e[ds]|ing|ions?) -> possession
     preceed(e[ds]?|ing(ly|s)?|s)? -> precede
+#principal and principle only differ in their meaning
     privi?l(a|ed)ge[ds]? -> privilege
     pronounciations? -> pronunciation
     publicall?y -> publicly
     question(aire?|nair)s? -> questionnaire
     rebel(ed|ing) -> rebelled
+#   receive -> see bad-expression
     reciepts? -> receipt
     recom(e|m?a)nd(ab(ility|le)|ed|ing|s) -> recommend
     refer(re|a)nc(e[ds]?|ing) -> reference
     refer(ed|ing) -> referred
     relevent|revel[ae]nt -> relevant
+#restaurant
     remit(ed|ing) -> remitted
     rythms? -> rhythm
     shedul(e[ds]?|ers?|ing) -> schedule
     seperat(e[ds]|e?ly|ing|ions?|ors?) -> separate
-    s[ae]rgents?|sargea?nts? -> sergeant
+    sargeants?|sergents? -> sergeant
     supercee?d(e[ds]|ing|s)?|superseed(e[ds]|ing|s)?|superseds -> supersede
+#their, they're and there only differ in their meaning
     threshholds? -> threshold
     twelth -> twelfth
     tiran?n(ts?|y)|tyrany -> tyranny
@@ -902,7 +912,7 @@ bad-word=
     afficionn?ados?|aficionnados? -> aficionado
 #anoint
 #apology
-    awhile -> a while
+#a while: 'awhile' is a valid word too
 #barbecue
     begining -> beginning
     broc(col|ol?)li -> broccoli
@@ -925,11 +935,11 @@ bad-word=
     deciev(e[ds]?|ing) -> deceive
     defendents? -> defendant
 #defiant
-    des(sic?|s?i)cate -> desiccate
+    des(sic?|s?i)ca(nts?|te[sd]?|ting|tion) -> desiccate
 #desperate
     deterrance -> deterrence
     developements? -> development
-    differance -> difference
+    differances? -> difference
 #diorama
     dis(sap?|s?a)pear(ances?|e[ds]|ing|s)? -> disappear
     dis(sap?|s?a)point(e[ds]?|ing|ments?|s) -> disappoint
@@ -942,7 +952,7 @@ bad-word=
 #Fahrenheit
 #flabbergast
     flottation -> flotation
-    ful(l?fi|lfil?)l(e[ds]|ing|s)? -> fulfill
+# fulfill is the US spelling of fulfil
 #genius
     governement(al) -> government
     grammer -> grammar
@@ -1024,6 +1034,7 @@ bad-word=
 # Other common errors
 bad-word=
     ([iu]n)?acc?ess?ab(le|ility) -> accessibility
+    acknowlege?ment -> acknowledge?ment
     addres(ed|es|ing)?|adress?(ed|es|ing)? -> address
     allowes -> allows
     allready -> already
