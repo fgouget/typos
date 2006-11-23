@@ -1072,7 +1072,6 @@ bad-word=
     enought -> enough
     eventhought? -> eventhough
     enviro(ne)?ments? -> environment
-    executeable -> executable
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
     feild?(ed|ing|s)? -> failed
@@ -1178,7 +1177,8 @@ bad-expression=
     \bsome\s+how\b -> somehow
     \bsome\s+what\b -> somewhat
     \bsome\s+where\b -> somewhere
-    [^beu]eing\b -> '...ing' ending
+    [^begiouy]eing\b -> '...ing' ending
+    [^ecgklmrsvz]eable\b -> '...able' ending
     then\s+expected -> than
     \btheir\s+(are|is|was|were)\b -> there is
     trys\b -> tries
@@ -1225,6 +1225,7 @@ bad-case=
     Winetools|wineTools -> WineTools
     Wordperfect -> WordPerfect
 ignore=
+    (?i:anteing)
     BE\s+BE
     \bMACOSX\b
     \bMac OS X\b
