@@ -1083,11 +1083,13 @@ bad-word=
     hexidecimal -> hexadecimal
     higly -> highly
     (ex|im)plicite -> implicit
-    (un)?impl(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implementation
+    (un)?imp?l(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
+    (un)?iml(em[ae]n|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     incase -> in case
     (un)?initili[sz](ation|e[ds]?|ers?|ing) -> initialize
     (un)?instal(able|ation|ed|ers?|ing) -> installable
     (un)?intergrat(e[ds]?|ing|ion) -> integrated
+    intefac(e[ds]?|ing) -> interface
     (un?)interprett(ed|ers?|ing|ations?) -> interpreted
     (un)?int(er|re)st(e[ds]|ing|s)? -> interest
     invokat(e[ds]?|ing|ion) -> invocation
