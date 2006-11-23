@@ -1203,6 +1203,11 @@ bad-case=
     Freetype|freeType -> FreeType
     [Hh]omeSite -> Homesite
     Installshield -> InstallShield
+    \bM(?i:acOSX)\b -> Mac OS X
+    \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
+    \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
+#   Count on the ignore directive to not complain on the correct spelling
+    (?i:\bMac OS X\b) -> Mac OS X
     [Mm]acroMedia -> Macromedia
     [Mm]icroSoft -> Microsoft
     News?forge -> NewsForge
@@ -1222,6 +1227,8 @@ bad-case=
     Wordperfect -> WordPerfect
 ignore=
     BE\s+BE
+    \bMACOSX\b
+    \bMac OS X\b
 
 include=
     \.(?i:c|cpp|cxx|h|idl|m)$
