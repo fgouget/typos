@@ -1049,8 +1049,10 @@ bad-word=
     automaticly -> automatically
     beeing -> being
     boundr(y|ies) -> boundary
+    caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
     capatibl(e|ities|ity) -> capable
     careful[ly] -> carefully
+    catched -> caught
     codeweaver -> CodeWeavers
     comands? -> command
     (be|in|up)?comming -> coming
@@ -1072,6 +1074,7 @@ bad-word=
     enought -> enough
     eventhought? -> eventhough
     enviro(ne)?ments? -> environment
+    (un?)exepect(ed|ions?|s)? -> expect
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
     feild?(ed|ing|s)? -> failed
