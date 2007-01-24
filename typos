@@ -1178,7 +1178,7 @@ bad-expression=
     \bsome\s+what\b -> somewhat
     \bsome\s+where\b -> somewhere
     [^begiouy]eing\b -> '...ing' ending
-    [^ecgklmrsvz]eable\b -> '...able' ending
+    [^ecgklmprsvz]eable\b -> '...able' ending
     then\s+expected -> than
     \btheir\s+(are|is|was|were)\b -> there is
     trys\b -> tries
