@@ -1050,7 +1050,7 @@ bad-word=
     beeing -> being
     boundr(y|ies) -> boundary
     caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
-    capatibl(e|ities|ity) -> capable
+    capatibl(e|iti?es|ity) -> capable
     careful[ly] -> carefully
     catched -> caught
     codeweaver -> CodeWeavers
@@ -1088,6 +1088,7 @@ bad-word=
     (un)?imp?l(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     (un)?iml(em[ae]n|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     incase -> in case
+    (dis)?informations -> information
     (un)?initili[sz](ation|e[ds]?|ers?|ing) -> initialize
     (un)?instal(able|ation|ed|ers?|ing) -> installable
     (un)?intergrat(e[ds]?|ing|ion) -> integrated
@@ -1112,7 +1113,8 @@ bad-word=
     prefer(e[ds]|ing) -> preferring
     presense -> presence
     probibl[ye] -> probable
-    registr(ed?|ing) -> registering
+    reg(istr|este?r)(ed?|ing) -> registering
+    regestr(ars?|ies|y) -> registry
     responces? -> responce
     responsab(ilit(y|ies)|l[ey]) -> responsibility
     retre?iv(als?|e[ds]?|ing) -> retrieve
