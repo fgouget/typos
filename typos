@@ -1,0 +1,699 @@
+#!/usr/bin/perl -w
+use strict;
+use FileHandle;
+
+my $name0=$0;
+$name0 =~ s%^.*/%%;
+
+
+my $RE_BUNCH=30;
+
+my $verbose;
+sub verbose(@)
+{
+    return print STDERR @_ if ($verbose);
+}
+
+my $debug;
+sub debug(@)
+{
+    return print STDERR @_ if ($debug);
+}
+
+sub err(@)
+{
+    print STDERR "$name0:error: ";
+    print @_;
+}
+
+sub warning(@)
+{
+    print STDERR "$name0:warning: ";
+    print @_;
+}
+
+
+#####
+#
+# Read the bad words
+#
+#####
+
+my %builtin_files;
+sub read_builtin_files()
+{
+    my $file;
+    while (my $line=<DATA>)
+    {
+        chomp $line;
+        if ($line =~ /^--- (\S+) ---$/)
+        {
+            debug(" -> ", scalar @$file, "\n") if ($file);
+            debug("Reading '$1' builtin file\n");
+            $file=[];
+            $builtin_files{$1}=$file;
+        }
+        elsif (!defined $file)
+        {
+            err("missing builtin file header '$line'\n");
+        }
+        else
+        {
+            push @$file, $line;
+        }
+    }
+}
+
+sub split_spec_line($)
+{
+    my ($spec)=@_;
+    return ($1, $2) if ($spec =~ /^(.*)\s*-(?:>|&gt;)\s*(.*)$/);
+    return ($spec);
+}
+
+sub add_list($$$)
+{
+    my ($options, $category, $list)=@_;
+    foreach my $regexp (@$list)
+    {
+        #debug("$regexp\n");
+        my $group=($regexp =~ s/\s+->\s+(.*)$// ? $1 : $regexp);
+        $regexp =~ s!\(!(?:!g; # FIXME: Use a negative lookahead for (?:
+        if (exists $options->{$category}->{$regexp})
+        {
+            warning("duplicate regular expression '$regexp': '$options->{$category}->{$regexp}' and '$group'\n");
+        }
+        elsif ($regexp ne "")
+        {
+            $options->{$category}->{$regexp}=$group;
+        }
+    }
+}
+
+sub list_to_regexp($)
+{
+    my ($list)=@_;
+    return undef if (!defined $list or !%$list);
+    return "(?:" . join("|", keys %$list) . ")";
+}
+
+sub quote_string($)
+{
+    my ($str)=@_;
+    $str =~ s!\\!\\\\!g;
+    $str =~ s!([\"\$\@\%])!\\$1!g;
+    return "\"$str\"";
+}
+
+#####
+#
+# Scan files
+#
+#####
+
+sub scan_check($$$$$$)
+{
+    my ($options, $category, $filename, $lineno, $line, $regexps)=@_;
+    my $ignored=$options->{ignores_regexp};
+
+    foreach my $item (@$regexps)
+    {
+        my $regexp=sprintf($options->{"${category}_format"}, $item);
+        next if ($line !~ /$regexp/);
+        next if (defined $ignored and $line =~ /$ignored/);
+        if ($options->{by_error})
+        {
+            my $group=$options->{$category}->{$item};
+            push @{$options->{errors}->{$group}}, "$filename:$lineno: $line";
+        }
+        else
+        {
+            print "$filename:$lineno: $line";
+            return 1;
+        }
+    }
+    return 0;
+}
+
+sub scan_check_extra($$$$$$)
+{
+    my ($options, $category, $filename, $lineno, $line, $regexps)=@_;
+    my $ignored=$options->{ignores_regexp};
+
+    foreach my $item (@$regexps)
+    {
+        my $regexp=sprintf($options->{"${category}_format"}, $item);
+        my $match;
+        if ($line =~ /(?:\b|[0-9_])(?:$regexp)(?:\b|[0-9_])/)
+        {
+            $match=1;
+        }
+        elsif ($line =~ /[a-z](?:$regexp)(?:\b|[0-9_])\b/)
+        {
+            my $matched=$&;
+            $match=1 if ($matched =~ /^[a-z][A-Z][a-z]*$/);
+        }
+        elsif ($line =~ /[a-z](?:$regexp)[A-Z]/)
+        {
+            my $matched=$&;
+            $match=1 if ($matched =~ /^[a-z][A-Z][a-z]*[A-Z]$/);
+        }
+        elsif ($line =~ /(?:\b|[0-9_])(?:$regexp)[A-Z]/)
+        {
+            my $matched=$&;
+            $match=1 if ($matched =~ /^[A-Z][a-z]*[A-Z]$/);
+        }
+        next if (!$match);
+        next if (defined $ignored and $line =~ /$ignored/);
+        if ($options->{by_error})
+        {
+            my $group=$options->{$category}->{$item};
+            push @{$options->{errors}->{$group}}, "$filename:$lineno: $line";
+        }
+        else
+        {
+            print "$filename:$lineno: $line";
+            return 1;
+        }
+    }
+    return 0;
+}
+
+sub build_scan_check($$)
+{
+    my ($options, $category)=@_;
+    my @code;
+    my @list=sort keys %{$options->{$category}};
+    my $checker;
+    if ($category eq "bad_words" and $options->{extra})
+    {
+        $checker="scan_check_extra";
+    }
+    else
+    {
+        $checker="scan_check";
+    }
+    my $i=0;
+    while ($i < @list)
+    {
+        my @buf;
+        for (my $j=$i; $j < $i+$RE_BUNCH and $j < @list; $j++)
+        {
+            push @buf, $list[$j];
+        }
+        $i+=$RE_BUNCH;
+        my $regexp="(?:" . join("|", @buf) . ")";
+        $regexp=sprintf($options->{"${category}_format"}, $regexp);
+        push @code, ("if (\$line =~ /$regexp/)",
+                     "{",
+                     "    my \$regexps=[",
+                     (map { "        " . quote_string($_) . "," } @buf),
+                     "    ];",
+                     "    if ($checker(\$options, " . quote_string($category) . ", \$filename, \$lineno, \$line, \$regexps))",
+                     "    {",
+                     "        next;",
+                     "    }",
+                     "}");
+    }
+    return @code;
+}
+
+sub build_scanner($)
+{
+    my ($options)=@_;
+
+    $options->{bad_words_format}=$options->{extra} ? "(?i)\%s" : "(?i)(?:\\b|[0-9_])\%s(?:\\b|[0-9_])";
+    $options->{bad_expressions_format}="(?i)\%s";
+    $options->{bad_cases_format}="\\b\%s\\b";
+    my @code=("sub ",
+              "{",
+              "    my (\$fh, \$filename)=\@_;",
+              "",
+              "    my \$lineno=0;",
+              "    while (my \$line=<\$fh>)",
+              "    {",
+              "        \$lineno++;",
+              build_scan_check($options, "bad_words"),
+              build_scan_check($options, "bad_expressions"),
+              build_scan_check($options, "bad_cases"),
+              "    }",
+              "}",
+              "");
+    if ($debug)
+    {
+        my $fh=FileHandle->new(">code.txt");
+        if ($fh)
+        {
+            print $fh join("\n", @code);
+            close ($fh);
+        }
+    }
+    $options->{scanner}=eval join("\n", @code);
+    if ($@)
+    {
+        err("scanner compilation error: $@\n");
+        exit 1;
+    }
+}
+
+sub scan_file($$)
+{
+    my ($filename, $options)=@_;
+
+    my $fh=FileHandle->new($filename);
+    if (!$fh)
+    {
+        err("unable to open '$filename' for reading: $!\n");
+        return 0;
+    }
+    debug("scanning '$filename'\n");
+    $options->{scanner}($fh, $filename);
+    close($fh);
+}
+
+sub scan_directory($)
+{
+    my ($options)=@_;
+
+    my $include;
+    $include=list_to_regexp($options->{include});
+    debug("include=$include\n") if (defined $include);
+    my $exclude;
+    $exclude=list_to_regexp($options->{exclude});
+    debug("exclude=$exclude\n") if (defined $exclude);
+
+    my @dirs=("./");
+    while (@dirs)
+    {
+        my $dir=shift @dirs;
+        local *DIR;
+        if (!opendir DIR, $dir)
+        {
+            err("unable to open the '$dir' directory\n");
+            next;
+        }
+        foreach my $dentry (readdir(DIR))
+        {
+            next if ($dentry eq "." or $dentry eq "..");
+            $dentry="$dir$dentry";
+            if (-d $dentry)
+            {
+                if (-l $dentry)
+                {
+                    debug("skipping '$dentry' directory symbolic link\n");
+                    next;
+                }
+                $dentry.="/";
+                if ($exclude and $dentry =~ /$exclude/)
+                {
+                    verbose("skipping blacklisted '$dentry' directory\n");
+                    next;
+                }
+                push @dirs, $dentry;
+                next;
+            }
+            if (defined $include and $dentry !~ /$include/)
+            {
+                verbose("'$dentry' file not in scanning whitelist\n");
+                next;
+            }
+            if ($exclude and $dentry =~ /$exclude/)
+            {
+                verbose("skipping blacklisted '$dentry' file\n");
+                next;
+            }
+            scan_file($dentry, $options);
+        }
+        closedir(DIR);
+    }
+}
+
+sub print_errors($)
+{
+    my ($options)=@_;
+    while (my ($group, $list)=each %{$options->{errors}})
+    {
+        print "\n$group:\n";
+        print @$list;
+    }
+}
+
+
+#####
+#
+# Main
+#
+#####
+
+use Getopt::Long;
+my (@opt_bad_words, @opt_bad_expressions, @opt_bad_cases, @opt_ignores);
+my ($opt_extra, $opt_by_error);
+my $opt_builtin=1;
+my $opt_rc=1;
+my ($opt_get_wikipedia, $opt_wikipedia, $opt_wiki_file);
+my (@opt_include, @opt_exclude, $opt_all);
+my ($opt_help);
+my $res=GetOptions("bad-word=s"        => \@opt_bad_words,
+                   "bad-expression=s"  => \@opt_bad_expressions,
+                   "bad-case=s"        => \@opt_bad_cases,
+                   "ignore=s"          => \@opt_ignores,
+                   "extra!"            => \$opt_extra,
+                   "by-error!"         => \$opt_by_error,
+                   "builtin!"          => \$opt_builtin,
+                   "rc!"               => \$opt_rc,
+
+                   "get-wikipedia"     => \$opt_get_wikipedia,
+                   "wikipedia"         => \$opt_wikipedia,
+                   "wiki-file=s"       => \$opt_wiki_file,
+
+                   "include=s"         => \@opt_include,
+                   "exclude=s"         => \@opt_exclude,
+                   "all!"              => \$opt_all,
+
+                   "debug"             => \$debug,
+                   "verbose"           => \$verbose,
+                   "help"              => \$opt_help);
+if (!$res)
+{
+    err("try running $name0 --help\n");
+    exit 2;
+}
+$verbose=1 if ($debug);
+if ($opt_help)
+{
+    print "Usage: $name0 [--no-builtin] [--debug] [--verbose] [--help]\n";
+    print "             [--bad-word WORD] [--bad-expression EXPR] [--bad-case CASE]\n";
+    print "             [--get-wikipedia] [--wikipedia] [--wiki-file FILE]\n";
+    print "             [--include SCAN] [--exclude SKIP]\n";
+
+    print "\n";
+    print "Scans files for common misspellings and case errors.\n";
+
+    print "\n";
+    print "Options:\n";
+    print "  --no-builtin   Don't use the builtin list of typos and files scanning options\n";
+    print "  --bad-word WORD   FIXME\n";
+    print "  --bad-expression EXPR  FIXME\n";
+    print "  --bad-case CASE   FIXME\n";
+    print "  --ignore IGN   FIXME\n";
+    print "  --get-wikipedia   Download Wikipedia's list of common misspelling's\n";
+    print "  --wikipedia       Use Wikipedia's list of common misspellings\n";
+    print "  --wiki-file FILE  Specifies an alternate file containing the Wikipedia common misspellings\n";
+    print "  --include SCAN    Pattern identifying files to scan\n";
+    print "  --exclude SKIP    Pattern identifying files that should not be scanned,\n";
+    print "                    for instance because they are binary files or backup files\n";
+    print "                    This takes precedence over --scan-files\n";
+    exit 0;
+}
+
+my $options={ by_error => $opt_by_error,
+              extra    => $opt_extra
+            };
+
+if ($opt_rc)
+{
+    # FIXME: Process rc file
+}
+
+if ($opt_builtin)
+{
+    # Read builtin files
+    read_builtin_files();
+    for my $category ("bad_words",
+                      "bad_expressions",
+                      "bad_cases",
+                      "ignores",
+                      "include",
+                      "exclude")
+    {
+        add_list($options, $category, $builtin_files{$category});
+    }
+}
+
+if ($opt_wikipedia)
+{
+    $opt_wiki_file=dirname($0) . ".wikipedia" if (!defined $opt_wiki_file);
+    # FIXME: Todo
+}
+
+# FIXME: Process command line options
+
+# FIXME: Proceed to the blacklist exclusion
+
+# FIXME: Build the regular expression lists
+add_list($options, "bad_words", \@opt_bad_words);
+add_list($options, "bad_expressions", \@opt_bad_expressions);
+add_list($options, "bad_cases", \@opt_bad_cases);
+add_list($options, "ignores", \@opt_ignores);
+
+$options->{ignores_regexp}=list_to_regexp($options->{ignores});
+
+# FIXME: Scan files
+add_list($options, "include", \@opt_include);
+add_list($options, "exclude", \@opt_exclude);
+delete $options->{include} if ($opt_all);
+build_scanner($options);
+scan_directory($options);
+print_errors($options);
+
+exit 0;
+
+# FIXME: This should be in the same format as the rc file!!!
+__DATA__
+--- bad_words ---
+abscen(ce|t)
+accellerat(e[ds]?|in|or)
+acc?eptible -> acceptable
+([iu]n)?acc?ess?ab(le|ility) -> accessibility
+acc?omodat(es?|ing) -> accommodate
+addres(ed|es|ing)?|adress?(ed|es|ing)? -> address
+allowes -> allows
+allready -> already
+allways -> always
+alot -> a lot
+anali[sz]e[sd]? -> analyzed
+appartments? -> apartment
+arent -> aren't
+arithmatic -> arithmetic
+att?achements? -> attachment
+atleast -> at least
+automaticly -> automatically
+awhile -> a while
+begining -> beginning
+beeing -> being
+belive -> believe
+boundr(y|ies) -> boundary
+cant -> can't
+capatibl(e|ities|ity) -> capable
+careful[ly] -> carefully
+cateogor(y|ies) -> categories
+codeweaver -> CodeWeavers
+comands? -> command
+comparasons?
+([iu]n)?compatab(le|ility|ilities) -> compatibility
+completly -> completely
+concensus -> consensus
+([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
+(dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
+convertions? -> conversions
+couldnt -> couldn't
+crete -> create
+debug(ing|ed|er) -> debugging
+(de|in)cres(ed?|es?|ing(ly)?) -> decrease
+definate?ly|definitly -> definitely
+dependan(cy|cies|t)|depand[ae]n(cy|cies|t) -> dependency
+developements? -> devlopment
+didnt -> didn't
+dissabl(e[ds]?|ing) -> disable
+dissapp?ear(ances?|ed|ing|s)?|disapear(ances?|ed|ing|s)? -> disappear
+do(es)?nt -> doesn't
+dynamicly -> dynamically
+easly -> easily
+editt(ed|ing|or) -> editing
+effecien(ce|cy|t) -> efficiency
+eigther -> either
+enought -> enough
+eventhought? -> eventhough
+enviro(ne)?ments? -> environment
+executeable -> executable
+existan(t|ce) -> existent
+extentions? -> extension
+([iu]n)?feasab(le|ility) -> feasible
+feild?(ed|s|ing)? -> failed
+(un)?fortunatly -> fortunately
+funtion(ality|ally|ed|ing|s)? -> functionning
+grammer -> grammar
+happends? -> happens
+hasnt -> hasn't
+havent -> haven't
+(un)?helpfull -> helpful
+hexidecimal -> hexadecimal
+higly -> highly
+(ex|im)plicite -> implicit
+(un)?impl(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implementation
+incase -> in case
+incomming -> incoming
+(un)?initili[sz](es?|ing) -> initialize
+(un)?instal(able|ation|e[dr]|ing) -> installable
+(un)?intergrat(e[ds]?|ing|ion) -> integrated
+(un?)interprett(ed|ing) -> interpreted
+(un)?intrest(ed|ing|s)? -> interesting
+invokat(e|ion) -> invocation
+isnt -> isn't
+(i?un)?kown -> known
+lenght(en|s)? ->length
+mesages? -> message
+occassion(ally|s)? -> occasionally
+occur(ed|ences?|es|ing) -> occurrence
+(un)?offical(ly|s)? -> official
+ommit(ed|ing|ted|s)? -> omit
+oportunit(y|ies) -> opportunity
+opperation(al|s)? -> operation
+optionnal(ly)?|overid(e|en|es|ing) -> optional
+overid(e[ns]?|ing) -> override
+paintshop -> Paint Shop FIXME
+paramaters? -> parameter
+(file)?pathes -> paths
+persistan(t|ce) -> persistence
+preceed(ed|ing|s)? -> preceding
+prefer(ed|ing) -> preferring
+presense -> presence
+privi?l(a|ed)ges? -> privilege
+probibl[ye] -> probable
+propogat(e[ds]?|ion) -> propagate
+publicall?y -> publicly
+registr(ed?|ing) -> registering
+responces? -> responce
+responsab(ilit(y|ies)|l[ey]) -> responsibility
+retre?iv(als?|ed?|es|ing) -> retrieve
+returnes -> returns
+secound(ly)? -> second
+sences? -> sense
+seperat(e[ds]?|ing|ions?|ors?) -> separate
+shedul(ers?|ing) -> scheduler
+shouldnt -> shouldn't
+simmilar(ity|ly)? -> similar
+(infra)?sturct(ure[ds]?)? -> structure
+subscribtions? -> subscription
+(un)?successfull|(un)?succesful(ly)?|(un)?sucess?ful(ly?)? -> successful
+supercee?d(ed|ing|s)?|superseed(eding|s)?|superseds -> supersedes
+(un)?suport(able|ed|er|ing|ive|ively)? -> supported
+supress(e[ds]|ion)? -> suppress
+a?syncronous(ly)? -> synchronously
+tempor(il)?y -> temporarily
+thease -> these
+thier -> their
+threshholds? -> threshold
+trafics? -> traffic
+transfer(ed|ing) -> transferred
+transferes -> transfers
+(al)?trough(ly|t)? -> through
+truely -> truly
+uneeded -> unneeded
+upto -> up to
+usefull -> useful
+varios -> various
+([iu]n)?visab(le|ility) -> visibility
+wasnt -> wasn't
+wether -> whether
+whereever -> wherever
+wieght(ed|ing|s)? -> weight
+wierd(er|ly)? -> weird
+wont -> won't
+wouldnt -> wouldn't
+(over|re)?writen -> written
+writting -> writing
+--- bad_expressions ---
+\\ban?\\s+an?\\b -> duplicate
+\\babout\\s+about\\b -> duplicate
+\\band\\s+and\\b -> duplicate
+\\bapplicai -> application
+\\b(are|is|was|were)\\s+(are|is|was|were)\\b -> duplicate
+\\b(are|is|was|were)\\s+to\s+(big|large|little|small)\\b -> too
+\\bebe\\s+be\\b -> duplicate
+(better|less|more|rather|worse)\\s+then -> than
+\\by\\s+by\\b -> duplicate
+\\bcan\\s+not\\b -> cannot
+\\bdifferent\s*to\\b -> different from
+\\bdosen.t\\b -> doesn't
+\\bfor\\s+for\\b -> duplicate
+\\b(s?he|it)\\s+(s?he|it)\\b -> duplicate
+\\bheirar?ch|\\bhierach -> hierarchy
+[^l]icly\\b|icaly\\b -> '...ically' ending
+\\bif\\s+if\\b -> duplicate
+ifing\\b -> duplicate
+\\bin\\s+in\\b -> duplicate
+\\bmean\s+time\\b -> meantime
+necces|necesar|\\b(un)?nesses|nessary\\b -> necessary
+naly\\b -> '...nally' ending
+non(\\s+|-)exist(ent|ing) -> nonexistent
+\\bof\\s+of\\b -> duplicate
+onnally\\w -> '...onaly' ending
+\\bprivl -> privilege
+procces -> process
+reciev -> receive
+\\bsome\\s+how\\b -> somehow
+\\bsome\\s+what\\b -> somewhat
+\\bsome\\s+where\\b -> somewhere
+then\\s+expected -> than
+\\btheir\s+(are|is|was|were)\\b -> there is
+trys\\b -> tries
+\\bunece -> unnecessary
+\\bwith\\s+with\\b -> duplicate
+--- bad_cases ---
+AuthorWare -> Authorware
+Auto(cad|Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
+Codeweavers -> CodeWeavers
+Crossover -> CrossOver
+[Dd]reamWeaver -> Dreamweaver
+[Ff]ireWorks -> Fireworks
+Fontforge|fontForge -> FontForge
+Framemaker -> FrameMaker
+Free(bsd|Bsd|bSd|bsD|BSd|BsD|bSD) -> FreeBSD
+[Ff]reeHand -> FreeHand
+Freetype|freeType -> FreeType
+[Hh]omeSite -> Homesite
+Installshield -> InstallShield
+[Mm]acroMedia -> Macromedia
+[Mm]icroSoft -> Microsoft
+News?forge -> NewsForge
+Pagemaker -> PageMaker
+[Pp]hotoShop -> Photoshop
+Powerpoint -> PowerPoint
+Quickbooks -> QuickBooks
+Quicktime -> QuickTime
+Redhat -> Red Hat
+[Ss]hockWave -> Shockwave
+Su(se|Se|sE) -> SUSE
+Tarent(ell?a|all?a)|Tarant(ela|all?a) -> Tarantella
+Transgaming -> TransGaming
+Turbotax -> TurboTax
+Wine(hq|Hq|hQ) -> WineHQ
+Winetools|wineTools -> WineTools
+Wordperfect -> WordPerfect
+--- ignores ---
+_DONT_
+_CANT_
+--- include ---
+\.(c|cpp|h|idl)$
+\.(l|y)$
+\.(s?html?)$
+\.in$
+\.pas$
+\.pm$
+\.php$
+\.sgml$
+\.(itcl|itk|tcl)$
+\.(rc|spec)$
+--- exclude ---
+\.(a|o|so)$
+\.(dll|exe|obj)$
+\.(gif|jpe?g|png|xpm)$
+\.a$
+/CVS/
+/.cvsignore$
+/.git/
+/.gitignore$
+~$
+/.#
+(Bg|Cn|Cs|Da|De|Ep|Es|Fi|Fr|Hu|It|Ja|Ko|Nl|No|Pl|Pt|Ru|Si|Sk|Sv|Th|Tr|Wa|Zh)\.rc$
