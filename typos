@@ -1153,7 +1153,7 @@ bad-expression=
     \b(are|is|was|were)\s+to\s+(big|large|little|small)\b -> too
     \barent\b -> aren't
     \bbe\s+be\b -> 'be' duplicate
-    (better|less|more|rather|worse)\s+then -> than
+    (better|bigger|greater|larger|less|more|newer|rather|smaller|taller|worse)\s+then -> than
     \bby\s+by\b -> 'by' duplicate
     \bcan\s+not\b -> cannot
     \bcouldnt\b -> couldn't
