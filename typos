@@ -542,6 +542,7 @@ sub get_current_options($$)
         if ($allsets->{cmdline}->{rc} and defined $allsets->{rcstack})
         {
             my $i=@{$allsets->{rcstack}};
+            $new->{rcdepth}=$i;
             while ($i > 0)
             {
                 $i--;
@@ -577,7 +578,9 @@ sub pop_current_options($)
     my ($allsets)=@_;
 
     pop @{$allsets->{merged_stack}};
-    $allsets->{current}=$allsets->{merged_stack}>[-1];
+    $allsets->{current}=$allsets->{merged_stack}->[-1];
+    my $rcdepth=$allsets->{current} ? $allsets->{current}->{rcdepth} : 0;
+    splice @{$allsets->{rcstack}}, $rcdepth;
 }
 
 
@@ -641,6 +644,8 @@ sub scan_directory($$)
     if (!opendir DIR, "$allsets->{rootdir}/$dir")
     {
         err("unable to open the '$allsets->{rootdir}/$dir' directory\n");
+        pop_current_options($allsets);
+        debug("Exiting the ", ($dir ? "'$dir'" : "root"), " directory\n");
         return;
     }
     foreach my $dentry (readdir(DIR))
@@ -683,6 +688,7 @@ sub scan_directory($$)
         scan_directory($allsets, "$subdir/");
     }
     pop_current_options($allsets);
+    debug("Exiting the ", ($dir ? "'$dir'" : "root"), " directory\n");
 }
 
 sub print_errors($)
