@@ -979,7 +979,7 @@ bad-word=
 #octopus
     (un)?offical(ly|s)? -> official
 #onomatopoeia
-    par(r?a|ral?)lel(epiped|ism|orgam)? -> parallel
+    par(r?a|ral?)lel(epiped|ism|ogram)? -> parallel
 #parliament
 #particular
 #peninsula
@@ -1227,6 +1227,7 @@ bad-case=
     Tarent(ell?a|all?a)|Tarant(ela|all?a) -> Tarantella
     Transgaming -> TransGaming
     Turbotax -> TurboTax
+    VMWare -> VMware
     Wine(hq|Hq|hQ) -> WineHQ
     Winetools|wineTools -> WineTools
     Wordperfect -> WordPerfect
