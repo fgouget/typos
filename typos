@@ -394,13 +394,13 @@ sub get_options_set($$$;$)
         my $i=0;
         foreach my $item (@ARGV)
         {
-            if (defined $filename)
+            if (defined $argv)
             {
-                while ($item ne @$argv[$i])
+                while ($item ne $argv->[$i])
                 {
                     $i++;
                 }
-                err("$filename:@$lines[$i]: unknown option '$item'\n");
+                err("$filename:$lines->[$i]: unknown option '$item'\n");
             }
             else
             {
