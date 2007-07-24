@@ -975,7 +975,6 @@ bad-word=
 #misogyny
 #missile
 #nauseous
-    necces|necesar|\b(un)?nesses|nessary\b -> necessary
     noone -> no one
 #octopus
     (un)?offical(ly|s)? -> official
@@ -1030,6 +1029,8 @@ bad-word=
 #vicious
 #village
     with[eo]ld -> withhold
+bad-expression=
+    necces|necesar|\b(un)?nesses|nessary\b -> necessary
 
 # Other common errors
 bad-word=
