@@ -797,7 +797,7 @@ bad-word=
     alot -> a lot
     amat(er|u?re)s? -> amateur
 #apparent
-    arguement(e[ds]|ing|s)? -> argument
+    arguement(e[ds]?|ing|s)? -> argument
     at(ei|hie)st -> atheist
     bele?ive -> believe
     bellw(he|ea)ther -> bellwether
@@ -857,16 +857,16 @@ bad-word=
     min[ai]tures? -> miniature
 #minuscule and miniscule are both valid
     mi(chi?evi?|schev|schi?evi)ous -> mischievous
-    mispell(e[ds]|ings?|s)? -> misspell
+    mispell(e[ds]?|ings?|s)? -> misspell
     n(ei|ie(gh)?)bou?r(hood)?s? -> neighbor
     noticabl[ey] -> noticeable
     oc(cas|as?)sion(n?ally|s)? -> occasionally
-    oc(urr|cur)(e[ds]|ences?|ing) -> occurrence
+    oc(urr|cur)(e[ds]?|ences?|ing) -> occurrence
     pas[st]times? -> pastime
     perseveren(ce|t) -> perseverance
     personel -> personnel
     playrights? -> playwright
-    pos(e|es|se)s(e[ds]|ing|ions?) -> possession
+    pos(e|es|se)s(e[ds]?|ing|ions?) -> possession
     preceed(e[ds]?|ing(ly|s)?|s)? -> precede
 #principal and principle only differ in their meaning
     privi?l(a|ed)ge[ds]? -> privilege
@@ -884,9 +884,9 @@ bad-word=
     remit(ed|ing) -> remitted
     rythms? -> rhythm
     shedul(e[ds]?|ers?|ing) -> schedule
-    seperat(e[ds]|e?ly|ing|ions?|ors?) -> separate
+    seperat(e[ds]?|e?ly|ing|ions?|ors?) -> separate
     sargeants?|sergents? -> sergeant
-    supercee?d(e[ds]|ing|s)?|superseed(e[ds]|ing|s)?|superseds -> supersede
+    supercee?d(e[ds]?|ing|s)?|superseed(e[ds]?|ing|s)?|superseds -> supersede
 #their, they're and there only differ in their meaning
     threshholds? -> threshold
     twelth -> twelfth
@@ -941,7 +941,7 @@ bad-word=
     developements? -> development
     differances? -> difference
 #diorama
-    dis(sap?|s?a)pear(ances?|e[ds]|ing|s)? -> disappear
+    dis(sap?|s?a)pear(ances?|e[ds]?|ing|s)? -> disappear
     dis(sap?|s?a)point(e[ds]?|ing|ments?|s) -> disappoint
     dis(ip?|s?ip)pat(e[ds]?|ion) -> dissipate
     e(cs|x)tacy|exta[cs]y -> ecstasy
@@ -1079,7 +1079,7 @@ bad-word=
     ([iu]n)?feasab(le|ility) -> feasible
     feild?(ed|ing|s)? -> failed
     (un)?fortunatly -> fortunately
-    funtion(ality|ally|e[ds]|ing|s)? -> functionning
+    funtion(ality|ally|e[ds]?|ing|s)? -> functionning
     happends? -> happens
     (un)?helpfull -> helpful
     hexidecimal -> hexadecimal
@@ -1094,12 +1094,12 @@ bad-word=
     (un)?intergrat(e[ds]?|ing|ion) -> integrated
     intefac(e[ds]?|ing) -> interface
     (un?)interprett(ed|ers?|ing|ations?) -> interpreted
-    (un)?int(er|re)st(e[ds]|ing|s)? -> interest
+    (un)?int(er|re)st(e[ds]?|ing|s)? -> interest
     invokat(e[ds]?|ing|ion) -> invocation
     (i?un)?kown -> known
     lenght(en|s)? ->length
     mesages? -> message
-    ommit(e[ds]|ing|ted|s)? -> omit
+    ommit(e[ds]?|ing|ted|s)? -> omit
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
     optionnal(ly)? -> optional
@@ -1110,7 +1110,7 @@ bad-word=
     (file)?pathes -> paths
     persistan(ce|t(e?ly)?) -> persistence
     prefer(re|a)nces? -> preference
-    prefer(e[ds]|ing) -> preferring
+    prefer(e[ds]?|ing) -> preferring
     presense -> presence
     probibl[ye] -> probable
     reg(istr|este?r)(ed?|ing) -> registering
@@ -1125,8 +1125,8 @@ bad-word=
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
     (un)?successfull -> successful
-    (un)?suport(able|e[ds]|ers?|ing(ly)?|ive|ively)? -> support
-    supress(e[ds]|ing|ion)? -> suppress
+    (un)?suport(able|e[ds]?|ers?|ing(ly)?|ive|ively)? -> support
+    supress(e[ds]?|ing|ion)? -> suppress
     a?syncronous(ly)? -> synchronously
     tempor(il)?y -> temporarily
     thease -> these
