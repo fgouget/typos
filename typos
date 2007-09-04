@@ -424,6 +424,7 @@ sub get_options_set($$$;$)
             map { s!^\^\./!^$cur_dir/! } @{$opt_set->{$key}};
         }
     }
+    # FIXME: Check each regular expression and try to match them to line numbers if they don't compile
 
     return $opt_set;
 }
