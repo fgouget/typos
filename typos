@@ -555,10 +555,10 @@ sub get_current_options($$)
         $new={};
         # Merge all the option sets into one
         merge_option_set($allsets, $new, $allsets->{cmdline});
+        $new->{rcdepth}=(defined $allsets->{rcstack} ? @{$allsets->{rcstack}} : 0);
         if ($allsets->{cmdline}->{rc} and defined $allsets->{rcstack})
         {
-            my $i=@{$allsets->{rcstack}};
-            $new->{rcdepth}=$i;
+            my $i=$new->{rcdepth};
             while ($i > 0)
             {
                 $i--;
