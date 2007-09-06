@@ -595,8 +595,11 @@ sub pop_current_options($)
 
     pop @{$allsets->{merged_stack}};
     $allsets->{current}=$allsets->{merged_stack}->[-1];
-    my $rcdepth=$allsets->{current} ? $allsets->{current}->{rcdepth} : 0;
-    splice @{$allsets->{rcstack}}, $rcdepth;
+    if ($allsets->{rcstack})
+    {
+        my $rcdepth=$allsets->{current} ? $allsets->{current}->{rcdepth} : 0;
+        splice @{$allsets->{rcstack}}, $rcdepth;
+    }
 }
 
 
