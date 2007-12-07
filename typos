@@ -1238,6 +1238,7 @@ bad-expression=
     \bmean\s+time\b -> meantime
     naly\b -> '...nally' ending
     non(\s+|-)exist(ent|ing) -> nonexistent
+    nonexistant -> nonexistent
     \bof\s+of\b -> 'of' duplicate
     onnally\b -> '...onaly' ending
     \bprivl -> privilege
