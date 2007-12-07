@@ -1190,6 +1190,7 @@ bad-word=
     supress(e[ds]?|ing|ion)? -> suppress
     a?syncronous(ly)? -> synchronously
     tempor(il)?y -> temporarily
+    thats -> that's
     thease -> these
     thier -> their
     throught(out)? -> through
