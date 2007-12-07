@@ -1258,19 +1258,19 @@ bad-expression=
     \bwouldnt\b -> wouldn't
 bad-case=
     \b[aA]nd\s+and\b -> 'and' duplicate
-    AuthorWare -> Authorware
-    Auto(cad|Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
-    Codeweavers -> CodeWeavers
-    Crossover -> CrossOver
+    [Aa]uthorWare -> Authorware
+    Autocad|[Aa]uto(Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
+    Codeweavers|codeWeavers -> CodeWeavers
+    Crossover|crossOver -> CrossOver
     [Dd]reamWeaver -> Dreamweaver
     [Ff]ireWorks -> Fireworks
     Fontforge|fontForge -> FontForge
-    Framemaker -> FrameMaker
-    Free(bsd|Bsd|bSd|bsD|BSd|BsD|bSD) -> FreeBSD
+    Framemaker|frameMaker -> FrameMaker
+    Freebsd|[Ff]ree(Bsd|bSd|bsD|BSd|BsD|bSD) -> FreeBSD
     [Ff]reeHand -> FreeHand
     Freetype|freeType -> FreeType
     [Hh]omeSite -> Homesite
-    Installshield -> InstallShield
+    Installshield|installShield -> InstallShield
     \bM(?i:acOSX)\b -> Mac OS X
     \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
     \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
@@ -1279,21 +1279,21 @@ bad-case=
     [Mm]acroMedia -> Macromedia
     [Mm]icroSoft -> Microsoft
     News?forge -> NewsForge
-    Pagemaker -> PageMaker
+    Pagemaker|pageMaker -> PageMaker
     [Pp]hotoShop -> Photoshop
-    Powerpoint -> PowerPoint
-    Quickbooks -> QuickBooks
-    Quicktime -> QuickTime
+    Powerpoint|powerPoint -> PowerPoint
+    Quickbooks?|quickBooks? -> QuickBooks
+    Quicktime|quickTime -> QuickTime
     Redhat -> Red Hat
     [Ss]hockWave -> Shockwave
     Su(se|Se|sE) -> SUSE
     Tarent(ell?a|all?a)|Tarant(ela|all?a) -> Tarantella
-    Transgaming -> TransGaming
-    Turbotax -> TurboTax
-    VMWare -> VMware
-    Wine(hq|Hq|hQ) -> WineHQ
+    Transgaming|transGaming -> TransGaming
+    Turbotax|turboTax -> TurboTax
+    [Vv][Mm]Ware -> VMware
+    Winehq|[Ww]ine(Hq|hQ) -> WineHQ
     Winetools|wineTools -> WineTools
-    Wordperfect -> WordPerfect
+    Wordperfect|wordPerfect -> WordPerfect
 ignore=
     (?i:anteing)
     BE\s+BE
