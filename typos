@@ -1247,6 +1247,7 @@ bad-expression=
     \bsome\s+where\b -> somewhere
     [^begiouy]eing\b -> '...ing' ending
     [^ecgklmprsvz]eable\b -> '...able' ending
+    \bthe\s+the\b -> 'the' duplicate
     then\s+expected -> than
     \btheir\s+(are|is|was|were)\b -> there is
     trys\b -> tries
