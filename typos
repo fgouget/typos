@@ -690,7 +690,7 @@ sub scan_directory($$)
         }
         if (defined $include_re and $fullpath !~ /$include_re/)
         {
-            verbose("$dentry: not in scanning whitelist\n");
+            verbose("$dentry: not in whitelist, skipped\n");
             next;
         }
         if ($exclude_re and $fullpath =~ /$exclude_re/)
