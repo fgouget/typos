@@ -1276,7 +1276,6 @@ bad-case=
     Installshield|installShield -> InstallShield
     \bM(?i:acOSX)\b -> Mac OS X
     \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
-    \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
 #   Count on the ignore directive to not complain on the correct spelling
     (?i:\bMac OS X\b) -> Mac OS X
     [Mm]acroMedia -> Macromedia
