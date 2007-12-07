@@ -1123,6 +1123,7 @@ bad-word=
     ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     convertions? -> conversions
+    corr?espondance -> correspondence
     debug(e[drs]|ing) -> debugging
     (de|in)cres(e[ds]?|ing(ly)?) -> decrease
     dep(enda|and[ea])nc(e|y|ies) -> dependence
