@@ -16,7 +16,7 @@ Goals
 2) Be independent of the actual programming language: C, C++, Perl, Html,
    PHP, Javascript, etc.
 
-3) Be able to report typos by catefory, and to suggest the proper spelling.
+3) Be able to report typos by category, and to suggest the proper spelling.
 
 4) Be configurable on a per-directory basis so that typos can be told to
    ignore specific files, or to check for additional errors for specific
