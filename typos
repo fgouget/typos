@@ -851,7 +851,7 @@ __DATA__
 bad-word=
     ac(c?epti|ept[ai])ble -> acceptable
     ac(c?ident|idental?)ly -> accidentally
-    ([iu]n)?ac(c?omo|omm?o)dat(e[ds]?|ing) -> accommodate
+    ([iu]n)?ac(c?omo|omm?o)dat(e[ds]?|ing|ingly) -> accommodate
     ([iu]n)?ad?quir(e[ds]?|ing) -> acquire
     ad?quit(ed)? -> acquit
     alot -> a lot
@@ -906,7 +906,7 @@ bad-word=
 #kernel
     liesur(e|ly) -> leisure
     lia(s|i?z)ons? -> liaison
-    libary -> library
+    libar(ies|y) -> library
     lisen[cs](e[ds]?|ing) -> license
 #lightening and lightning only differ in their meaning
     maintainance -> maintenance
@@ -919,7 +919,7 @@ bad-word=
     mi(chi?evi?|schev|schi?evi)ous -> mischievous
     mispell(e[ds]?|ings?|s)? -> misspell
     n(ei|ie(gh)?)bou?r(hood)?s? -> neighbor
-    noticabl[ey] -> noticeable
+    (un)?noticabl[ey] -> noticeable
     oc(cas|as?)sion(n?ally|s)? -> occasionally
     oc(urr|cur)(e[ds]?|ences?|ing) -> occurrence
     pas[st]times? -> pastime
@@ -1094,13 +1094,18 @@ bad-expression=
 
 # Other common errors
 bad-word=
+    ([iu]n)?ac(c?e|es?)s(es|[ai]b(le|ility)|ing|ors?) -> accessibility
     ([iu]n)?acc?ess?ab(le|ility) -> accessibility
+    ([iu]n)?ache?iv(able|e[ds]?|ers?|ing) -> achieve
+    ac(c?o|om?)modat(es?|ing|ions?) -> accommodate
     acknowlege?ment -> acknowledge?ment
     addres(ed|es|ing)?|adress?(ed|es|ing)? -> address
     allowes -> allows
     allready -> already
     allways -> always
+    all?way -> always
     altrought? -> although
+    amout(ed|ing|s)? -> amount
     anali[sz]e[sd]? -> analyzed
     appartments? -> apartment
     arithmatic -> arithmetic
@@ -1110,24 +1115,29 @@ bad-word=
     automaticly -> automatically
     beeing -> being
     boundr(y|ies) -> boundary
-    caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
-    capatibl(e|iti?es|ity) -> capable
+    (re)?caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
+    (re)?calcualt(e[drs]?|ing(ly)?|ors?) -> calculate
+    ([iu]n)?capatib(le|iliti?es|ility) -> capable
     careful[ly] -> carefully
     catched -> caught
     codeweaver -> CodeWeavers
     comands? -> command
     (be|in|up)?comming -> coming
-    comparasons?
+    compar(as|[ai]si)ons? -> comparison
     ([iu]n)?compatab(le|ility|ilities) -> compatibility
     completly -> completely
     ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     convertions? -> conversions
     corr?espondance -> correspondence
-    debug(e[drs]|ing) -> debugging
+    ([iu]n)?debug(able|e[drs]|ing) -> debugging
     (de|in)cres(e[ds]?|ing(ly)?) -> decrease
-    dep(enda|and[ea])nc(e|y|ies) -> dependence
+    defintions? -> definition
+    (in)?dep[ea]nd[ea]nd -> dependent
+    (in)?dep(enda|and[ea])nc(e|y|ies) -> dependence
+    derivat(e[ds]?|ing) -> derive
     dissabl(e[ds]?|ing) -> disable
+    dito -> ditto
     dynamicly -> dynamically
     easly -> easily
     editt(ed|ing|or) -> editing
@@ -1137,30 +1147,37 @@ bad-word=
     eventhought? -> even though
     enviro(ne)?ments? -> environment
     (un?)exepect(ed|ions?|s)? -> expect
+    exlud(e[ds]?|ing) -> exclude
+    explicitely -> explicitly
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
     feild?(ed|ing|s)? -> failed
     (un)?fortunatly -> fortunately
     funtion(ality|ally|e[ds]?|ing|s)? -> functionning
+    (un)?handel(e[ds]?|s|ing)? -> handle
     happends? -> happens
     (un)?helpfull -> helpful
     hexidecimal -> hexadecimal
     higly -> highly
+    homogenous(ly)? -> homogeneous
     (ex|im)plicite -> implicit
     (un)?imp?l(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     (un)?iml(em[ae]n|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     incase -> in case
+    incure[ds]? -> incur
     (dis)?informations -> information
-    (un)?initili[sz](ation|e[ds]?|ers?|ing) -> initialize
-    (un)?instal(able|ation|ed|ers?|ing) -> installable
-    (un)?intergrat(e[ds]?|ing|ion) -> integrated
-    intefac(e[ds]?|ing) -> interface
+    (un)?in(i?ti|tia?)li[sz](ation|ators?|e[ds]?|ers?|ing) -> initialize
+    (un)?initiali[sz]aion -> initialization
+    (un)?instal(able|ation|ed|ers?|ing|e?s) -> installable
+    (un)?intergrat(e[ds]?|ing|ion|or) -> integrated
+    inte(f|r?fer)ac(e[ds]?|ing) -> interface
     (un?)interprett(ed|ers?|ing|ations?) -> interpreted
     (un)?int(er|re)st(e[ds]?|ing|s)? -> interest
     invokat(e[ds]?|ing|ion) -> invocation
     (i?un)?kown -> known
     lenght(en|s)? ->length
     mesag(e[ds]?|ing) -> message
+    minum(a|al(s|l?y)?|um) -> minimum
     ommit(e[ds]?|ing|ted|s)? -> omit
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
@@ -1174,21 +1191,28 @@ bad-word=
     prefer(re|a)nces? -> preference
     prefer(e[ds]?|ing) -> preferring
     presense -> presence
-    probibl[ye] -> probable
+    ([iu]n)?pro(bi|pa)b(l[ye]|ilit(y|ies)) -> probable
     reg(istr|este?r)(ed?|ing) -> registering
     regestr(ars?|ies|y) -> registry
-    responces? -> responce
-    responsab(ilit(y|ies)|l[ey]) -> responsibility
-    retre?iv(als?|e[ds]?|ing) -> retrieve
+    relativ -> relative
+    remeber(ed|ing|s)? -> remember
+    res(sour?|s?ou)ces? -> resource
+    responces? -> response
+    (ir)?responsab(ilit(y|ies)|l[ey]) -> responsibility
+    retre?iv(als?|e[ds]?|ers?|ing) -> retrieve
     returing -> returning
     returnes -> returns
     secound(ly)? -> second
+    segements? -> segment
     sences? -> sense
+    (un)?settigns? -> setting
+    splitted -> split
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
     (un)?successfull -> successful
     (un)?suport(able|e[ds]?|ers?|ing(ly)?|ive|ively)? -> support
     supress(e[ds]?|ing|ion)? -> suppress
+    (un)?supris(e[ds]?|ing|ingly)? -> surprise
     a?syncronous(ly)? -> synchronously
     tempor(il)?y -> temporarily
     thats -> that's
@@ -1203,10 +1227,12 @@ bad-word=
     usefull -> useful
     varios -> various
     ([iu]n)?visab(le|ility) -> visibility
+    whats -> what's
     whereever -> wherever
+    wich -> which
     wieght(ed|ing|s)? -> weight
-    (over|re)?writen -> written
-    writting -> writing
+    (over|re|under)?writen -> written
+    (over|re|under)writt(ers?|ing) -> writing
 bad-expression=
     \ba\s+a\b -> 'a' duplicate
     \ban\s+an\b -> 'an' duplicate
@@ -1214,20 +1240,21 @@ bad-expression=
     \bapplicai -> application
     \b(are|is|was|were)\s+(are|is|was|were)\b -> 'is' duplicate
     \b(are|is|'s|was|way|were)\s+to\s+(bad|big|early|great|high|large|late|little|low|new|recent|small|tall)\b -> too
-    \barent\b -> aren't
+    \bare'?nt\b -> aren't
     \bbe\s+be\b -> 'be' duplicate
     \b(better|bigger|earlier|greater|higher|larger|later|less(\s+recent)?|lower|more(\s+recent)?|newer|rather|smaller|taller|worse)\s+then\b -> than
     \bby\s+by\b -> 'by' duplicate
     \bcan\s+not\b -> cannot
-    \bcouldnt\b -> couldn't
-    \bdidnt\b -> didn't
+    \bcould'?nt\b -> couldn't
+    \bdid'?nt\b -> didn't
     \bdifferent\s*to\b -> different from
-    \bdo(es)?nt\b -> doesn't
+    \bdo(es)?'?nt\b -> doesn't
     \bdosen.t\b -> doesn't
     ealy\b -> '...eally' ending
     \bfor\s+for\b -> 'for' duplicate
-    \bhasnt\b -> hasn't
-    \bhavent\b -> haven't
+    \bhas'?nt\b -> hasn't
+    \bhave'?nt\b -> haven't
+    \bhavn't\b -> haven't
     \b(s?he)\s+(s?he|it)\b -> 'he' duplicate
     [^l]icly\b|icaly\b -> '...ically' ending
     \bif\s+if\b -> 'if' duplicate
@@ -1244,7 +1271,8 @@ bad-expression=
     \bprivl -> privilege
     procces -> process
     arilly\b -> '...arily' ending
-    \bshouldnt\b -> shouldn't
+    \bshoud('?nt|n't)?\b -> should
+    \bshould'?nt\b -> shouldn't
     \bsome\s+how\b -> somehow
     \bsome\s+what\b -> somewhat
     \bsome\s+where\b -> somewhere
@@ -1257,9 +1285,9 @@ bad-expression=
     ualy\b -> '...ually' ending
     \bunece -> unnecessary
     \bupto\b -> up to
-    \bwasnt\b -> wasn't
+    \bwas'?nt\b -> wasn't
     \bwith\s+with\b -> 'with' duplicate
-    \bwouldnt\b -> wouldn't
+    \bwould'?nt\b -> wouldn't
 bad-case=
     \b[aA]nd\s+and\b -> 'and' duplicate
     [Aa]uthorWare -> Authorware
