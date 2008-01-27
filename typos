@@ -865,7 +865,7 @@ bad-word=
     caland[ae]rs?|calenders? -> calendar
     cateogor(y|ies)|catigory -> category
     cemeta?ry|semet[ae]?ry -> cemetery
-    changable -> changeable
+#   changable -> changeable   Also handled by the '...able' rule
 #collectable and collectible are both valid
     col(lumn?|um) -> column
     com(mit|itt?)(al|e[de]|ers?|ing) -> committed
