@@ -490,9 +490,10 @@ sub merge_regexp_list($$$)
 {
     my ($hashed, $key, $list)=@_;
 
-    foreach my $regexp (@$list)
+    foreach my $item (@$list)
     {
-        #debug("$regexp\n");
+        # Copy $item to avoid the in-place modification of $list
+        my $regexp=$item;
         my $group=($regexp =~ s/\s+->\s+(.*)$// ? $1 : $regexp);
         $regexp =~ s/\((?!\?)/(?:/g;
         next if ($regexp eq "");
