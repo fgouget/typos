@@ -642,7 +642,7 @@ sub scan_file($$$)
         err("unable to open '$filename' for reading: $!\n");
         return 0;
     }
-    debug("scanning '$filename'\n");
+    verbose("scanning '$filename'\n");
     $current->{scanner}($fh, $filename);
     close($fh);
 }
