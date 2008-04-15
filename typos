@@ -1110,11 +1110,12 @@ bad-word=
     anali[sz]e[sd]? -> analyzed
     appartments? -> apartment
     arithmatic -> arithmetic
+    (un)?asign(ed|ing|e?ments?|s)? -> assign
     aswell -> as well
     att?achements? -> attachment
     atleast -> at least
     automaticly -> automatically
-    beeing -> being
+    beeing? -> being
     boundr(y|ies) -> boundary
     (re)?caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
     (re)?calcualt(e[drs]?|ing(ly)?|ors?) -> calculate
@@ -1130,6 +1131,7 @@ bad-word=
     ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     convertions? -> conversions
+    cor(ect?|rec)ly -> correctly
     corr?espondance -> correspondence
     ([iu]n)?debug(able|e[drs]|ing) -> debugging
     (de|in)cres(e[ds]?|ing(ly)?) -> decrease
@@ -1149,10 +1151,11 @@ bad-word=
     enviro(ne)?ments? -> environment
     (un?)exepect(ed|ions?|s)? -> expect
     exlud(e[ds]?|ing) -> exclude
-    explicitely -> explicitly
+    (ex|im)plic(ite|te?)ly -> explicitly
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
     feild?(ed|ing|s)? -> failed
+    (un)?fomat(ed|ing|s)? -> format
     (un)?fortunatly -> fortunately
     funtion(ality|ally|e[ds]?|ing|s)? -> functionning
     (un)?handel(e[ds]?|s|ing)? -> handle
@@ -1183,7 +1186,8 @@ bad-word=
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
     optionnal(ly)? -> optional
-    orgin(al|at(e[ds]?|ing)|s)? -> origin
+    orgin(al|ally|at(e[ds]?|ing)|s)? -> origin
+    origni(al|ally|at(e[ds]?|ing)|s)? -> origin
     overid(e[ns]?|ing) -> override
     paintshop -> Paint Shop FIXME
     paramaters? -> parameter
@@ -1200,6 +1204,7 @@ bad-word=
     res(sour?|s?ou)ces? -> resource
     responces? -> response
     (ir)?responsab(ilit(y|ies)|l[ey]) -> responsibility
+    resut(ed|ing|s)? -> result
     retre?iv(als?|e[ds]?|ers?|ing) -> retrieve
     returing -> returning
     returnes -> returns
@@ -1211,6 +1216,7 @@ bad-word=
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
     (un)?successfull -> successful
+    suc[ce]d(ed|s)? -> succeed
     (un)?suport(able|e[ds]?|ers?|ing(ly)?|ive|ively)? -> support
     supress(e[ds]?|ing|ion)? -> suppress
     (un)?supris(e[ds]?|ing|ingly)? -> surprise
@@ -1225,6 +1231,7 @@ bad-word=
     transferes -> transfers
     uneeded -> unneeded
     unitiali[sz](ation|e[ds]?|ers?|ing) -> uninitialize
+    (un)?useab(ility|le) -> usable
     usefull -> useful
     varios -> various
     ([iu]n)?visab(le|ility) -> visibility
@@ -1234,6 +1241,7 @@ bad-word=
     wieght(ed|ing|s)? -> weight
     (over|re|under)?writen -> written
     (over|re|under)writt(ers?|ing) -> writing
+
 bad-expression=
     \ba\s+a\b -> 'a' duplicate
     \ban\s+an\b -> 'an' duplicate
@@ -1242,6 +1250,8 @@ bad-expression=
     \b(are|is|was|were)\s+(are|is|was|were)\b -> 'is' duplicate
     \b(are|is|'s|was|way|were)\s+to\s+(bad|big|early|great|high|large|late|little|low|new|recent|small|tall)\b -> too
     \bare'?nt\b -> aren't
+    arilly\b -> '...arily' ending
+    atinos?\b -> '...ation' ending
     \bbe\s+be\b -> 'be' duplicate
     \b(better|bigger|earlier|greater|higher|larger|later|less(\s+recent)?|lower|more(\s+recent)?|newer|rather|smaller|taller|worse)\s+then\b -> than
     \bby\s+by\b -> 'by' duplicate
@@ -1249,8 +1259,7 @@ bad-expression=
     \bcould'?nt\b -> couldn't
     \bdid'?nt\b -> didn't
     \bdifferent\s*to\b -> different from
-    \bdo(es)?'?nt\b -> doesn't
-    \bdosen.t\b -> doesn't
+    \bdo(es|se)?['n ]t\b -> doesn't
     ealy\b -> '...eally' ending
     \bfor\s+for\b -> 'for' duplicate
     \bhas'?nt\b -> hasn't
@@ -1271,7 +1280,6 @@ bad-expression=
     onnally\b -> '...onaly' ending
     \bprivl -> privilege
     procces -> process
-    arilly\b -> '...arily' ending
     \bshoud('?nt|n't)?\b -> should
     \bshould'?nt\b -> shouldn't
     \bsome\s+how\b -> somehow
