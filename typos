@@ -1115,6 +1115,7 @@ bad-word=
     att?achements? -> attachment
     atleast -> at least
     automaticly -> automatically
+    awfull -> awful
     beeing? -> being
     boundr(y|ies) -> boundary
     (re)?caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
@@ -1197,6 +1198,7 @@ bad-word=
     prefer(e[ds]?|ing) -> preferring
     presense -> presence
     ([iu]n)?pro(bi|pa)b(l[ye]|ilit(y|ies)) -> probable
+    programatic(ally)? -> programmatic
     reg(istr|este?r)(ed?|ing) -> registering
     regestr(ars?|ies|y) -> registry
     relativ -> relative
@@ -1211,7 +1213,7 @@ bad-word=
     secound(ly)? -> second
     segements? -> segment
     sences? -> sense
-    (un)?settigns? -> setting
+    (off|re|un)?set(tign|ing)s? -> setting
     splitted -> split
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
@@ -1221,6 +1223,7 @@ bad-word=
     supress(e[ds]?|ing|ion)? -> suppress
     (un)?supris(e[ds]?|ing|ingly)? -> surprise
     a?syncronous(ly)? -> synchronously
+    (sub)?sytems? -> system
     tempor(il)?y -> temporarily
     thats -> that's
     thease -> these
@@ -1244,6 +1247,7 @@ bad-word=
 
 bad-expression=
     \ba\s+a\b -> 'a' duplicate
+    \bai'?nt\b -> ain't
     \ban\s+an\b -> 'an' duplicate
     \babout\s+about\b -> 'about' duplicate
     \bapplicai -> application
