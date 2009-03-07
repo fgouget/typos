@@ -999,6 +999,7 @@ bad-word=
     des(sic?|s?i)ca(nts?|te[sd]?|ting|tion) -> desiccate
 #desperate
     deterrance -> deterrence
+    developpe(d|ing|rs?) -> developer
     developements? -> development
     differances? -> difference
 #diorama
@@ -1140,6 +1141,7 @@ bad-word=
     (in)?dep[ea]nd[ea]nd -> dependent
     (in)?dep(enda|and[ea])nc(e|y|ies) -> dependence
     derivat(e[ds]?|ing) -> derive
+    (in)?diferen(ces?|cing|t) -> different
     dissabl(e[ds]?|ing) -> disable
     dito -> ditto
     dynamicly -> dynamically
@@ -1150,7 +1152,7 @@ bad-word=
     enought -> enough
     eventhought? -> even though
     enviro(ne)?ments? -> environment
-    (un?)exepect(ed|ions?|s)? -> expect
+    ([iu]n?)e(xe|z)pect(ed(ly)?|ing|(at)?ions?|s)? -> expect
     exlud(e[ds]?|ing) -> exclude
     (ex|im)plic(ite|te?)ly -> explicitly
     extentions? -> extension
@@ -1298,7 +1300,7 @@ bad-expression=
     ualy\b -> '...ually' ending
     \bunece -> unnecessary
     \bupto\b -> up to
-    \bwas'?nt\b -> wasn't
+    \bwa(n'|s'?n)t\b -> wasn't
     \bwith\s+with\b -> 'with' duplicate
     \bwould'?nt\b -> wouldn't
 bad-case=
