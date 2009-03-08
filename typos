@@ -1248,6 +1248,7 @@ bad-word=
     (over|re|under)writt(ers?|ing) -> writing
 
 bad-expression=
+#    "([^"]|\\")*\s\\n([^"]|\\")*" -> no space before '\n'
     \ba\s+a\b -> 'a' duplicate
     \bai'?nt\b -> ain't
     \ban\s+an\b -> 'an' duplicate
