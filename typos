@@ -1356,6 +1356,7 @@ include=
     \.(?i:pas)$
     \.pm$
     \.php$
+    \.py$
     \.(?i:sgml|xml)$
     \.(itcl|itk|tcl)$
     \.(?i:rc)$
