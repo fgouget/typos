@@ -890,7 +890,7 @@ bad-word=
     foriegn -> foreign
     guage -> gauge
     greatful -> grateful
-    g(a|uar)rant(ee?d?|ies|y)|guarr?anted? -> guarantee
+    g(a|uar)r[ae]nt(ee?d?|ies|y)|guarr?[ae]nted? -> guarantee
     harrass -> harass
     heigh?ths? -> height
 #   hierarchy -> see bad-expression
@@ -1079,7 +1079,8 @@ bad-word=
     simmilar(ity|ly)? -> similar
     simmile -> simile
     subpoenna -> subpoena
-    suc(ce|es?)s(ful(l|ly)?|ion|ive(ly)?|ors?)? -> success
+    suc(ce|es?)s(ful(l|ly|y)?|ion|ive(ly)?|ors?)? -> success
+    succ?ess?fuly -> successfully
 #tableau
     tar(r?i|rif?)fs? -> tariff
     tom(mor?|m?o)row -> tomorrow
@@ -1178,11 +1179,13 @@ bad-word=
     (un)?instal(able|ation|ed|ers?|ing|e?s) -> installable
     (un)?intergrat(e[ds]?|ing|ion|or) -> integrated
     inte(f|r?fer)ac(e[ds]?|ing) -> interface
+    interfers -> interferes
     (un?)interprett(ed|ers?|ing|ations?) -> interpreted
     (un)?int(er|re)st(e[ds]?|ing|s)? -> interest
     invokat(e[ds]?|ing|ion) -> invocation
     (i?un)?kown -> known
     lenght(en|s)? ->length
+    langages? -> language
     mesag(e[ds]?|ing) -> message
     minum(a|al(s|l?y)?|um) -> minimum
     ommit(e[ds]?|ing|ted|s)? -> omit
@@ -1216,6 +1219,7 @@ bad-word=
     segements? -> segment
     sences? -> sense
     (off|re|un)?set(tign|ing)s? -> setting
+    ship(ed|ing) -> shipping
     splitted -> split
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
@@ -1304,6 +1308,7 @@ bad-expression=
     \bwa(n'|s'?n)t\b -> wasn't
     \bwith\s+with\b -> 'with' duplicate
     \bwould'?nt\b -> wouldn't
+    Boot(\s*c|C)amp -> Boot Camp
 bad-case=
     \b[aA]nd\s+and\b -> 'and' duplicate
     [Aa]uthorWare -> Authorware
@@ -1311,6 +1316,7 @@ bad-case=
     Codeweavers|codeWeavers -> CodeWeavers
     Crossover|crossOver -> CrossOver
     [Dd]reamWeaver -> Dreamweaver
+    [Ee]xec[Ss]hield|Exec shield -> Exec Shield
     [Ff]ireWorks -> Fireworks
     Fontforge|fontForge -> FontForge
     Framemaker|frameMaker -> FrameMaker
@@ -1324,14 +1330,16 @@ bad-case=
 #   Count on the ignore directive to not complain on the correct spelling
     (?i:\bMac OS X\b) -> Mac OS X
     [Mm]acroMedia -> Macromedia
+    [M]aster[ -]?card|master[ -]?Card -> MasterCard
     [Mm]icroSoft -> Microsoft
     News?forge -> NewsForge
     Pagemaker|pageMaker -> PageMaker
+    [Pp]aypal|payPal -> PayPal
     [Pp]hotoShop -> Photoshop
     Powerpoint|powerPoint -> PowerPoint
     Quickbooks?|quickBooks? -> QuickBooks
     Quicktime|quickTime -> QuickTime
-    Redhat -> Red Hat
+    Red[Hh]at -> Red Hat
     [Ss]hockWave -> Shockwave
     Su(se|Se|sE) -> SUSE
     Tarent(ell?a|all?a)|Tarant(ela|all?a) -> Tarantella
