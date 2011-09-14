@@ -896,7 +896,7 @@ bad-word=
 #   hierarchy -> see bad-expression
     humorus -> humorous
     ignoren(ce|t(ly)?) -> ignorance
-    imediate?(ly)? -> immediate
+    im(edi|med)ate?(ly)? -> immediate
     indep(enda|and[ea])n(ce|t(e?ly)?) -> independent
     indispensible -> indispensable
     innoculat(e[ds]?|ing|ion) -> inoculate
@@ -922,7 +922,7 @@ bad-word=
     n(ei|ie(gh)?)bou?r(hood)?s? -> neighbor
     (un)?noticabl[ey] -> noticeable
     oc(cas|as?)sion(n?ally|s)? -> occasionally
-    oc(urr|cur)(e[ds]?|ences?|ing) -> occurrence
+    oc(urr|cur)(e[ds]?|ences?|ing)|occ?urr?ances? -> occurrence
     pas[st]times? -> pastime
     perseveren(ce|t) -> perseverance
     personel -> personnel
@@ -945,7 +945,7 @@ bad-word=
     remit(ed|ing) -> remitted
     rythms? -> rhythm
     shedul(e[ds]?|ers?|ing) -> schedule
-    seperat(e[ds]?|e?ly|ing|ions?|ors?) -> separate
+    sep(era|are)t(e[ds]?|e?ly|ing|ions?|ors?) -> separate
     sargeants?|sergents? -> sergeant
     supercee?d(e[ds]?|ing|s)?|superseed(e[ds]?|ing|s)?|superseds -> supersede
 #their, they're and there only differ in their meaning
@@ -1118,13 +1118,17 @@ bad-word=
     atleast -> at least
     automaticly -> automatically
     awfull -> awful
+    bec(a|uau?)se -> because
     beeing? -> being
     boundr(y|ies) -> boundary
     (re)?caclulat(e[drs]?|ing(ly)?|ors?) -> calculate
     (re)?calcualt(e[drs]?|ing(ly)?|ors?) -> calculate
+    cannt -> cannot
     ([iu]n)?capatib(le|iliti?es|ility) -> capable
     careful[ly] -> carefully
     catched -> caught
+    childs -> children
+    choosen -> chosen
     codeweaver -> CodeWeavers
     comands? -> command
     (be|in|up)?comming -> coming
@@ -1133,9 +1137,12 @@ bad-word=
     completly -> completely
     ([iu]n)?consistan(ci?es|cy|t|tly) -> consistency
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
-    convertions? -> conversions
-    cor(ect?|rec)ly -> correctly
+    contr(y|ies) -> country
+    convertions? -> conversion
+    (in)?cor(ect?|rec)ly -> correct
     corr?espondance -> correspondence
+    coudn?t?|couln?t? -> could
+    crosover -> CrossOver
     ([iu]n)?debug(able|e[drs]|ing) -> debugging
     (de|in)cres(e[ds]?|ing(ly)?) -> decrease
     defintions? -> definition
@@ -1150,39 +1157,46 @@ bad-word=
     editt(ed|ing|or) -> editing
     effecien(c[ey]|t(e?ly)?) -> efficience
     eigther -> either
+    endianess? -> endianness
     enought -> enough
     eventhought? -> even though
     enviro(ne)?ments? -> environment
-    ([iu]n?)e(xe|z)pect(ed(ly)?|ing|(at)?ions?|s)? -> expect
+    excecut(able|e[ds]?|ing|ions?) -> execute
+    ([iu]n?)e(xe|z)p(e|c|ec)t?(ed(ly)?|ing|(at)?ions?|s)? -> expect
     exlud(e[ds]?|ing) -> exclude
     (ex|im)plic(ite|te?)ly -> explicitly
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
-    feild?(ed|ing|s)? -> failed
+    feild?(ed|ing|s)?|faild -> failed
     (un)?fomat(ed|ing|s)? -> format
     (un)?fortunatly -> fortunately
     funtion(ality|ally|e[ds]?|ing|s)? -> functionning
+    garantee(d|s)? -> guarantee
     (un)?handel(e[ds]?|s|ing)? -> handle
     happends? -> happens
     (un)?helpfull -> helpful
     hexidecimal -> hexadecimal
     higly -> highly
     homogenous(ly)? -> homogeneous
-    (ex|im)plicite -> implicit
+    imutable -> immutable
+    (ex|im)p(licite|icite?) -> implicit
     (un)?imp?l(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     (un)?iml(em[ae]n|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
     incase -> in case
     incure[ds]? -> incur
+    identife[drs]? -> identifier
+    inorder -> in order
     (dis)?informations -> information
-    (un)?in(i?ti|tia?)li[sz](ation|ators?|e[ds]?|ers?|ing) -> initialize
+    (un)?in(i?t[ai]|tia?)l(i[sz](ation|ators?|e[ds]?|ers?|ing)|s)? -> initial
     (un)?initiali[sz]aion -> initialization
-    (un)?instal(able|ation|ed|ers?|ing|e?s) -> installable
+    (un)?instal(able|ation|ed|ers?|ing|e?s)? -> installable
     (un)?intergrat(e[ds]?|ing|ion|or) -> integrated
     inte(f|r?fer)ac(e[ds]?|ing) -> interface
     interfers -> interferes
     (un?)interprett(ed|ers?|ing|ations?) -> interpreted
     (un)?int(er|re)st(e[ds]?|ing|s)? -> interest
     invokat(e[ds]?|ing|ion) -> invocation
+    (ir)?revelant -> relevant
     (i?un)?kown -> known
     lenght(en|s)? ->length
     langages? -> language
@@ -1192,8 +1206,7 @@ bad-word=
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
     optionnal(ly)? -> optional
-    orgin(al|ally|at(e[ds]?|ing)|s)? -> origin
-    origni(al|ally|at(e[ds]?|ing)|s)? -> origin
+    or(gin|ign?i)(al|ally|at(e[ds]?|ing)|s)? -> origin
     overid(e[ns]?|ing) -> override
     paintshop -> Paint Shop FIXME
     paramaters? -> parameter
@@ -1202,33 +1215,40 @@ bad-word=
     prefer(re|a)nces? -> preference
     prefer(e[ds]?|ing) -> preferring
     presense -> presence
-    ([iu]n)?pro(bi|pa)b(l[ye]|ilit(y|ies)) -> probable
+    ([iu][mn])?pro(bi|pa)b(l[ye]|ilit(y|ies)) -> probable
+    ([iu][mn])?pro(ba|bi|pa)by -> probable
     programatic(ally)? -> programmatic
+    (un)?resonn?abl[ey] -> reasonable
     reg(istr|este?r)(ed?|ing) -> registering
     regestr(ars?|ies|y) -> registry
     relativ -> relative
+    reles(e[ds]?|ing) -> release
     remeber(ed|ing|s)? -> remember
+    reserverd -> reserved
     res(sour?|s?ou)ces? -> resource
     responces? -> response
     (ir)?responsab(ilit(y|ies)|l[ey]) -> responsibility
     resut(ed|ing|s)? -> result
     retre?iv(als?|e[ds]?|ers?|ing) -> retrieve
-    returing -> returning
+    retur(e[ds]?|ing) -> returning
     returnes -> returns
+    routinues? -> routine
     secound(ly)? -> second
     segements? -> segment
     sences? -> sense
     (off|re|un)?set(tign|ing)s? -> setting
     ship(ed|ing) -> shipping
+    soul?dn?t?|shoudn?t? -> should
     splitted -> split
     (infra)?sturct(ure[ds]?)? -> structure
     subscribtions? -> subscription
+    substract(e[ds]|ing|ions?|s)? -> subtract
     (un)?successfull -> successful
-    suc[ce]d(ed|s)? -> succeed
+    succ?e?d(ed|s)? -> succeed
     (un)?suport(able|e[ds]?|ers?|ing(ly)?|ive|ively)? -> support
     supress(e[ds]?|ing|ion)? -> suppress
     (un)?supris(e[ds]?|ing|ingly)? -> surprise
-    a?syncronous(ly)? -> synchronously
+    (a|de|un)?syncron(i[sz]e[drs]?|i[sz]ing|ous(ly)?) -> synchronise
     (sub)?sytems? -> system
     tempor(il)?y -> temporarily
     thats -> that's
@@ -1244,10 +1264,12 @@ bad-word=
     usefull -> useful
     varios -> various
     ([iu]n)?visab(le|ility) -> visibility
+    volenteers? -> volunteer
     whats -> what's
     whereever -> wherever
     wich -> which
     wieght(ed|ing|s)? -> weight
+    qith(out)? -> with
     (over|re|under)?writen -> written
     (over|re|under)writt(ers?|ing) -> writing
 
@@ -1262,16 +1284,19 @@ bad-expression=
     \b(are|is|'s|was|way|were)\s+to\s+(bad|big|early|great|high|large|late|little|low|new|recent|small|tall)\b -> too
     \bare'?nt\b -> aren't
     arilly\b -> '...arily' ending
-    atinos?\b -> '...ation' ending
+#    atinos?\b -> '...ation' ending
+    t(aion|ino)s?\b -> '...tion' ending
     \bbe\s+be\b -> 'be' duplicate
     \b(better|bigger|earlier|greater|higher|larger|later|less(\s+recent)?|lower|more(\s+recent)?|newer|rather|smaller|taller|worse)\s+then\b -> than
     \bby\s+by\b -> 'by' duplicate
     \bcan\s+not\b -> cannot
+    \bcoud('?nt|n't)?\b -> could
     \bcould'?nt\b -> couldn't
     \bdid'?nt\b -> didn't
     \bdifferent\s*to\b -> different from
     \bdo(es|se)?['n ]t\b -> doesn't
-    ealy\b -> '...eally' ending
+    [cei]aly\b -> '...ally' ending
+    erd\b -> '...ered' ending
     \bfor\s+for\b -> 'for' duplicate
     \bhas'?nt\b -> hasn't
     \bhave'?nt\b -> haven't
@@ -1285,7 +1310,7 @@ bad-expression=
     \bit\s+it\b -> 'it' duplicate
     \bmean\s+time\b -> meantime
     naly\b -> '...nally' ending
-    non(\s+|-)exist(ent|ing) -> nonexistent
+    non\s+exist(ent|ing) -> nonexistent
     nonexistant -> nonexistent
     \bof\s+of\b -> 'of' duplicate
     onnally\b -> '...onaly' ending
@@ -1308,14 +1333,22 @@ bad-expression=
     \bwa(n'|s'?n)t\b -> wasn't
     \bwith\s+with\b -> 'with' duplicate
     \bwould'?nt\b -> wouldn't
-    Boot(\s*c|C)amp -> Boot Camp
 bad-case=
     \b[aA]nd\s+and\b -> 'and' duplicate
     [Aa]uthorWare -> Authorware
     Autocad|[Aa]uto(Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
+    Black?Box|black?Box -> Blackbox
+    BlockBuster|blockBuster -> Blockbuster
+    Boot(\s*c|C)amp -> Boot Camp
     Codeweavers|codeWeavers -> CodeWeavers
     Crossover|crossOver -> CrossOver
     [Dd]reamWeaver -> Dreamweaver
+    directDraw|Directdraw -> DirectDraw
+    directInput|Directinput -> DirectInput
+    directMusic|Directmusic -> DirectMusic
+    directPlay|Directplay -> DirectPlay
+    directSound|Directsound -> DirectSound
+    directX|Directx -> DirectX
     [Ee]xec[Ss]hield|Exec shield -> Exec Shield
     [Ff]ireWorks -> Fireworks
     Fontforge|fontForge -> FontForge
@@ -1323,24 +1356,36 @@ bad-case=
     Freebsd|[Ff]ree(Bsd|bSd|bsD|BSd|BsD|bSD) -> FreeBSD
     [Ff]reeHand -> FreeHand
     Freetype|freeType -> FreeType
+    Frontpage|frontPage -> FrontPage
+    Geforce|geForce -> GeForce
+    GMail -> Gmail
+    Half(L|-?l)ife -> Half-Life or Half life
     [Hh]omeSite -> Homesite
     Installshield|installShield -> InstallShield
+    Left4[Dd]ead -> Left 4 Dead
+    Linux *world -> LinuxWorld
     \bM(?i:acOSX)\b -> Mac OS X
     \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
 #   Count on the ignore directive to not complain on the correct spelling
     (?i:\bMac OS X\b) -> Mac OS X
     [Mm]acroMedia -> Macromedia
+    [Mm]ac *World -> Macworld
     [M]aster[ -]?card|master[ -]?Card -> MasterCard
     [Mm]icroSoft -> Microsoft
+    Netmeeting -> NetMeeting
     News?forge -> NewsForge
+    Onenote|oneNote -> OneNote
     Pagemaker|pageMaker -> PageMaker
-    [Pp]aypal|payPal -> PayPal
+    Paypal|payPal -> PayPal
     [Pp]hotoShop -> Photoshop
     Powerpoint|powerPoint -> PowerPoint
+    Pulseaudio|pulseAudio -> PulseAudio
     Quickbooks?|quickBooks? -> QuickBooks
     Quicktime|quickTime -> QuickTime
     Red[Hh]at -> Red Hat
     [Ss]hockWave -> Shockwave
+    (Sel|SEl|SeL|seL|sEL|sEl)inux -> SELinux
+    Starcraft -> StarCraft
     Su(se|Se|sE) -> SUSE
     Tarent(ell?a|all?a)|Tarant(ela|all?a) -> Tarantella
     Transgaming|transGaming -> TransGaming
@@ -1349,6 +1394,7 @@ bad-case=
     Winehq|[Ww]ine(Hq|hQ) -> WineHQ
     Winetools|wineTools -> WineTools
     Wordperfect|wordPerfect -> WordPerfect
+    Xrender -> XRender
 ignore=
     (?i:anteing)
     BE\s+BE
