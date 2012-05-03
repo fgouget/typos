@@ -1112,7 +1112,8 @@ bad-word=
     anali[sz]e[sd]? -> analyzed
     appartments? -> apartment
     arithmatic -> arithmetic
-    (un)?asign(ed|ing|e?ments?|s)? -> assign
+    (un)?asign(e[ds]|ing|e?ments?|s)? -> assign
+    (un)?asum(e[ds]|ing|s)? -> assume
     aswell -> as well
     att?achements? -> attachment
     atleast -> at least
@@ -1164,7 +1165,7 @@ bad-word=
     excecut(able|e[ds]?|ing|ions?) -> execute
     ([iu]n?)e(xe|z)p(e|c|ec)t?(ed(ly)?|ing|(at)?ions?|s)? -> expect
     exlud(e[ds]?|ing) -> exclude
-    (ex|im)plic(ite|te?)ly -> explicitly
+    (ex|im)plic(itely|te?ly|t) -> explicitly
     extentions? -> extension
     ([iu]n)?feasab(le|ility) -> feasible
     feild?(ed|ing|s)?|faild -> failed
@@ -1180,8 +1181,8 @@ bad-word=
     homogenous(ly)? -> homogeneous
     imutable -> immutable
     (ex|im)p(licite|icite?) -> implicit
-    (un)?imp?l(eman|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
-    (un)?iml(em[ae]n|i?men|emena)t(ations?|ed|ers?|ing|s)? -> implement
+    (un)?imp?l(ema?n|i?men?|eme?na)t(ations?|ed|ers?|ing|s)? -> implement
+    (un)?iml(em[ae]?n|i?me?n|eme?na)t(ations?|ed|ers?|ing|s)? -> implement
     incase -> in case
     incure[ds]? -> incur
     identife[drs]? -> identifier
@@ -1208,7 +1209,8 @@ bad-word=
     optionnal(ly)? -> optional
     or(gin|ign?i)(al|ally|at(e[ds]?|ing)|s)? -> origin
     overid(e[ns]?|ing) -> override
-    paintshop -> Paint Shop FIXME
+    overlap(e[ds]?|ing) -> overlapped
+    paintshop -> Paint Shop
     paramaters? -> parameter
     (file)?pathes -> paths
     persistan(ce|t(e?ly)?) -> persistence
@@ -1290,11 +1292,14 @@ bad-expression=
     \b(better|bigger|earlier|greater|higher|larger|later|less(\s+recent)?|lower|more(\s+recent)?|newer|rather|smaller|taller|worse)\s+then\b -> than
     \bby\s+by\b -> 'by' duplicate
     \bcan\s+not\b -> cannot
+    \scant\s -> can't
     \bcoud('?nt|n't)?\b -> could
     \bcould'?nt\b -> couldn't
     \bdid'?nt\b -> didn't
+    \sdidnt\s -> didn't
     \bdifferent\s*to\b -> different from
     \bdo(es|se)?['n ]t\b -> doesn't
+    \sdont\s -> don't
     [cei]aly\b -> '...ally' ending
     erd\b -> '...ered' ending
     \bfor\s+for\b -> 'for' duplicate
