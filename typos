@@ -173,7 +173,7 @@ sub build_scanner($$)
     my ($allsets, $current)=@_;
 
     $current->{"_bad-word_format"}=$current->{extra} ? "(?i)\%s" : "(?i)(?:\\b|[0-9_])\%s(?:\\b|[0-9_])";
-    $current->{"_bad-expression_format"}="(?i)\%s";
+    $current->{"_bad-expression_format"}="\%s";
     $current->{"_bad-case_format"}="\\b\%s\\b";
     my @code=("sub ",
               "{",
@@ -1279,67 +1279,67 @@ bad-word=
 
 bad-expression=
 #    "([^"]|\\")*\s\\n([^"]|\\")*" -> no space before '\n'
-    \ba\s+a\b -> 'a' duplicate
-    \bai'?nt\b -> ain't
-    \ban\s+an\b -> 'an' duplicate
-    \babout\s+about\b -> 'about' duplicate
-    \bapplicai -> application
-    \b(are|is|was|were)\s+(are|is|was|were)\b -> 'is' duplicate
-    \b(are|is|'s|was|way|were)\s+to\s+(bad|big|early|great|high|large|late|little|low|new|recent|small|tall)\b -> too
-    \bare'?nt\b -> aren't
-    arilly\b -> '...arily' ending
-#    atinos?\b -> '...ation' ending
-    t(aion|ino)s?\b -> '...tion' ending
-    \bbe\s+be\b -> 'be' duplicate
-    \b(better|bigger|earlier|greater|higher|larger|later|less(\s+recent)?|lower|more(\s+recent)?|newer|rather|smaller|taller|worse)\s+then\b -> than
-    \bby\s+by\b -> 'by' duplicate
-    \bcan\s+not\b -> cannot
-    \scant\s -> can't
-    \bcoud('?nt|n't)?\b -> could
-    \bcould'?nt\b -> couldn't
-    \bdid'?nt\b -> didn't
-    \sdidnt\s -> didn't
-    \bdifferent\s*to\b -> different from
-    \bdo(es|se)?['n ]t\b -> doesn't
-    \sdont\s -> don't
-    [cei]aly\b -> '...ally' ending
-    erd\b -> '...ered' ending
-    \bfor\s+for\b -> 'for' duplicate
-    \bhas'?nt\b -> hasn't
-    \bhave'?nt\b -> haven't
-    \bhavn't\b -> haven't
-    \b(s?he)\s+(s?he|it)\b -> 'he' duplicate
-    [^l]icly\b|icaly\b -> '...ically' ending
-    \bif\s+if\b -> 'if' duplicate
-    ifing\b -> '...ifing' ending
-    \bin\s+in\b -> 'in' duplicate
-    \bisnt\b -> isn't
-    \bit\s+it\b -> 'it' duplicate
-    \bmean\s+time\b -> meantime
-    naly\b -> '...nally' ending
-    non\s+exist(ent|ing) -> nonexistent
-    nonexistant -> nonexistent
-    \bof\s+of\b -> 'of' duplicate
-    onnally\b -> '...onaly' ending
-    \bprivl -> privilege
-    procces -> process
-    \bshoud('?nt|n't)?\b -> should
-    \bshould'?nt\b -> shouldn't
-    \bsome\s+how\b -> somehow
-    \bsome\s+what\b -> somewhat
-    \bsome\s+where\b -> somewhere
-    [^begiouy]eing\b -> '...ing' ending
-    [^ecgklmprsvz]eable\b -> '...able' ending
-    \bthe\s+the\b -> 'the' duplicate
-    then\s+expected -> than
-    \btheir\s+(are|is|was|were)\b -> there is
-    trys\b -> tries
-    ualy\b -> '...ually' ending
-    \bunece -> unnecessary
-    \bupto\b -> up to
-    \bwa(n'|s'?n)t\b -> wasn't
-    \bwith\s+with\b -> 'with' duplicate
-    \bwould'?nt\b -> wouldn't
+    (?i)\ba\s+a\b -> 'a' duplicate
+    (?i)\bai'?nt\b -> ain't
+    (?i)\ban\s+an\b -> 'an' duplicate
+    (?i)\babout\s+about\b -> 'about' duplicate
+    (?i)\bapplicai -> application
+    (?i)\b(are|is|was|were)\s+(are|is|was|were)\b -> 'is' duplicate
+    (?i)\b(are|is|'s|was|way|were)\s+to\s+(bad|big|early|great|high|large|late|little|low|new|recent|small|tall)\b -> too
+    (?i)\bare'?nt\b -> aren't
+    (?i)arilly\b -> '...arily' ending
+#    (?i)atinos?\b -> '...ation' ending
+    (?i)t(aion|ino)s?\b -> '...tion' ending
+    (?i)\bbe\s+be\b -> 'be' duplicate
+    (?i)\b(better|bigger|earlier|greater|higher|larger|later|less(\s+recent)?|lower|more(\s+recent)?|newer|rather|smaller|taller|worse)\s+then\b -> than
+    (?i)\bby\s+by\b -> 'by' duplicate
+    (?i)\bcan\s+not\b -> cannot
+    (?i)\scant\s -> can't
+    (?i)\bcoud('?nt|n't)?\b -> could
+    (?i)\bcould'?nt\b -> couldn't
+    (?i)\bdid'?nt\b -> didn't
+    (?i)\sdidnt\s -> didn't
+    (?i)\bdifferent\s*to\b -> different from
+    (?i)\bdo(es|se)?['n ]t\b -> doesn't
+    (?i)\sdont\s -> don't
+    (?i)[cei]aly\b -> '...ally' ending
+    (?i)erd\b -> '...ered' ending
+    (?i)\bfor\s+for\b -> 'for' duplicate
+    (?i)\bhas'?nt\b -> hasn't
+    (?i)\bhave'?nt\b -> haven't
+    (?i)\bhavn't\b -> haven't
+    (?i)\b(s?he)\s+(s?he|it)\b -> 'he' duplicate
+    (?i)[^l]icly\b|icaly\b -> '...ically' ending
+    (?i)\bif\s+if\b -> 'if' duplicate
+    (?i)ifing\b -> '...ifing' ending
+    (?i)\bin\s+in\b -> 'in' duplicate
+    (?i)\bisnt\b -> isn't
+    (?i)\bit\s+it\b -> 'it' duplicate
+    (?i)\bmean\s+time\b -> meantime
+    (?i)naly\b -> '...nally' ending
+    (?i)non\s+exist(ent|ing) -> nonexistent
+    (?i)nonexistant -> nonexistent
+    (?i)\bof\s+of\b -> 'of' duplicate
+    (?i)onnally\b -> '...onaly' ending
+    (?i)\bprivl -> privilege
+    (?i)procces -> process
+    (?i)\bshoud('?nt|n't)?\b -> should
+    (?i)\bshould'?nt\b -> shouldn't
+    (?i)\bsome\s+how\b -> somehow
+    (?i)\bsome\s+what\b -> somewhat
+    (?i)\bsome\s+where\b -> somewhere
+    (?i)[^begiouy]eing\b -> '...ing' ending
+    (?i)[^ecgklmprsvz]eable\b -> '...able' ending
+    (?i)\bthe\s+the\b -> 'the' duplicate
+    (?i)then\s+expected -> than
+    (?i)\btheir\s+(are|is|was|were)\b -> there is
+    (?i)trys\b -> tries
+    (?i)ualy\b -> '...ually' ending
+    (?i)\bunece -> unnecessary
+    (?i)\bupto\b -> up to
+    (?i)\bwa(n'|s'?n)t\b -> wasn't
+    (?i)\bwith\s+with\b -> 'with' duplicate
+    (?i)\bwould'?nt\b -> wouldn't
 bad-case=
     \b[aA]nd\s+and\b -> 'and' duplicate
     [Aa]uthorWare -> Authorware
