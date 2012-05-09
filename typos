@@ -267,7 +267,7 @@ sub rchandle2argv($$)
         }
     }
     close($fh);
-    debug("  -> @$argv\n");
+    debug("typosrc(", dirname($filename), "): '", join("' '", @$argv), "'\n");
     return ($argv, $lines);
 }
 
@@ -306,7 +306,7 @@ sub cvsignore2argv($$)
         }
     }
     close($fh);
-    debug("  -> @$argv\n");
+    debug("cvsignore: '", join("' '", @$argv), "'\n");
     return ($argv, $lines);
 }
 
@@ -364,7 +364,7 @@ sub gitignore2argv($$)
         push @$lines, $lineno, $lineno;
     }
     close($fh);
-    debug("  -> @$argv\n");
+    debug("gitignore: '", join("' '", @$argv), "'\n");
     return ($argv, $lines);
 }
 
