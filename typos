@@ -714,10 +714,10 @@ sub scan_directory($$)
 sub print_errors($)
 {
     my ($allsets)=@_;
-    while (my ($group, $list)=each %{$allsets->{errors}})
+    foreach my $group (sort keys %{$allsets->{errors}})
     {
         print "\n$group:\n";
-        print @$list;
+        print @{$allsets->{errors}->{$group}};
     }
 }
 
