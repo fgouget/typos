@@ -368,6 +368,71 @@ sub gitignore2argv($$)
     return ($argv, $lines);
 }
 
+sub lintian2argv($$)
+{
+    my ($filename, $opt)=@_;
+    my $fh=FileHandle->new($filename);
+    if (!$fh)
+    {
+        err("unable to open '$filename' for reading: $!\n");
+        exit 1;
+    }
+    verbose("reading '$filename'\n");
+
+    # For lintian a word is any contiguous set of characters with no space,
+    # whereas in typos we require a word boundary on both sides. Usually it
+    # does not matter but there are a few exceptions like 'GTK' which is not
+    # supposed to match 'GTK+'. So we simply blacklist these.
+    # We also blacklist some that just cause too many false positives.
+    my %blacklist=(
+        "ang" => 1,       # Too many false positives
+        "cancelation" => 1, # US spelling
+        "dependant" => 1, # Valid word, just different meaning from dependent
+        "dont" => 1,      # Too many false positives
+        "GTK" => 1,       # Correct form is GTK+ which is not a word
+        "nam" => 1,       # Too many false positives (specifically Viet Nam)
+        "ressize" => 1,   # Too many false positives
+        "TEX" => 1,       # Too many false positives
+        "usera" => 1,     # Too many false positives
+        );
+    my $argv=[];
+    my $lines=[];
+    my $lineno=0;
+    while (my $line=<$fh>)
+    {
+        $lineno++;
+        next if ($line =~ /^\s*(?:#|$)/);
+        chomp $line;
+        my (@fields)=split /[|]/, $line;
+        if (@fields != 3)
+        {
+            err("$filename:$lineno: unknown line format: $line\n");
+            return undef;
+        }
+        my $re=$fields[0];
+        if (exists $blacklist{$re})
+        {
+            # See the blacklist definition above.
+            next;
+        }
+        elsif ($opt eq "bad-expression")
+        {
+            $re="\\b(?:$re)\\b";
+        }
+        elsif ($opt eq "bad-case" and $re !~ /[A-Z]/)
+        {
+            # The all-lowercase words cause too many false positives in
+            # non-English files such as in code. So ignore them.
+            next;
+        }
+        push @$argv, "--$opt", "$re -> $fields[2]";
+        push @$lines, $lineno;
+    }
+    close($fh);
+    debug("lintian(", basename($filename), "): '", join("' '", @$argv), "'\n");
+    return ($argv, $lines);
+}
+
 sub get_options_set($$$;$)
 {
     my ($argv, $lines, $filename, $extra_options)=@_;
@@ -399,6 +464,8 @@ sub get_options_set($$$;$)
                "ignore=s@",
                "by-error!",
 
+               "lintian!",
+
                "get-wikipedia",
                "wikipedia",
                "wiki-file=s",
@@ -427,8 +494,12 @@ sub get_options_set($$$;$)
         return undef;
     }
 
-    $opt_set->{builtin}=1 if (!defined $opt_set->{builtin});
-    $opt_set->{rc}=1 if (!defined $opt_set->{rc});
+    if ($filename eq "cmdline")
+    {
+        $opt_set->{builtin}=1 if (!defined $opt_set->{builtin});
+        $opt_set->{lintian}=1 if (!defined $opt_set->{lintian});
+        $opt_set->{rc}=1 if (!defined $opt_set->{rc});
+    }
     $opt_set->{_filename}=$filename;
 
     # Convert the paths relative to this directory
@@ -569,6 +640,12 @@ sub get_current_options($$)
                 debug("new_exclude=[",join(" | ",keys %{$new->{_exclude}}), "]\n");
                 last if (!$new->{rc});
             }
+        }
+        if ($new->{lintian})
+        {
+            merge_option_set($allsets, $new, $allsets->{"lintian-word"});
+            merge_option_set($allsets, $new, $allsets->{"lintian-case"});
+            merge_option_set($allsets, $new, $allsets->{"lintian-expr"});
         }
         if ($new->{builtin})
         {
@@ -747,7 +824,7 @@ if ($opt_help)
 {
     print "Usage: $name0 [--bad-word WORD] [--bad-expression EXPR] [--bad-case CASE]\n";
     print "             [--ignore IGNORE] [--extra] [--by-error]\n";
-    print "             [--get-wikipedia] [--wikipedia] [--wiki-file FILE]\n";
+    print "             [--lintian] [--get-wikipedia] [--wikipedia] [--wiki-file FILE]\n";
     print "             [--include SCAN] [--exclude SKIP] [--all]\n";
     print "             [--no-builtin] [--no-rc] [--no-cvsignore] [--no-gitignore]\n";
     print "             [--debug] [--verbose] [--help]\n";
@@ -785,6 +862,7 @@ if ($opt_help)
     print "                      files have been scanned\n";
     print "  --get-wikipedia   Download Wikipedia's list of common misspelling's\n";
     print "                      FIXME: Not implemented yet\n";
+    print "  --lintian         Use Lintian's list of common misspellings\n";
     print "  --wikipedia       Use Wikipedia's list of common misspellings\n";
     print "                      FIXME: Not implemented yet\n";
     print "  --wiki-file FILE  Specifies an alternate file containing the Wikipedia common misspellings\n";
@@ -828,6 +906,21 @@ if ($allsets->{cmdline}->{rc})
         $path="$path/$dir";
         read_rc_files($allsets, $path);
     }
+}
+
+if ($allsets->{cmdline}->{lintian})
+{
+    my $filename="/usr/share/lintian/data/spelling/corrections";
+    my ($argv, $lines)=lintian2argv($filename, "bad-word");
+    $allsets->{"lintian-word"}=get_options_set($argv, $lines, $filename);
+
+    $filename="/usr/share/lintian/data/spelling/corrections-case";
+    ($argv, $lines)=lintian2argv($filename, "bad-case");
+    $allsets->{"lintian-case"}=get_options_set($argv, $lines, $filename);
+
+    $filename="/usr/share/lintian/data/spelling/corrections-multiword";
+    ($argv, $lines)=lintian2argv($filename, "bad-expression");
+    $allsets->{"lintian-expr"}=get_options_set($argv, $lines, $filename);
 }
 
 if ($allsets->{cmdline}->{builtin})
