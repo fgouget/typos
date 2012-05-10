@@ -368,6 +368,34 @@ sub gitignore2argv($$)
     return ($argv, $lines);
 }
 
+# For lintian a word is any contiguous set of characters with no space,
+# whereas in typos we require a word boundary on both sides. Usually it
+# does not matter but there are a few exceptions like 'GTK' which is not
+# supposed to match 'GTK+'. So we simply blacklist these.
+# We also blacklist some Lintian and Codespell entries because they simply
+# cause too many false positives.
+my %blacklist=(
+    "ang" => 1,       # Too many false positives
+    "beng" => 1,      # Too many false positives
+    "cant" => 1,      # Too many false positives
+    "cancelation" => 1, # US spelling
+    "dependant" => 1, # Valid word, just different meaning from dependent
+    "didnt" => 1,     # Too many false positives
+    "doesnt" => 1,    # Too many false positives
+    "dont" => 1,      # Too many false positives
+    "GTK" => 1,       # Correct form is GTK+ which is not a word
+    "isnt" => 1,      # Too many false positives
+    "modeled" => 1,   # US spelling
+    "nam" => 1,       # Too many false positives (specifically Viet Nam)
+    "nto" => 1,       # Too many false positives
+    "pich" => 1,      # Too many false positives
+    "ressize" => 1,   # Too many false positives
+    "seeked" => 1,    # Too many false positives
+    "TEX" => 1,       # Too many false positives
+    "usera" => 1,     # Too many false positives
+    "whic" => 1,      # Too many false positives
+    );
+
 sub lintian2argv($$)
 {
     my ($filename, $opt)=@_;
@@ -379,22 +407,6 @@ sub lintian2argv($$)
     }
     verbose("reading '$filename'\n");
 
-    # For lintian a word is any contiguous set of characters with no space,
-    # whereas in typos we require a word boundary on both sides. Usually it
-    # does not matter but there are a few exceptions like 'GTK' which is not
-    # supposed to match 'GTK+'. So we simply blacklist these.
-    # We also blacklist some that just cause too many false positives.
-    my %blacklist=(
-        "ang" => 1,       # Too many false positives
-        "cancelation" => 1, # US spelling
-        "dependant" => 1, # Valid word, just different meaning from dependent
-        "dont" => 1,      # Too many false positives
-        "GTK" => 1,       # Correct form is GTK+ which is not a word
-        "nam" => 1,       # Too many false positives (specifically Viet Nam)
-        "ressize" => 1,   # Too many false positives
-        "TEX" => 1,       # Too many false positives
-        "usera" => 1,     # Too many false positives
-        );
     my $argv=[];
     my $lines=[];
     my $lineno=0;
@@ -433,6 +445,41 @@ sub lintian2argv($$)
     return ($argv, $lines);
 }
 
+sub codespell2argv($)
+{
+    my ($filename)=@_;
+    my $fh=FileHandle->new($filename);
+    if (!$fh)
+    {
+        err("unable to open '$filename' for reading: $!\n");
+        exit 1;
+    }
+    verbose("reading '$filename'\n");
+
+    my $argv=[];
+    my $lines=[];
+    my $lineno=0;
+    while (my $line=<$fh>)
+    {
+        $lineno++;
+        next if ($line =~ /^\s*(?:#|$)/);
+        chomp $line;
+        my (@fields)=split /->/, $line;
+        if (@fields != 2)
+        {
+            err("$filename:$lineno: unknown line format: $line\n");
+            return undef;
+        }
+        next if (exists $blacklist{$fields[0]});
+        next if ($fields[1] =~ /, disable/);
+        push @$argv, "--bad-word", "$fields[0] -> $fields[1]";
+        push @$lines, $lineno;
+    }
+    close($fh);
+    debug("codespell: '", join("' '", @$argv), "'\n");
+    return ($argv, $lines);
+}
+
 sub get_options_set($$$;$)
 {
     my ($argv, $lines, $filename, $extra_options)=@_;
@@ -466,6 +513,9 @@ sub get_options_set($$$;$)
 
                "lintian!",
 
+               "get-codespell",
+               "codespell!",
+
                "get-wikipedia",
                "wikipedia",
                "wiki-file=s",
@@ -498,6 +548,11 @@ sub get_options_set($$$;$)
     {
         $opt_set->{builtin}=1 if (!defined $opt_set->{builtin});
         $opt_set->{lintian}=1 if (!defined $opt_set->{lintian});
+        if (!defined $opt_set->{codespell} and defined $ENV{HOME} and
+            -r "$ENV{HOME}/.$name0.codespell")
+        {
+            $opt_set->{codespell}=1 ;
+        }
         $opt_set->{rc}=1 if (!defined $opt_set->{rc});
     }
     $opt_set->{_filename}=$filename;
@@ -646,6 +701,10 @@ sub get_current_options($$)
             merge_option_set($allsets, $new, $allsets->{"lintian-word"});
             merge_option_set($allsets, $new, $allsets->{"lintian-case"});
             merge_option_set($allsets, $new, $allsets->{"lintian-expr"});
+        }
+        if ($new->{codespell})
+        {
+            merge_option_set($allsets, $new, $allsets->{codespell});
         }
         if ($new->{builtin})
         {
@@ -824,7 +883,8 @@ if ($opt_help)
 {
     print "Usage: $name0 [--bad-word WORD] [--bad-expression EXPR] [--bad-case CASE]\n";
     print "             [--ignore IGNORE] [--extra] [--by-error]\n";
-    print "             [--lintian] [--get-wikipedia] [--wikipedia] [--wiki-file FILE]\n";
+    print "             [--lintian] [--get-codespell] [--codespell] [--get-wikipedia]\n";
+    print "             [--wikipedia] [--wiki-file FILE]\n";
     print "             [--include SCAN] [--exclude SKIP] [--all]\n";
     print "             [--no-builtin] [--no-rc] [--no-cvsignore] [--no-gitignore]\n";
     print "             [--debug] [--verbose] [--help]\n";
@@ -863,6 +923,9 @@ if ($opt_help)
     print "  --get-wikipedia   Download Wikipedia's list of common misspelling's\n";
     print "                      FIXME: Not implemented yet\n";
     print "  --lintian         Use Lintian's list of common misspellings\n";
+    print "  --get-codespell   Updates the \$HOME/.$name0.codespell common misspellings\n";
+    print "                      list\n";
+    print "  --codespell       Use codespell's list of common misspellings\n";
     print "  --wikipedia       Use Wikipedia's list of common misspellings\n";
     print "                      FIXME: Not implemented yet\n";
     print "  --wiki-file FILE  Specifies an alternate file containing the Wikipedia common misspellings\n";
@@ -921,6 +984,24 @@ if ($allsets->{cmdline}->{lintian})
     $filename="/usr/share/lintian/data/spelling/corrections-multiword";
     ($argv, $lines)=lintian2argv($filename, "bad-expression");
     $allsets->{"lintian-expr"}=get_options_set($argv, $lines, $filename);
+}
+
+if ($allsets->{cmdline}->{"get-codespell"})
+{
+    my $cmd="wget --output-document='$ENV{HOME}/.$name0.codespell' --quiet 'http://git.profusion.mobi/cgit.cgi/lucas/codespell/plain/data/dictionary.txt?h=dict&id=HEAD'";
+    my $rc=system($cmd);
+    if ($rc)
+    {
+        err("the codespell download failed (rc=$rc): $cmd\n");
+        exit 1;
+    }
+}
+
+if ($allsets->{cmdline}->{codespell})
+{
+    my $filename="$ENV{HOME}/.$name0.codespell";
+    my ($argv, $lines)=codespell2argv($filename);
+    $allsets->{"codespell"}=get_options_set($argv, $lines, $filename);
 }
 
 if ($allsets->{cmdline}->{builtin})
