@@ -375,6 +375,7 @@ sub gitignore2argv($$)
 # We also blacklist some Lintian and Codespell entries because they simply
 # cause too many false positives.
 my %blacklist=(
+    "adn" => 1,       # Too many false positives
     "ang" => 1,       # Too many false positives
     "beng" => 1,      # Too many false positives
     "cant" => 1,      # Too many false positives
@@ -388,6 +389,7 @@ my %blacklist=(
     "modeled" => 1,   # US spelling
     "nam" => 1,       # Too many false positives (specifically Viet Nam)
     "nto" => 1,       # Too many false positives
+    "ok" => 1,        # Too many false positives
     "pich" => 1,      # Too many false positives
     "ressize" => 1,   # Too many false positives
     "seeked" => 1,    # Too many false positives
@@ -480,6 +482,37 @@ sub codespell2argv($)
     return ($argv, $lines);
 }
 
+sub wikipedia2argv($)
+{
+    my ($filename)=@_;
+    my $fh=FileHandle->new($filename);
+    if (!$fh)
+    {
+        err("unable to open '$filename' for reading: $!\n");
+        exit 1;
+    }
+    verbose("reading '$filename'\n");
+
+    my $argv=[];
+    my $lines=[];
+    my $lineno=0;
+    while (my $line=<$fh>)
+    {
+        $lineno++;
+        chomp $line;
+        if ($line =~ /^^(\w+)-&gt;(\w+)$/)
+        {
+            my ($bad, $good)=($1, $2);
+            next if (exists $blacklist{$bad});
+            push @$argv, "--bad-word", "$bad -> $good";
+            push @$lines, $lineno;
+        }
+    }
+    close($fh);
+    debug("wikipedia: '", join("' '", @$argv), "'\n");
+    return ($argv, $lines);
+}
+
 sub get_options_set($$$;$)
 {
     my ($argv, $lines, $filename, $extra_options)=@_;
@@ -517,8 +550,7 @@ sub get_options_set($$$;$)
                "codespell!",
 
                "get-wikipedia",
-               "wikipedia",
-               "wiki-file=s",
+               "wikipedia!",
 
                "all!",
                "include=s@",
@@ -548,10 +580,18 @@ sub get_options_set($$$;$)
     {
         $opt_set->{builtin}=1 if (!defined $opt_set->{builtin});
         $opt_set->{lintian}=1 if (!defined $opt_set->{lintian});
-        if (!defined $opt_set->{codespell} and defined $ENV{HOME} and
-            -r "$ENV{HOME}/.$name0.codespell")
+        if (defined $ENV{HOME})
         {
-            $opt_set->{codespell}=1 ;
+            if (!defined $opt_set->{codespell} and
+                -r "$ENV{HOME}/.$name0.codespell")
+            {
+                $opt_set->{codespell}=1 ;
+            }
+            if (!defined $opt_set->{wikipedia} and
+                -r "$ENV{HOME}/.$name0.wikipedia")
+            {
+                $opt_set->{wikipedia}=1 ;
+            }
         }
         $opt_set->{rc}=1 if (!defined $opt_set->{rc});
     }
@@ -705,6 +745,10 @@ sub get_current_options($$)
         if ($new->{codespell})
         {
             merge_option_set($allsets, $new, $allsets->{codespell});
+        }
+        if ($new->{wikipedia})
+        {
+            merge_option_set($allsets, $new, $allsets->{wikipedia});
         }
         if ($new->{builtin})
         {
@@ -884,8 +928,7 @@ if ($opt_help)
     print "Usage: $name0 [--bad-word WORD] [--bad-expression EXPR] [--bad-case CASE]\n";
     print "             [--ignore IGNORE] [--extra] [--by-error]\n";
     print "             [--lintian] [--get-codespell] [--codespell] [--get-wikipedia]\n";
-    print "             [--wikipedia] [--wiki-file FILE]\n";
-    print "             [--include SCAN] [--exclude SKIP] [--all]\n";
+    print "             [--wikipedia] [--include SCAN] [--exclude SKIP] [--all]\n";
     print "             [--no-builtin] [--no-rc] [--no-cvsignore] [--no-gitignore]\n";
     print "             [--debug] [--verbose] [--help]\n";
 
@@ -920,16 +963,13 @@ if ($opt_help)
     print "                      are found in the files. If this option is specified, all\n";
     print "                      errors of a given type are reported together after all\n";
     print "                      files have been scanned\n";
-    print "  --get-wikipedia   Download Wikipedia's list of common misspelling's\n";
-    print "                      FIXME: Not implemented yet\n";
     print "  --lintian         Use Lintian's list of common misspellings\n";
     print "  --get-codespell   Updates the \$HOME/.$name0.codespell common misspellings\n";
     print "                      list\n";
     print "  --codespell       Use codespell's list of common misspellings\n";
+    print "  --get-wikipedia   Updates the \$HOME/.$name0.wikipedia common misspellings\n";
+    print "                      list\n";
     print "  --wikipedia       Use Wikipedia's list of common misspellings\n";
-    print "                      FIXME: Not implemented yet\n";
-    print "  --wiki-file FILE  Specifies an alternate file containing the Wikipedia common misspellings\n";
-    print "                      FIXME: Not implemented yet\n";
     print "  --all             Scan all files not matched by an exclude file pattern\n";
     print "                      By default, only files matching an include file pattern\n";
     print "                      and not matching an exclude file pattern are scanned\n";
@@ -1002,6 +1042,24 @@ if ($allsets->{cmdline}->{codespell})
     my $filename="$ENV{HOME}/.$name0.codespell";
     my ($argv, $lines)=codespell2argv($filename);
     $allsets->{"codespell"}=get_options_set($argv, $lines, $filename);
+}
+
+if ($allsets->{cmdline}->{"get-wikipedia"})
+{
+    my $cmd="wget --output-document='$ENV{HOME}/.$name0.wikipedia' --quiet 'http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines'";
+    my $rc=system($cmd);
+    if ($rc)
+    {
+        err("the wikipedia download failed (rc=$rc): $cmd\n");
+        exit 1;
+    }
+}
+
+if ($allsets->{cmdline}->{wikipedia})
+{
+    my $filename="$ENV{HOME}/.$name0.wikipedia";
+    my ($argv, $lines)=wikipedia2argv($filename);
+    $allsets->{"wikipedia"}=get_options_set($argv, $lines, $filename);
 }
 
 if ($allsets->{cmdline}->{builtin})
