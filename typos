@@ -698,10 +698,9 @@ sub merge_regexp_list($$$)
     }
 }
 
-sub merge_option_set($$$)
+sub merge_option_set($$)
 {
-    # FIXME: Do we need $allsets here???
-    my ($allsets, $merged, $opt_set)=@_;
+    my ($merged, $opt_set)=@_;
     verbose("merging '$opt_set->{_filename}'\n"); # FIXME: debug
 
     foreach my $key (keys %{$opt_set})
@@ -743,7 +742,7 @@ sub get_current_options($$)
     {
         $new={};
         # Merge all the option sets into one
-        merge_option_set($allsets, $new, $allsets->{cmdline});
+        merge_option_set($new, $allsets->{cmdline});
         $new->{rcdepth}=(defined $allsets->{rcstack} ? @{$allsets->{rcstack}} : 0);
         if ($allsets->{cmdline}->{rc} and defined $allsets->{rcstack})
         {
@@ -751,28 +750,28 @@ sub get_current_options($$)
             while ($i > 0)
             {
                 $i--;
-                merge_option_set($allsets, $new, $allsets->{rcstack}->[$i]);
+                merge_option_set($new, $allsets->{rcstack}->[$i]);
                 debug("new_exclude=[",join(" | ",keys %{$new->{_exclude}}), "]\n");
                 last if (!$new->{rc});
             }
         }
         if ($new->{lintian})
         {
-            merge_option_set($allsets, $new, $allsets->{"lintian-word"});
-            merge_option_set($allsets, $new, $allsets->{"lintian-case"});
-            merge_option_set($allsets, $new, $allsets->{"lintian-expr"});
+            merge_option_set($new, $allsets->{"lintian-word"});
+            merge_option_set($new, $allsets->{"lintian-case"});
+            merge_option_set($new, $allsets->{"lintian-expr"});
         }
         if ($new->{codespell})
         {
-            merge_option_set($allsets, $new, $allsets->{codespell});
+            merge_option_set($new, $allsets->{codespell});
         }
         if ($new->{wikipedia})
         {
-            merge_option_set($allsets, $new, $allsets->{wikipedia});
+            merge_option_set($new, $allsets->{wikipedia});
         }
         if ($new->{builtin})
         {
-            merge_option_set($allsets, $new, $allsets->{builtin});
+            merge_option_set($new, $allsets->{builtin});
         }
         if ($new->{all})
         {
