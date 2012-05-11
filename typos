@@ -168,6 +168,10 @@ sub build_scan_check($$$)
     return @code;
 }
 
+my @build_scanner_options=(
+    "bad-case", "bad-word", "bad-expression",
+    "builtin", "codespell", "extra", "lintian"
+    );
 sub build_scanner($$)
 {
     my ($allsets, $current)=@_;
@@ -203,6 +207,16 @@ sub build_scanner($$)
     {
         err("scanner compilation error: $@\n");
         exit 1;
+    }
+}
+
+sub copy_scanner($$)
+{
+    my ($src, $dst)=@_;
+    foreach my $field ("_bad-case_format", "_bad-expression_format",
+                       "_bad-word_format", "scanner")
+    {
+        $dst->{$field}=$src->{$field};
     }
 }
 
@@ -770,8 +784,32 @@ sub get_current_options($$)
         }
         $new->{_exclude_re}=list_to_regexp($new->{_exclude});
         $new->{_ignore_re}=list_to_regexp($new->{_ignore});
-        # FIXME: Try not to rebuild the scanner if not strictly necessary
-        build_scanner($allsets, $new);
+        my $rebuild_scanner=!defined $previous_options;
+        if (!$rebuild_scanner)
+        {
+          rebuild:
+            for (my $i=$previous_options->{rcdepth}; $i < $new->{rcdepth}; $i++)
+            {
+                my $rc=$allsets->{rcstack}->[$i];
+                foreach my $field (@build_scanner_options)
+                {
+                    if (exists $rc->{$field})
+                    {
+                        $rebuild_scanner=1;
+                        last rebuild;
+                    }
+                }
+            }
+        }
+        if ($rebuild_scanner)
+        {
+            build_scanner($allsets, $new);
+        }
+        else
+        {
+            # None of the settings that could impact the scanner have changed
+            copy_scanner($previous_options, $new);
+        }
     }
     push @{$allsets->{merged_stack}}, $new;
     $allsets->{current}=$new;
