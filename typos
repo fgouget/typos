@@ -615,7 +615,7 @@ sub get_options_set($$$;$)
 sub read_rc_files($$)
 {
     my ($allsets, $dir)=@_;
-    my $opt_set;
+    my ($opt_set, $read_files);
 
     my $filename="$dir/.typosrc";
     if (-f $filename)
@@ -630,6 +630,7 @@ sub read_rc_files($$)
         close($fh);
         $opt_set=get_options_set($argv, $lines, $filename);
         push @{$allsets->{rcstack}}, $opt_set;
+        $read_files=1;
     }
 
     # FIXME: Also take into account $CVSROOT/CVSROOT/cvsignore?
@@ -642,6 +643,7 @@ sub read_rc_files($$)
     {
         my ($argv, $lines)=cvsignore2argv($opt_set, $filename);
         push @{$allsets->{rcstack}}, get_options_set($argv, $lines, $filename);
+        $read_files=1;
     }
 
     $filename="$dir/.gitignore";
@@ -651,7 +653,9 @@ sub read_rc_files($$)
     {
         my ($argv, $lines)=gitignore2argv($opt_set, $filename);
         push @{$allsets->{rcstack}}, get_options_set($argv, $lines, $filename);
+        $read_files=1;
     }
+    return $read_files;
 }
 
 sub merge_regexp_list($$$)
@@ -709,15 +713,17 @@ sub merge_option_set($$$)
 sub get_current_options($$)
 {
     my ($allsets, $dir)=@_;
-    my $new;
+    my $previous_options=$allsets->{merged_stack}->[-1];
 
+    my $new=$previous_options;
     if ($allsets->{cmdline}->{rc})
     {
-        read_rc_files($allsets, $dir);
-    }
-    else
-    {
-        $new=$allsets->{merged_stack}->[-1];
+        if (read_rc_files($allsets, $dir))
+        {
+            # We found some new files so we have to update the current set
+            # of options
+            $new=undef;
+        }
     }
     if (!$new)
     {
