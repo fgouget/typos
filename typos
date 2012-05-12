@@ -39,14 +39,12 @@ sub debug(@)
 
 sub err(@)
 {
-    print STDERR "$name0:error: ";
-    print @_;
+    print STDERR "$name0:error: ", @_;
 }
 
 sub warning(@)
 {
-    print STDERR "$name0:warning: ";
-    print @_;
+    print STDERR "$name0:warning: ", @_;
 }
 
 
