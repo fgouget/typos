@@ -54,6 +54,19 @@ sub warning(@)
 #
 #####
 
+sub report_typo($$$$$)
+{
+    my ($allsets, $filename, $lineno, $line, $group)=@_;
+    my $current=$allsets->{current};
+    if ($current->{"by-error"})
+    {
+        push @{$allsets->{errors}->{$group}}, "$filename:$lineno: $line";
+        return 0;
+    }
+    print "$filename:$lineno: $line";
+    return 1;
+}
+
 sub scan_check($$$$$$)
 {
     my ($allsets, $category, $filename, $lineno, $line, $regexps)=@_;
@@ -65,16 +78,7 @@ sub scan_check($$$$$$)
         my $regexp=sprintf($current->{"${category}_format"}, $item);
         next if ($line !~ /$regexp/);
         next if (defined $ignore_re and $line =~ /$ignore_re/);
-        if ($current->{"by-error"})
-        {
-            my $group=$current->{$category}->{$item};
-            push @{$allsets->{errors}->{$group}}, "$filename:$lineno: $line";
-        }
-        else
-        {
-            print "$filename:$lineno: $line";
-            return 1;
-        }
+        return 1 if (report_typo($allsets, $filename, $lineno, $line, $current->{$category}->{$item}));
     }
     return 0;
 }
@@ -110,16 +114,7 @@ sub scan_check_extra($$$$$$)
         }
         next if (!$match);
         next if (defined $ignore_re and $line =~ /$ignore_re/);
-        if ($current->{"by-error"})
-        {
-            my $group=$current->{$category}->{$item};
-            push @{$allsets->{errors}->{$group}}, "$filename:$lineno: $line";
-        }
-        else
-        {
-            print "$filename:$lineno: $line";
-            return 1;
-        }
+        return 1 if (report_typo($allsets, $filename, $lineno, $line, $current->{$category}->{$item}));
     }
     return 0;
 }
