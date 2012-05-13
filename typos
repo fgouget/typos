@@ -93,7 +93,7 @@ sub scan_check_extra($$$$$$)
         {
             $match=1;
         }
-        elsif ($line =~ /[a-z](?:$regexp)(?:\b|[0-9_])\b/)
+        elsif ($line =~ /[a-z](?:$regexp)(?:\b|[0-9_])/)
         {
             my $matched=$&;
             $match=1 if ($matched =~ /^[a-z][A-Z][a-z]*$/);
