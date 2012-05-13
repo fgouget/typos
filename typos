@@ -405,9 +405,13 @@ my %blacklist=(
     "pich" => 1,      # Too many false positives
     "ressize" => 1,   # Too many false positives
     "seeked" => 1,    # Too many false positives
+    "teh" => 1,       # Too many false positives
     "TEX" => 1,       # Too many false positives
+    "ths" => 1,       # Too many false positives
+    "tje" => 1,       # Too many false positives
     "usera" => 1,     # Too many false positives
     "whic" => 1,      # Too many false positives
+    "wih" => 1,       # Too many false positives
     );
 
 sub lintian2argv($$)
@@ -1450,6 +1454,7 @@ bad-word=
     feild?(ed|ing|s)?|faild -> failed
     (un)?fomat(ed|ing|s)? -> format
     (un)?fortunatly -> fortunately
+    (un)?fullfill?(ed|ing|s) -> fulfill
     funtion(ality|ally|e[ds]?|ing|s)? -> functionning
     garantee(d|s)? -> guarantee
     (un)?handel(e[ds]?|s|ing)? -> handle
@@ -1478,7 +1483,7 @@ bad-word=
     invokat(e[ds]?|ing|ion) -> invocation
     (ir)?revelant -> relevant
     (i?un)?kown -> known
-    lenght(en|s)? ->length
+    lenght(en|s)? -> length
     langages? -> language
     mesag(e[ds]?|ing) -> message
     minum(a|al(s|l?y)?|um) -> minimum
@@ -1607,7 +1612,10 @@ bad-expression=
     (?i)\bsome\s+where\b -> somewhere
     (?i)[^begiouy]eing\b -> '...ing' ending
     (?i)[^ecgklmprsvz]eable\b -> '...able' ending
+    (?i)\steh\s -> the
     (?i)\bthe\s+the\b -> 'the' duplicate
+    (?i)\sths\s -> this
+    (?i)\stje\s -> the
     (?i)then\s+expected -> than
     (?i)\btheir\s+(are|is|was|were)\b -> there is
     (?i)trys\b -> tries
@@ -1615,10 +1623,11 @@ bad-expression=
     (?i)\bunece -> unnecessary
     (?i)\bupto\b -> up to
     (?i)\bwa(n'|s'?n)t\b -> wasn't
+    (?i)\swih\s -> with
     (?i)\bwith\s+with\b -> 'with' duplicate
     (?i)\bwould'?nt\b -> wouldn't
 bad-case=
-    \b[aA]nd\s+and\b -> 'and' duplicate
+    [aA]nd\s+and -> 'and' duplicate
     [Aa]uthorWare -> Authorware
     Autocad|[Aa]uto(Cad|cAd|caD|CAd|CaD|cAD) -> AutoCAD
     Black?Box|black?Box -> Blackbox
@@ -1633,7 +1642,8 @@ bad-case=
     directPlay|Directplay -> DirectPlay
     directSound|Directsound -> DirectSound
     directX|Directx -> DirectX
-    [Ee]xec[Ss]hield|Exec shield -> Exec Shield
+    [Ee]xec[Ss]hield -> Exec Shield
+    Exec\s+shield -> Exec Shield
     [Ff]ireWorks -> Fireworks
     Fontforge|fontForge -> FontForge
     Framemaker|frameMaker -> FrameMaker
@@ -1647,13 +1657,13 @@ bad-case=
     [Hh]omeSite -> Homesite
     Installshield|installShield -> InstallShield
     Left4[Dd]ead -> Left 4 Dead
-    Linux *world -> LinuxWorld
-    \bM(?i:acOSX)\b -> Mac OS X
-    \bM(?i:acOS |ac OS)[xX]\b -> Mac OS X
+    Linux\s*world -> LinuxWorld
+    M(?i:acOSX) -> Mac OS X
+    M(?i:acOS |ac OS)[xX] -> Mac OS X
 #   Count on the ignore directive to not complain on the correct spelling
-    (?i:\bMac OS X\b) -> Mac OS X
+    (?i:Mac OS X) -> Mac OS X
     [Mm]acroMedia -> Macromedia
-    [Mm]ac *World -> Macworld
+    [Mm]ac\s*World -> Macworld
     [M]aster[ -]?card|master[ -]?Card -> MasterCard
     [Mm]icroSoft -> Microsoft
     Netmeeting -> NetMeeting
@@ -1680,10 +1690,11 @@ bad-case=
     Wordperfect|wordPerfect -> WordPerfect
     Xrender -> XRender
 ignore=
+    \bAFAIR\b
     (?i:anteing)
     BE\s+BE
     \bMACOSX\b
-    \bMac OS X\b
+    \bMac\s+OS\s+X\b
 
 include=
     \.(?i:c|cpp|cxx|h|idl|m)$
