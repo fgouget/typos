@@ -47,6 +47,13 @@ sub warning(@)
     print STDERR "$name0:warning: ", @_;
 }
 
+sub hash_count($)
+{
+    my ($hash)=@_;
+    return 0 if (!$hash);
+    return scalar(keys %$hash);
+}
+
 
 #####
 #
@@ -65,6 +72,72 @@ sub report_typo($$$$$)
     }
     print "$filename:$lineno: $line";
     return 1;
+}
+
+my %all_words=("" => undef);
+sub scan_line($$$$)
+{
+    my ($allsets, $filename, $lineno, $line)=@_;
+    my $current=$allsets->{current};
+    my $ignore_re=$current->{_ignore_re};
+
+    foreach my $word (split /\W+/, $line)
+    {
+        if (exists $all_words{$word})
+        {
+            next if (!$all_words{$word});
+            return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+            next;
+        }
+        my $add_word=1;
+        if ($current->{"_bad-case"}->{$word})
+        {
+            if (!defined $ignore_re or $line !~ /$ignore_re/)
+            {
+                $all_words{$word}=$current->{"_bad-case"}->{$word};
+                return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+            }
+            # In any case, don't mark the word as ok as it is either
+            # misspelt or $ignore_re may not apply on another line
+            $add_word=undef;
+        }
+        my $lower=lc($word);
+        if ($current->{"_bad-word"}->{$lower})
+        {
+            if (!defined $ignore_re or $line !~ /$ignore_re/)
+            {
+                $all_words{$word}=$current->{"_bad-word"}->{$lower};
+                return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+            }
+            # In any case, don't mark the word as ok as it is either
+            # misspelt or $ignore_re may not apply on another line
+            $add_word=undef;
+        }
+        if ($current->{extra} and $word =~ /(?:_|[a-z][A-Z])/)
+        {
+            # Case checks don't make sense for words like CapitalizedWord or
+            # UNDERSCORED_WORD. So only do the bad-word checks.
+            my $sword=$word;
+            $sword =~ s/[0-9_]/ /g;
+            $sword =~ s/([a-z])([A-Z])/$1 $2/g;
+            foreach my $w (split / /, $sword)
+            {
+                $lower=lc($w);
+                if ($current->{"_bad-word"}->{$lower})
+                {
+                    if (!defined $ignore_re or $line !~ /$ignore_re/)
+                    {
+                        $all_words{$word}=$current->{"_bad-word"}->{$lower};
+                        return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+                    }
+                    # In any case, don't mark the word as ok as it is either
+                    # misspelt or $ignore_re may not apply on another line
+                    $add_word=undef;
+                }
+            }
+        }
+        $all_words{$word}=undef if ($add_word);
+    }
 }
 
 sub scan_check($$$$$$)
@@ -126,7 +199,7 @@ sub build_scan_check($$$)
     my @code;
     my @list=sort keys %{$current->{$category}};
     my $checker;
-    if ($category eq "_bad-word" and $current->{extra})
+    if ($category eq "_bad-word_re" and $current->{extra})
     {
         $checker="scan_check_extra";
     }
@@ -162,16 +235,16 @@ sub build_scan_check($$$)
 }
 
 my @build_scanner_options=(
-    "bad-case", "bad-word", "bad-expression",
+    "bad-case_re", "bad-word_re", "bad-expression_re",
     "builtin", "codespell", "extra", "lintian"
     );
 sub build_scanner($$)
 {
     my ($allsets, $current)=@_;
 
-    $current->{"_bad-word_format"}=$current->{extra} ? "(?i)\%s" : "(?i)(?:\\b|[0-9_])\%s(?:\\b|[0-9_])";
-    $current->{"_bad-expression_format"}="\%s";
-    $current->{"_bad-case_format"}="\\b\%s\\b";
+    $current->{"_bad-word_re_format"}=$current->{extra} ? "(?i)\%s" : "(?i)(?:\\b|[0-9_])\%s(?:\\b|[0-9_])";
+    $current->{"_bad-expression_re_format"}="\%s";
+    $current->{"_bad-case_re_format"}="\\b\%s\\b";
     my @code=("sub ",
               "{",
               "    my (\$fh, \$filename)=\@_;",
@@ -180,9 +253,10 @@ sub build_scanner($$)
               "    while (my \$line=<\$fh>)",
               "    {",
               "        \$lineno++;",
-              build_scan_check($allsets, $current, "_bad-word"),
-              build_scan_check($allsets, $current, "_bad-expression"),
-              build_scan_check($allsets, $current, "_bad-case"),
+              "        next if (scan_line(\$allsets, \$filename, \$lineno, \$line));",
+              build_scan_check($allsets, $current, "_bad-word_re"),
+              build_scan_check($allsets, $current, "_bad-expression_re"),
+              build_scan_check($allsets, $current, "_bad-case_re"),
               "    }",
               "}",
               "");
@@ -206,8 +280,8 @@ sub build_scanner($$)
 sub copy_scanner($$)
 {
     my ($src, $dst)=@_;
-    foreach my $field ("_bad-case_format", "_bad-expression_format",
-                       "_bad-word_format", "scanner")
+    foreach my $field ("_bad-case_re_format", "_bad-expression_re_format",
+                       "_bad-word_re_format", "scanner")
     {
         $dst->{$field}=$src->{$field};
     }
@@ -524,6 +598,78 @@ sub wikipedia2argv($)
     return ($argv, $lines);
 }
 
+sub expand_regexp($);
+sub expand_regexp($)
+{
+    my ($re)=@_;
+    return undef if ($re =~ /[.*+{\\]/);
+
+    # Handle simple word alternatives: a|b
+    if ($re =~ /^\w+(?:\|\w+)*$/)
+    {
+        my @words=split /\|/, $re;
+        return \@words;
+    }
+
+    # Handle brackets: [ab]?
+    if ($re =~ /^(.*)\[([^-^|()\[\]?]+)\](\?)?(.*)$/)
+    {
+        my ($before, $chars, $optional, $after)=($1, $2, $3, $4);
+        my @words=();
+        if ($optional)
+        {
+            my $list=expand_regexp("$before$after");
+            return undef if (!$list);
+            push @words, @$list;
+        }
+        foreach my $char (split //, $chars)
+        {
+            my $list=expand_regexp("$before$char$after");
+            return undef if (!$list);
+            push @words, @$list;
+        }
+        return \@words;
+    }
+    return undef if ($re =~ /[[\\]]/);
+
+    # Handle optional characters: a?
+    if ($re =~ /^(.*)(\w)\?(.*)$/)
+    {
+        my ($before, $char, $after)=($1, $2, $3);
+        my $list=expand_regexp("$before$after");
+        return undef if (!$list);
+        my @words=@$list;
+        $list=expand_regexp("$before$char$after");
+        return undef if (!$list);
+        push @words, @$list;
+        return \@words;
+    }
+
+    # Handle paranthese: (a|b)?
+    if ($re =~ /^(.*)\((\w+(?:\|\w+)*)\)(\?)?(.*)$/)
+    {
+        my ($before, $inside, $optional, $after)=($1, $2, $3, $4);
+        my @words=();
+        if ($optional)
+        {
+            my $list=expand_regexp("$before$after");
+            return undef if (!$list);
+            push @words, @$list;
+        }
+        foreach my $word (split /\|/, $inside)
+        {
+            my $list=expand_regexp("$before$word$after");
+            return undef if (!$list);
+            push @words, @$list;
+        }
+        return \@words;
+    }
+    return undef if ($re =~ /[()]/);
+
+    # The regexp is too complex, give up
+    return undef;
+}
+
 sub get_options_set($$$;$)
 {
     my ($argv, $lines, $filename, $extra_options)=@_;
@@ -619,6 +765,41 @@ sub get_options_set($$$;$)
         }
     }
     # FIXME: Check each regular expression and try to match them to line numbers if they don't compile
+    foreach my $category ("bad-case", "bad-expression", "bad-word")
+    {
+        my $list=$opt_set->{$category};
+        next if (!$list);
+        $opt_set->{$category}={};
+        $opt_set->{"${category}_re"}={};
+        foreach my $entry (@$list)
+        {
+            if ($entry !~ s/\s+->\s+(.*)$//)
+            {
+                err("found an invalid $category entry in $opt_set->{_filename}: $entry\n");
+                next;
+            }
+            my $group=$1;
+            my $words;
+            $words=expand_regexp($entry) if ($category ne "bad-expression");
+            if (!$words)
+            {
+                $opt_set->{"${category}_re"}->{$entry}=$group;
+            }
+            else
+            {
+                foreach my $word (@$words)
+                {
+                    $word=lc($word) if ($category eq "bad-word");
+                    $opt_set->{$category}->{$word}=$group;
+                }
+            }
+        }
+    }
+    verbose("out ", hash_count($opt_set->{"bad-word"}), " / ",
+            hash_count($opt_set->{"bad-word_re"}), " words, ",
+            hash_count($opt_set->{"bad-case"}), " / ",
+            hash_count($opt_set->{"bad-case_re"}), " case, ",
+            hash_count($opt_set->{"bad-expression_re"}), " expressions\n");
 
     return $opt_set;
 }
@@ -669,6 +850,35 @@ sub read_rc_files($$)
     return $read_files;
 }
 
+sub merge_regexp_hash($$$$)
+{
+    my ($merged, $option, $src, $ignore_duplicates)=@_;
+
+    foreach my $key (keys %$src)
+    {
+        my $group=$src->{$key};
+        my $regexp=$key;
+        $regexp =~ s/\((?!\?)/(?:/g;
+        next if ($regexp eq "");
+        if (!exists $merged->{$option}->{$regexp})
+        {
+            $merged->{$option}->{$regexp}=$group;
+        }
+        elsif ($ignore_duplicates)
+        {
+            ; # Nothing to do
+        }
+        elsif ($merged->{$option}->{$regexp} eq $group)
+        {
+            verbose("duplicate regular expression '$regexp': '$merged->{$option}->{$regexp}' and '$group'\n");
+        }
+        else
+        {
+            verbose("different groups found for regular expression '$regexp': '$merged->{$option}->{$regexp}' and '$group'\n");
+        }
+    }
+}
+
 sub merge_regexp_list($$$$)
 {
     my ($merged, $option, $src, $ignore_duplicates)=@_;
@@ -717,7 +927,11 @@ sub merge_option_set($$;$)
                 verbose("found duplicate '$option' option in '$opt_set->{_filename}'\n");
             }
         }
-        elsif ($option =~ /^(?:bad-word|bad-expression|bad-case|ignore|include|exclude)$/)
+        elsif ($option =~ /^(?:bad-word|bad-word_re|bad-expression|bad-expression_re|bad-case|bad-case_re)$/)
+        {
+            merge_regexp_hash($merged, "_$option", $opt_set->{$option}, $ignore_duplicates);
+        }
+        elsif ($option =~ /^(?:ignore|include|exclude)$/)
         {
             merge_regexp_list($merged, "_$option", $opt_set->{$option}, $ignore_duplicates);
         }
