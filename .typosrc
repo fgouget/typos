@@ -1,0 +1,4 @@
+exclude=
+    \.diff$
+    \.err$
+    \.log$
