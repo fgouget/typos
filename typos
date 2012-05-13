@@ -670,53 +670,57 @@ sub read_rc_files($$)
     return $read_files;
 }
 
-sub merge_regexp_list($$$)
+sub merge_regexp_list($$$$)
 {
-    my ($hashed, $key, $list)=@_;
+    my ($merged, $option, $src, $ignore_duplicates)=@_;
 
-    foreach my $item (@$list)
+    foreach my $item (@$src)
     {
-        # Copy $item to avoid the in-place modification of $list
+        # Copy $item to avoid the in-place modification of $src
         my $regexp=$item;
         my $group=($regexp =~ s/\s+->\s+(.*)$// ? $1 : $regexp);
         $regexp =~ s/\((?!\?)/(?:/g;
         next if ($regexp eq "");
-        if (!exists $hashed->{$key}->{$regexp})
+        if (!exists $merged->{$option}->{$regexp})
         {
-            $hashed->{$key}->{$regexp}=$group;
+            $merged->{$option}->{$regexp}=$group;
         }
-        elsif ($hashed->{$key}->{$regexp} eq $group)
+        elsif ($ignore_duplicates)
         {
-            verbose("duplicate regular expression '$regexp': '$hashed->{$key}->{$regexp}' and '$group'\n");
+            ; # Nothing to do
+        }
+        elsif ($merged->{$option}->{$regexp} eq $group)
+        {
+            verbose("duplicate regular expression '$regexp': '$merged->{$option}->{$regexp}' and '$group'\n");
         }
         else
         {
-            verbose("different groups found for regular expression '$regexp': '$hashed->{$key}->{$regexp}' and '$group'\n");
+            verbose("different groups found for regular expression '$regexp': '$merged->{$option}->{$regexp}' and '$group'\n");
         }
     }
 }
 
-sub merge_option_set($$)
+sub merge_option_set($$;$)
 {
-    my ($merged, $opt_set)=@_;
-    verbose("merging '$opt_set->{_filename}'\n"); # FIXME: debug
+    my ($merged, $opt_set, $ignore_duplicates)=@_;
+    verbose("merging '$opt_set->{_filename}'\n");
 
-    foreach my $key (keys %{$opt_set})
+    foreach my $option (keys %{$opt_set})
     {
-        if (!ref $opt_set->{$key})
+        if (!ref $opt_set->{$option})
         {
-            if (!exists $merged->{$key})
+            if (!exists $merged->{$option})
             {
-                $merged->{$key}=$opt_set->{$key};
+                $merged->{$option}=$opt_set->{$option};
             }
-            elsif ($key !~ /^(_|rc$|builtin$)/)
+            elsif ($option !~ /^(?:_|rc$|builtin$)/)
             {
-                verbose("found duplicate '$key' option in '$opt_set->{_filename}'\n");
+                verbose("found duplicate '$option' option in '$opt_set->{_filename}'\n");
             }
         }
-        elsif ($key =~ /^(bad-word|bad-expression|bad-case|ignore|include|exclude)$/)
+        elsif ($option =~ /^(?:bad-word|bad-expression|bad-case|ignore|include|exclude)$/)
         {
-            merge_regexp_list($merged, "_$key", $opt_set->{$key});
+            merge_regexp_list($merged, "_$option", $opt_set->{$option}, $ignore_duplicates);
         }
     }
 }
@@ -755,21 +759,21 @@ sub get_current_options($$)
         }
         if ($new->{lintian})
         {
-            merge_option_set($new, $allsets->{"lintian-word"});
-            merge_option_set($new, $allsets->{"lintian-case"});
-            merge_option_set($new, $allsets->{"lintian-expr"});
+            merge_option_set($new, $allsets->{"lintian-word"}, 1);
+            merge_option_set($new, $allsets->{"lintian-case"}, 1);
+            merge_option_set($new, $allsets->{"lintian-expr"}, 1);
         }
         if ($new->{codespell})
         {
-            merge_option_set($new, $allsets->{codespell});
+            merge_option_set($new, $allsets->{codespell}, 1);
         }
         if ($new->{wikipedia})
         {
-            merge_option_set($new, $allsets->{wikipedia});
+            merge_option_set($new, $allsets->{wikipedia}, 1);
         }
         if ($new->{builtin})
         {
-            merge_option_set($new, $allsets->{builtin});
+            merge_option_set($new, $allsets->{builtin}, 1);
         }
         if ($new->{all})
         {
@@ -788,9 +792,9 @@ sub get_current_options($$)
             for (my $i=$previous_options->{rcdepth}; $i < $new->{rcdepth}; $i++)
             {
                 my $rc=$allsets->{rcstack}->[$i];
-                foreach my $field (@build_scanner_options)
+                foreach my $option (@build_scanner_options)
                 {
-                    if (exists $rc->{$field})
+                    if (exists $rc->{$option})
                     {
                         $rebuild_scanner=1;
                         last rebuild;
