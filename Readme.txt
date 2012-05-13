@@ -14,7 +14,7 @@ Goals
 1) Detect the most common typos in programming code.
 
 2) Be independent of the actual programming language: C, C++, Perl, Html,
-   PHP, Javascript, etc.
+   PHP, JavaScript, etc.
 
 3) Be able to report typos by category, and to suggest the proper spelling.
 
@@ -33,9 +33,9 @@ Features
    files to ignore. Both types of files are identified using Perl regular
    expressions which makes it possible to match across directories.
 
- * By default typos automatically skips the files listed .cvsignore and
-   .gitignore files on the account that there's no point checking for typos
-   in generated files.
+ * By default typos automatically skips the files listed in .cvsignore and
+   .gitignore files on account that there's no point checking for typos in
+   generated files.
 
  * Typos too are detected using Perl regular expressions which is pretty
    flexible.
@@ -44,18 +44,15 @@ Features
    instructed (see --by-error) to report them by category: for instance all
    misspellings of 'separate', then all misspellings of 'weird', etc.
 
+ * Typos has its own builtin and configurable list of common misspellings, but
+   it can also automatically use Lintian's and it can use CodeSpell's and
+   Wikipedia's too.
+
 
 Todo
 ----
 
 * Improve the documentation. Lots!
-
-* Perl's regular expressions are pretty slow when they get big. That's why
-  typos breaks them into multiple pieces. But even so things are quite slow
-  compared to a standard grep.
-
-* The configuration file handling could probably be cleaned up and optimised
-  a bit.
 
 * When an error occurs while compiling a regular expression, pinpoint the bad
   regular expression in the configuration files.
@@ -66,5 +63,3 @@ Todo
   multiple languages. It would be nice if typos supported multiple languages
   and could be told, through the configuration files, which language to use
   when checking a specific file.
-
-* Add support for Wikipedia's list of most common typos.
