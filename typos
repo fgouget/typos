@@ -1895,6 +1895,7 @@ bad-case=
     Tarent(ell?a|all?a)|Tarant(ela|all?a) -> Tarantella
     Transgaming|transGaming -> TransGaming
     Turbotax|turboTax -> TurboTax
+    Virtualbox|virtualBox -> VirtualBox
     [Vv][Mm]Ware -> VMware
     Winehq|[Ww]ine(Hq|hQ) -> WineHQ
     Winetools|wineTools -> WineTools
