@@ -1271,15 +1271,17 @@ if ($allsets->{cmdline}->{rc})
 
 if ($allsets->{cmdline}->{lintian})
 {
-    my $filename="/usr/share/lintian/data/spelling/corrections";
+    my $basedir="/usr/share/lintian/vendors/debian/ftp-master-auto-reject/data/spelling";
+    $basedir="/usr/share/lintian/data/spelling" if (!-d $basedir);
+    my $filename="$basedir/corrections";
     my ($argv, $lines)=lintian2argv($filename, "bad-word");
     $allsets->{"lintian-word"}=get_options_set($argv, $lines, $filename);
 
-    $filename="/usr/share/lintian/data/spelling/corrections-case";
+    $filename="$basedir/corrections-case";
     ($argv, $lines)=lintian2argv($filename, "bad-case");
     $allsets->{"lintian-case"}=get_options_set($argv, $lines, $filename);
 
-    $filename="/usr/share/lintian/data/spelling/corrections-multiword";
+    $filename="$basedir/corrections-multiword";
     ($argv, $lines)=lintian2argv($filename, "bad-expression");
     $allsets->{"lintian-expr"}=get_options_set($argv, $lines, $filename);
 }
