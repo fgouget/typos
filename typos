@@ -1742,7 +1742,7 @@ bad-word=
     substract(e[ds]|ing|ions?|s)? -> subtract
     (un)?successfull -> successful
     succ?e?d(ed|s)? -> succeed
-    (un)?suport(able|e[ds]?|ers?|ing(ly)?|ive|ively)? -> support
+    (un)?suport(able|e[ds]?|ers?|ing(ly)?|ive|ively|s)? -> support
     supress(e[ds]?|ing|ion)? -> suppress
     (un)?supris(e[ds]?|ing|ingly)? -> surprise
     (a|de|un)?syncron(i[sz]e[drs]?|i[sz]ing|ous(ly)?) -> synchronise
