@@ -61,17 +61,25 @@ sub hash_count($)
 #
 #####
 
+my $SL_CONTINUE = 0;
+my $SL_NEXT_LINE = 1;
+my $SL_NEXT_FILE = 2;
 sub report_typo($$$$$)
 {
     my ($allsets, $filename, $lineno, $line, $group)=@_;
     my $current=$allsets->{current};
+    if ($current->{"filenames-only"})
+    {
+        print "$filename:$lineno\n";
+        return $SL_NEXT_FILE;
+    }
     if ($current->{"by-error"})
     {
         push @{$allsets->{errors}->{$group}}, "$filename:$lineno: $line";
-        return 0;
+        return $SL_CONTINUE;
     }
     print "$filename:$lineno: $line";
-    return 1;
+    return $SL_NEXT_LINE;
 }
 
 my %all_words=("" => undef);
@@ -86,8 +94,8 @@ sub scan_line($$$$)
         if (exists $all_words{$word})
         {
             next if (!$all_words{$word});
-            return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
-            next;
+            my $next = report_typo($allsets, $filename, $lineno, $line, $all_words{$word});
+            return $next if ($next);
         }
         my $add_word=1;
         if ($current->{"_bad-case"}->{$word})
@@ -95,7 +103,8 @@ sub scan_line($$$$)
             if (!defined $ignore_re or $line !~ /$ignore_re/)
             {
                 $all_words{$word}=$current->{"_bad-case"}->{$word};
-                return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+                my $next = report_typo($allsets, $filename, $lineno, $line, $all_words{$word});
+                return $next if ($next);
             }
             # In any case, don't mark the word as ok as it is either
             # misspelt or $ignore_re may not apply on another line
@@ -107,7 +116,8 @@ sub scan_line($$$$)
             if (!defined $ignore_re or $line !~ /$ignore_re/)
             {
                 $all_words{$word}=$current->{"_bad-word"}->{$lower};
-                return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+                my $next = report_typo($allsets, $filename, $lineno, $line, $all_words{$word});
+                return $next if ($next);
             }
             # In any case, don't mark the word as ok as it is either
             # misspelt or $ignore_re may not apply on another line
@@ -128,7 +138,8 @@ sub scan_line($$$$)
                     if (!defined $ignore_re or $line !~ /$ignore_re/)
                     {
                         $all_words{$word}=$current->{"_bad-word"}->{$lower};
-                        return 1 if (report_typo($allsets, $filename, $lineno, $line, $all_words{$word}));
+                        my $next = report_typo($allsets, $filename, $lineno, $line, $all_words{$word});
+                        return $next if ($next);
                     }
                     # In any case, don't mark the word as ok as it is either
                     # misspelt or $ignore_re may not apply on another line
@@ -151,7 +162,8 @@ sub scan_check($$$$$$)
         my $regexp=sprintf($current->{"${category}_format"}, $item);
         next if ($line !~ /$regexp/);
         next if (defined $ignore_re and $line =~ /$ignore_re/);
-        return 1 if (report_typo($allsets, $filename, $lineno, $line, $current->{$category}->{$item}));
+        my $next = report_typo($allsets, $filename, $lineno, $line, $current->{$category}->{$item});
+        return $next if ($next);
     }
     return 0;
 }
@@ -187,7 +199,8 @@ sub scan_check_extra($$$$$$)
         }
         next if (!$match);
         next if (defined $ignore_re and $line =~ /$ignore_re/);
-        return 1 if (report_typo($allsets, $filename, $lineno, $line, $current->{$category}->{$item}));
+        my $next = report_typo($allsets, $filename, $lineno, $line, $current->{$category}->{$item});
+        return $next if ($next);
     }
     return 0;
 }
@@ -253,7 +266,9 @@ sub build_scanner($$)
               "    while (my \$line=<\$fh>)",
               "    {",
               "        \$lineno++;",
-              "        next if (scan_line(\$allsets, \$filename, \$lineno, \$line));",
+              "        my \$next = scan_line(\$allsets, \$filename, \$lineno, \$line);",
+              "        next if (\$next == \$SL_NEXT_LINE);",
+              "        last if (\$next == \$SL_NEXT_FILE);",
               build_scan_check($allsets, $current, "_bad-word_re"),
               build_scan_check($allsets, $current, "_bad-expression_re"),
               build_scan_check($allsets, $current, "_bad-case_re"),
@@ -700,6 +715,7 @@ sub get_options_set($$$;$)
                "bad-case=s@",
                "ignore=s@",
                "by-error!",
+               "filenames-only!",
 
                "lintian!",
 
@@ -1184,7 +1200,7 @@ $verbose=1 if ($debug);
 if ($opt_help)
 {
     print "Usage: $name0 [--bad-word WORD] [--bad-expression EXPR] [--bad-case CASE]\n";
-    print "             [--ignore IGNORE] [--extra] [--by-error]\n";
+    print "             [--ignore IGNORE] [--extra] [--filenames-only|--by-error]\n";
     print "             [--lintian] [--get-codespell] [--codespell] [--get-wikipedia]\n";
     print "             [--wikipedia] [--include SCAN] [--exclude SKIP] [--all]\n";
     print "             [--no-builtin] [--no-rc] [--no-cvsignore] [--no-gitignore]\n";
@@ -1217,6 +1233,8 @@ if ($opt_help)
     print "  --extra           If set, then $name0 will consider 'FirstSecond' and\n";
     print "                      'first_second' to be made of two separate words that can\n";
     print "                      be matched by the --bad-word and --bad-case patterns\n";
+    print "  --filenames-only  Specifies that only the filename and the line of the first\n";
+    print "                      error should be reported\n";
     print "  --by-error        By default errors are reported in the order in which they\n";
     print "                      are found in the files. If this option is specified, all\n";
     print "                      errors of a given type are reported together after all\n";
