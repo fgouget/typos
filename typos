@@ -1624,6 +1624,7 @@ bad-word=
     anali[sz]e[sd]? -> analyzed
     appartments? -> apartment
     arithmatic -> arithmetic
+    argueme?nt(ed|ing|s)? -> argument
     (un)?asign(e[ds]|ing|e?ments?|s)? -> assign
     (un)?asum(e[ds]|ing|s)? -> assume
     aswell -> as well
@@ -1652,7 +1653,7 @@ bad-word=
     (dis)?contigous(ly)?|(dis)?continous(ly)? -> continuously
     contr(y|ies) -> country
     convertions? -> conversion
-    (in)?cor(ect?|rec)ly -> correct
+    (in)?cor(ect?|rec)lt?y -> correct
     corr?espondance -> correspondence
     coudn?t?|couln?t? -> could
     crosover -> CrossOver
@@ -1674,6 +1675,7 @@ bad-word=
     enought -> enough
     eventhought? -> even though
     enviro(ne)?ments? -> environment
+    erorr?s? -> error
     excecut(able|e[ds]?|ing|ions?) -> execute
     ([iu]n?)e(xe|z)p(e|c|ec)t?(ed(ly)?|ing|(at)?ions?|s)? -> expect
     exlud(e[ds]?|ing) -> exclude
@@ -1704,23 +1706,26 @@ bad-word=
     (un)?in(i?t[ai]|tia?)l(i[sz](ation|ators?|e[ds]?|ers?|ing)|s)? -> initial
     (un)?initiali[sz]aion -> initialization
     (un)?instal(able|ation|ed|ers?|ing|e?s)? -> installable
+    instac(e|iat(e[ds]?|ing|ion)) -> instance
     (un)?intergrat(e[ds]?|ing|ion|or) -> integrated
     inte(f|r?fer)ac(e[ds]?|ing) -> interface
     interfers -> interferes
     (un?)interprett(ed|ers?|ing|ations?) -> interpreted
     (un)?int(er|re)st(e[ds]?|ing|s)? -> interest
+    [iu]nvald -> invalid
     invokat(e[ds]?|ing|ion) -> invocation
     (ir)?revelant -> relevant
     (i?un)?kown -> known
     lenght(en|s)? -> length
     langages? -> language
-    mesag(e[ds]?|ing) -> message
+    longuest -> longest
+    mes(a|s?e)g(e[ds]?|ing) -> message
     minum(a|al(s|l?y)?|um) -> minimum
     ommit(e[ds]?|ing|ted|s)? -> omit
     oportunit(y|ies) -> opportunity
     opperation(al|s)? -> operation
     optionnal(ly)? -> optional
-    or(gin|ign?i)(al|ally|at(e[ds]?|ing)|s)? -> origin
+    or(gi?n|ign?i)(al|ally|at(e[ds]?|ing)|s)? -> origin
     overid(e[ns]?|ing) -> override
     overlap(e[ds]?|ing) -> overlapped
     paintshop -> Paint Shop
@@ -1751,6 +1756,7 @@ bad-word=
     secound(ly)? -> second
     segements? -> segment
     sences? -> sense
+    seqenc(e[drs]?|ing)? -> sequence
     (off|re|un)?set(tign|ing)s? -> setting
     ship(ed|ing) -> shipping
     soul?dn?t?|shoudn?t? -> should
