@@ -1951,16 +1951,20 @@ exclude=
     \.(?i:dll|exe|obj|res|tlb)$
     \.(?i:ncb|opt)$
     \.mo$
-    \.(?i:avi|mpeg|mpg)$
+    \.(?i:mp3|ogg|wma)$
+    \.(?i:avi|mpeg|mpg|mp4|ogv|swf|wmv)$
     \.(?i:cur|bmp|eps|gif|icns|ico|jpe?g|pdf|png|ps|tiff|xcf|xpm)$
     \.(?i:fon|fnt|ttf)$
-    \.(?i:ppt|xls)$
-    \.(bz2|deb|gz|rpm|tar|tgz)$
+    \.(?i:docx|od[bcfgimst]|ppt|pptx|xls|xlsx)$
+    \.(bz2|deb|gz|rpm|tar|tgz|xz)$
     \.(?i:zip)$
+    /autom4te\.cache/
     /CVS/
     /\.cvsignore$
+    /\.defs/
     /\.git/
     /\.gitignore$
+    /\.libs/
     /\.typosrc$
     ~$
     /\.#[^/]*$
