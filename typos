@@ -1347,12 +1347,6 @@ if ($allsets->{cmdline}->{builtin})
     $allsets->{builtin}=get_options_set($argv, $lines, "builtin");
 }
 
-# FIXME: Wrong place for this, should be done somewhere in get_current_options()
-#if ($opt_wikipedia)
-#{
-#    $opt_wiki_file=dirname($0) . ".wikipedia" if (!defined $opt_wiki_file);
-#}
-
 scan_directory($allsets, "");
 print_errors($allsets);
 
