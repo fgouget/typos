@@ -1306,11 +1306,19 @@ if ($allsets->{cmdline}->{lintian})
 
 if ($allsets->{cmdline}->{"get-codespell"})
 {
-    my $cmd="wget --output-document='$ENV{HOME}/.$name0.codespell' --quiet 'http://git.profusion.mobi/cgit.cgi/lucas/codespell/plain/data/dictionary.txt?h=dict&id=HEAD'";
+    my $filename="$ENV{HOME}/.$name0.codespell";
+    my $cmd="wget --output-document='$filename.tmp' --quiet 'http://git.profusion.mobi/cgit.cgi/lucas/codespell/plain/data/dictionary.txt?h=dict&id=HEAD'";
     my $rc=system($cmd);
     if ($rc)
     {
+        unlink "$filename.tmp";
         err("the codespell download failed (rc=$rc): $cmd\n");
+        exit 1;
+    }
+    if (!rename("$filename.tmp", $filename))
+    {
+        unlink "$filename.tmp";
+        err("could not move '$filename.tmp' into place\n");
         exit 1;
     }
 }
@@ -1324,11 +1332,19 @@ if ($allsets->{cmdline}->{codespell})
 
 if ($allsets->{cmdline}->{"get-wikipedia"})
 {
-    my $cmd="wget --output-document='$ENV{HOME}/.$name0.wikipedia' --quiet 'http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines'";
+    my $filename="$ENV{HOME}/.$name0.wikipedia";
+    my $cmd="wget --output-document='$filename.tmp' --quiet 'http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines'";
     my $rc=system($cmd);
     if ($rc)
     {
+        unlink "$filename.tmp";
         err("the wikipedia download failed (rc=$rc): $cmd\n");
+        exit 1;
+    }
+    if (!rename("$filename.tmp", $filename))
+    {
+        unlink "$filename.tmp";
+        err("could not move '$filename.tmp' into place\n");
         exit 1;
     }
 }
