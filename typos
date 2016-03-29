@@ -1333,7 +1333,7 @@ if ($allsets->{cmdline}->{codespell})
 if ($allsets->{cmdline}->{"get-wikipedia"})
 {
     my $filename="$ENV{HOME}/.$name0.wikipedia";
-    my $cmd="wget --output-document='$filename.tmp' --quiet 'http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines'";
+    my $cmd="wget --output-document='$filename.tmp' --quiet 'https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines'";
     my $rc=system($cmd);
     if ($rc)
     {
