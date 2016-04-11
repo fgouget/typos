@@ -1687,6 +1687,7 @@ bad-word=
     enviro(ne)?ments? -> environment
     erorr?s? -> error
     excecut(able|e[ds]?|ing|ions?) -> execute
+    exeed(ed|ing|s)? -> exceed
     ([iu]n?)e(xe|z)p(e|c|ec)t?(ed(ly)?|ing|(at)?ions?|s)? -> expect
     exlud(e[ds]?|ing) -> exclude
     (ex|im)plic(itely|te?ly|t) -> explicitly
@@ -1795,6 +1796,7 @@ bad-word=
     (un)?useab(ility|le) -> usable
     usefull -> useful
     varios -> various
+    unknow -> unknown
     ([iu]n)?visab(le|ility) -> visibility
     volenteers? -> volunteer
     whats -> what's
