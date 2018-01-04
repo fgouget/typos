@@ -482,6 +482,7 @@ my %blacklist=(
     "doesnt" => 1,    # Too many false positives
     "dont" => 1,      # Too many false positives
     "GTK" => 1,       # Correct form is GTK+ which is not a word
+    "isn" => 1,       # Too many false positives
     "isnt" => 1,      # Too many false positives
     "modeled" => 1,   # US spelling
     "nam" => 1,       # Too many false positives (specifically Viet Nam)
@@ -497,6 +498,7 @@ my %blacklist=(
     "ths" => 1,       # Too many false positives
     "tje" => 1,       # Too many false positives
     "usera" => 1,     # Too many false positives
+    "wasn" => 1,      # Too many false positives
     "whic" => 1,      # Too many false positives
     "wih" => 1,       # Too many false positives
     );
