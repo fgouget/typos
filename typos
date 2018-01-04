@@ -1854,7 +1854,6 @@ bad-expression=
     (?i)nonexistant -> nonexistent
     (?i)\bof\s+of\b -> 'of' duplicate
     (?i)onnally\b -> '...onaly' ending
-    (?i)\bprivl -> privilege
     (?i)procces -> process
     (?i)\bshoud('?nt|n't)?\b -> should
     (?i)\bshould'?nt\b -> shouldn't
