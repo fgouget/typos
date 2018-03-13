@@ -471,6 +471,7 @@ sub gitignore2argv($$)
 # We also blacklist some Lintian and Codespell entries because they simply
 # cause too many false positives.
 my %blacklist=(
+    "acount" => 1,    # Too many false positives
     "adn" => 1,       # Too many false positives
     "ang" => 1,       # Too many false positives
     "beng" => 1,      # Too many false positives
