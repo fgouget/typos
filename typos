@@ -1312,7 +1312,7 @@ if ($allsets->{cmdline}->{lintian})
 if ($allsets->{cmdline}->{"get-codespell"})
 {
     my $filename="$ENV{HOME}/.$name0.codespell";
-    my $cmd="wget --output-document='$filename.tmp' --quiet 'https://raw.githubusercontent.com/lucasdemarchi/codespell/master/data/dictionary.txt'";
+    my $cmd="wget --output-document='$filename.tmp' --quiet 'https://raw.githubusercontent.com/codespell-project/codespell/master/codespell_lib/data/dictionary.txt'";
     my $rc=system($cmd);
     if ($rc)
     {
